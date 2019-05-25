@@ -1,7 +1,7 @@
 <template>
-    <div class="row pl-4 pr-4">
+    <div class="row col-12 mr-0 ml-0 pl-1 pr-1">
         <left :page="page" class="mb-2"></left>
-        <rightstu v-if="type === 1"></rightstu>
+        <rightstu v-if="type === 1" class="mb-5"></rightstu>
     </div>
 </template>
 
@@ -20,11 +20,13 @@
                 page: 'list'
             }
         },
-        created: function () {
-            if (!store.state.common.logined || store.state.common.type === 0) {
+        async created() {
+            console.debug('[Pannel] trigd')
+            await store.dispatch('init')
+            if (store.state.logined) {
+                this.type = store.state.type
+            } else
                 this.$router.push('/login')
-            }
-            this.type = store.state.common.type
         },
         methods: {},
         components: {
