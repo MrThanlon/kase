@@ -26,24 +26,18 @@
                     </div>
                     <button class="btn btn-outline-success mr-3 mb-3" type="submit" @click="login"
                             :disabled="stat === 1">
-                        <span class="spinner-border spinner-border-sm align-middle mr-1"
-                              v-if="stat === 1 && btn_clicked === 1"></span>
-                        <span class="align-middle">登录</span>
+                        登录
                         <i class="fas fa-sign-in-alt"></i>
                     </button>
                     <button class="btn btn-outline-warning mr-3 mb-3" @click="forget" :disabled="stat === 1">
-                        <span class="spinner-border spinner-border-sm align-middle mr-1"
-                              v-if="stat === 1 && btn_clicked === 2"></span>
-                        <span class="align-middle">忘记密码</span>
+                        忘记密码
                         <i class="fas fa-exclamation-circle"></i>
                     </button>
                     <button class="btn btn-outline-primary mr-3 mb-3" @click="registe" :disabled="stat === 1">
-                        <span class="spinner-border spinner-border-sm align-middle mr-1"
-                              v-if="stat === 1 && btn_clicked === 3"></span>
-                        <span class="align-middle">注册</span>
+                        注册
                         <i class="fas fa-user-plus"></i>
                     </button>
-                    <div class="form-check">
+                    <div class="form-check" @click="flag_remember = !flag_remember">
                         <input class="form-check-input" type="checkbox" v-model="flag_remember">
                         <label class="form-check-label">
                             记住账号
@@ -65,8 +59,11 @@
         async created() {
             console.debug('[Login] triged')
             if (store.state.logined) {
-                //已经登录，直接跳转
-                this.$router.push('/pannel')
+                //已经登录，跳转
+                if (store.state.jumped_url)
+                    this.$router.push(store.state.jumped_url)
+                else
+                    this.$router.push('/pannel')
             }
             this.u = store.state.username
         },
@@ -89,47 +86,28 @@
         },
         methods: {
             async login() {
+                let flag_success = true
                 //提交登陆
                 this.stat = 1
                 this.btn_clicked = 1
-                new FormData()
-                const res = await api.user.login({u: this.u, p: this.p}).catch(e => {
+                await api.user.login({u: this.u, p: this.p}).catch(e => {
                     console.debug(e)
                     this.stat = 2
                     this.btn_clicked = 0
+                    flag_success = false
+                    //TODO: 提示登录失败
                 })
-                if (res.status !== 0) {
-                    console.debug(res.msg)
-                    this.stat = 2
-                    this.btn_clicked = 0
-                } else {
+                if (flag_success) {
                     //登录成功
                     console.debug(`[Login] Success`)
-                    //获取信息
-                    const id = await api.user.id()
-                    if (id.status !== 0) {
-                        //TODO: 提示系统错误
-                        console.debug('[ID] Failed to get id')
-                        this.stat = 2
-                        this.btn_clicked = 0
-                        return
-                    }
-
-                    this.stat = 0
-                    this.btn_clicked = 0
-                    store.commit('change_state', {
-                        logined: true,
-                        type: id.type,
-                        uid: id.uid,
-                        tel: id.tel
-                    })
-                    if (this.flag_remember)
-                        store.commit('change_state', {
-                            username: this.u,
-                            password: this.p
-                        })
-
-                    this.$router.push('/pannel')
+                    // 同步信息
+                    await store.dispatch('init')
+                    //跳转
+                    if (store.state.jumped_url) {
+                        this.$router.push(store.state.jumped_url)
+                        store.commit('change_state', {jumped_url: ''})
+                    } else
+                        this.$router.push('/pannel/list')
                 }
             },
             forget: function () {

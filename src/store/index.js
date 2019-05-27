@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 
 import api from '@/service/api'
 
+import pannel from './modules/pannel'
+
 Vue.use(Vuex)
 
 // 初始化数据
@@ -62,6 +64,18 @@ export default new Vuex.Store({
         jumped_url: ''
     },
     mutations: {
+        /**
+         * 存储用于跳转的URL
+         * @param state
+         */
+        store_url(state) {
+            state.jumped_url = this.$route.fullPath
+        },
+        /**
+         * 万金油使用法
+         * @param state
+         * @param payload
+         */
         change_state(state, payload) {
             for (let key in payload) {
                 state[key] = payload[key]
@@ -92,6 +106,9 @@ export default new Vuex.Store({
                 }
             }
         }
+    },
+    modules: {
+        pannel
     },
     strict: process.env.NODE_ENV !== 'production'
 })

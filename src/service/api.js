@@ -1,5 +1,6 @@
 import {post} from '@/utils/request'
-import Conf from '@/config'
+import conf from '@/config'
+import {request} from "../utils/request"
 
 const func_table = {
     user: [
@@ -71,7 +72,7 @@ function parse_1(table, pre_tag = '') {
         //FIXME:没有必要使用正则
         return table_url.reduce((o, val) => {
             o[(/.*\/(.*?)$/.exec(val))[1]] = (param) => {
-                return post(Conf.SERVER_PATH + val, param)
+                return post(conf.SERVER_PATH + val, param)
             }
             return o
         }, {})
@@ -83,4 +84,14 @@ function parse_1(table, pre_tag = '') {
     return table
 }
 
-export default parse_1(func_table)
+let table = parse_1(func_table)
+
+// 夹私货
+table.data.app.upload_zip = (param) => {
+    return request(conf.SERVER_PATH + '/data/app/upload_zip', 'POST', param, false)
+}
+table.data.app.upload_pdf = (param) => {
+    return request(conf.SERVER_PATH + '/data/app/upload_pdf', 'POST', param, false)
+}
+
+export default table

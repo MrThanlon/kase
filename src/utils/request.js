@@ -4,12 +4,15 @@
 
 import Conf from '@/config'
 
-export function request(url, method, data = null, content_type = 'application/x-www-form-urlencoded') {
-    console.debug('[Request]', method, url, data)
+export function request(url, method, data = null, encoded = true, debug = false) {
+    console.debug('[Request]', method, url, data, encoded)
     return new Promise((resolve, reject) => {
         let xhr = new XMLHttpRequest()
+        if (debug)
+            url += '?XDEBUG_SESSION_START=10745'
         xhr.open(method, url)
-        xhr.setRequestHeader('Content-type', content_type)
+        if (encoded)
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
         if (Conf.CORS)
             xhr.withCredentials = true
         xhr.onload = function () {

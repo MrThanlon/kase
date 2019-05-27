@@ -52,13 +52,7 @@
             }
         },
         async created() {
-            const res = await api.data.app.list_prj()
-            if (res.status !== 0) {
-                console.debug(`[API] Failed to get list_prj, ${res.msg}`)
-                //TODO: 提示系统错误
-                return
-            }
-            this.prj_list = res.data
+            this.prj_list = (await api.data.app.list_prj()).data
             this.search()
         },
         methods: {
@@ -69,16 +63,16 @@
                 )
             },
             async apply() {
-                const res = await api.data.app.new_app({
+                await api.data.app.new_app({
                     name: this.name,
                     pid: this.pid,
                     applicant: this.applicant
+                }).catch(e => {
+                    console.debug(e)
                 })
-                if (res.status !== 0) {
-                    //TODO: 提示提及失败
-                    console.debug(`[Applicant] Failed to submit, ${res.msg}`)
-                }
                 //TODO: 提示成功
+                this.$emit('finished')
+                this.$router.push('/')
             }
         },
         computed: {}

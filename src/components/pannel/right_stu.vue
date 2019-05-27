@@ -15,6 +15,7 @@
                             <i class="fas fa-plus"></i>
                         </button>
                     </li>
+                    <!--
                     <li class="list-group-item">
                         <h6 class="card-title text-left">上传</h6>
                         <button class="btn btn-outline-dark m-2" @click="upload_paper" data-toggle="modal"
@@ -28,6 +29,7 @@
                             <i class="fas fa-file-archive"></i>
                         </button>
                     </li>
+                    -->
                     <li class="list-group-item">
                         <h6 class="card-title text-left">事项</h6>
                         <button class="btn btn-outline-dark m-2" @click="view_notice" data-toggle="modal"
@@ -66,13 +68,14 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">{{modal_title[modal_type]}}</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btn-closed">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <new-paper v-if="modal_type === 1"></new-paper>
+                    <new-paper v-if="modal_type === 1" @finished="close_modal"></new-paper>
                     <notice v-if="modal_type === 4"></notice>
                     <standard v-if="modal_type === 5"></standard>
+                    <passwd v-if="modal_type===6" @finished="close_modal"></passwd>
                 </div>
             </div>
         </div>
@@ -81,10 +84,12 @@
 
 <script>
     import api from '@/service/api'
+    import store from '@/store'
 
     import new_paper from './new_paper'
     import notice from './notice'
     import standard from './standard'
+    import passwd from './passwd'
 
     export default {
         name: "right_stu",
@@ -115,7 +120,6 @@
             new_paper: function () {
                 this.modal_type = 1
                 //拉取项目列表
-
             },
             //上传材料
             upload_paper: function () {
@@ -135,14 +139,21 @@
             },
             async logout() {
                 const res = await api.user.logout()
+                document.cookie = ''
+                store.commit('change_state', {logined: false})
                 this.$router.push('/login')
             },
             async reset_password() {
                 this.modal_type = 6
+            },
+            close_modal: function () {
+                //FIXME: 使用更正常的方式
+                document.getElementById('btn-closed').click()
             }
         },
         components: {
             'new-paper': new_paper,
+            passwd,
             notice,
             standard
         }

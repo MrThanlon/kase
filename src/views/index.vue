@@ -11,8 +11,10 @@
             store.dispatch('init')
             if (store.state.logined)
                 this.$router.push('/pannel')
-            else
+            else {
+                store.commit('store_url')
                 this.$router.push('/login')
+            }
         }
     }
 </script>

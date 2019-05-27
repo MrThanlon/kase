@@ -1,7 +1,7 @@
 <template>
-    <div class="row col-12 mr-0 ml-0 pl-1 pr-1">
-        <left :page="page" class="mb-2"></left>
-        <rightstu v-if="type === 1" class="mb-5"></rightstu>
+    <div class="row col-12 mr-0 ml-0 pl-0 pr-0">
+        <left class="mb-2 p-1" v-if="loaded"></left>
+        <rightstu v-if="type === 1" class="mb-5 p-1"></rightstu>
     </div>
 </template>
 
@@ -17,7 +17,8 @@
         data: function () {
             return {
                 type: 0,
-                page: 'list'
+                page: 'list',
+                loaded: false
             }
         },
         async created() {
@@ -25,8 +26,17 @@
             await store.dispatch('init')
             if (store.state.logined) {
                 this.type = store.state.type
-            } else
+                this.loaded = true
+                if (this.$route.params.page) {
+                    this.page = this.$route.params.page
+                }
+                if(this.$route.params.cid) {
+
+                }
+            } else {
+                store.commit('store_url')
                 this.$router.push('/login')
+            }
         },
         methods: {},
         components: {
