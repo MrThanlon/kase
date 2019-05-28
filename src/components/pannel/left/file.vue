@@ -23,7 +23,7 @@
 
 <script>
     import api from '@/service/api'
-    import conf from '../../../config.js'
+    import conf from './../../../config.js'
     //import conf from '@/config'
 
     export default {

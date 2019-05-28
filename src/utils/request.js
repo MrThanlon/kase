@@ -2,7 +2,7 @@
  * get/post封装
  */
 
-import conf from '../config.js'
+import conf from './../config.js'
 //import conf from '@/config'
 
 export function request(url, method, data = null, encoded = true, debug = false) {

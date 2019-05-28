@@ -4,7 +4,7 @@ apk update
 apk add nodejs npm
 node --version
 npm --version
-ls
+tree
 npm install --registry=https://registry.npm.taobao.org
 npm run build
 docker build -t $DOCKER_BUILD_TAG .

@@ -1,6 +1,6 @@
 import {post} from '@/utils/request'
 import {request} from '../utils/request'
-import conf from '../config.js'
+import conf from './../config.js'
 //import conf from '@/config'
 
 const func_table = {
