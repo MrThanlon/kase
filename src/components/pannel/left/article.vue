@@ -12,7 +12,8 @@
 
 <script>
     import api from '@/service/api'
-    import conf from '@/config'
+    import conf from '../../../config'
+    //import conf from '@/config'
 
     export default {
         name: "article",

@@ -2,7 +2,8 @@
  * get/post封装
  */
 
-import Conf from '@/config'
+import conf from '../config'
+//import conf from '@/config'
 
 export function request(url, method, data = null, encoded = true, debug = false) {
     console.debug('[Request]', method, url, data, encoded)
@@ -13,7 +14,7 @@ export function request(url, method, data = null, encoded = true, debug = false)
         xhr.open(method, url)
         if (encoded)
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
-        if (Conf.CORS)
+        if (conf.CORS)
             xhr.withCredentials = true
         xhr.onload = function () {
             if (xhr.status === 200) {

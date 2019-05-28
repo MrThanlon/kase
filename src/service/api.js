@@ -1,6 +1,7 @@
 import {post} from '@/utils/request'
-import conf from '@/config'
-import {request} from "../utils/request"
+import {request} from '../utils/request'
+import conf from '../config'
+//import conf from '@/config'
 
 const func_table = {
     user: [
