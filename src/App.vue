@@ -1,6 +1,5 @@
 <template>
     <div id="app" class="col-12">
-        <!--
         <div id="nav">
             <router-link to="/">Home</router-link>
             |
@@ -10,7 +9,6 @@
             |
             <router-link to="/test">Test</router-link>
         </div>
-        -->
         <router-view/>
         <footer>
             <div class="card shadow">
