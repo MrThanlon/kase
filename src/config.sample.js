@@ -1,6 +1,6 @@
 export default {
     //后台目录
-    SERVER_PATH: 'http://localhost/kase-be',
+    SERVER_PATH: '${SERVER_PATH}',
     CORS: true,
-    PDFJS_PATH: 'http://localhost/kase-be/modules/pdf.js/web/viewer.html'
+    PDFJS_PATH: '${PDFJS_PATH}'
 }
