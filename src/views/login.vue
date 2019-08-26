@@ -24,6 +24,7 @@
                         </div>
                         <input type="password" class="form-control" name="password" placeholder="密码" v-model="p">
                     </div>
+                    <p class="text-danger">{{loginMsg}}</p>
                     <button class="btn btn-outline-success mr-3 mb-3" type="submit" @click="login"
                             :disabled="stat === 1">
                         登录
@@ -51,21 +52,16 @@
 
 <script>
     //TODO:跳转到原地址
+    import {mapState} from 'vuex'
+
     import api from '@/service/api'
-    import store from '@/store'
 
     export default {
         name: "login",
         async created() {
-            console.debug('[Login] triged')
-            if (store.state.logined) {
-                //已经登录，跳转
-                if (store.state.jumped_url)
-                    this.$router.push(store.state.jumped_url)
-                else
-                    this.$router.push('/pannel')
-            }
-            this.u = store.state.username
+            this.u = this.$store.state.username
+            if (this.$store.state.logined)
+                this.$router.push('/')
         },
         data: function () {
             return {
@@ -79,35 +75,37 @@
                  */
                 stat: 0,
                 btn_clicked: 0,
-                ticket: '',
                 flag_remember: false,
                 err_msg: ''
             }
         },
+        computed: mapState([
+            'loginMsg'
+        ]),
         methods: {
             async login() {
-                let flag_success = true
                 //提交登陆
                 this.stat = 1
                 this.btn_clicked = 1
-                await api.user.login({u: this.u, p: this.p}).catch(e => {
+                const res = await api.user.login({u: this.u, p: this.p}).catch(e => {
                     console.debug(e)
                     this.stat = 2
                     this.btn_clicked = 0
-                    flag_success = false
                     //TODO: 提示登录失败
                 })
-                if (flag_success) {
+                if (res) {
                     //登录成功
                     console.debug(`[Login] Success`)
-                    // 同步信息
-                    await store.dispatch('init')
+                    this.$store.commit('change_state', {logined: true})
                     //跳转
-                    if (store.state.jumped_url) {
-                        this.$router.push(store.state.jumped_url)
-                        store.commit('change_state', {jumped_url: ''})
-                    } else
-                        this.$router.push('/pannel/list')
+                    if (this.$store.state.jumped_url) {
+                        this.$router.push(this.$store.state.jumped_url)
+                        this.$store.commit('change_state', {jumped_url: ''})
+                    } else {
+                        this.$router.push('/')
+                    }
+                } else {
+                    console.debug(`[Login] Failed`)
                 }
             },
             forget: function () {

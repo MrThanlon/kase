@@ -1,72 +1,47 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from './store'
 
-import Login from './views/login'
-import Index from './views'
+import Login from './views2/login'
+import Index from './views2/index/index'
+import IndexSub from './views2/index/sub'
 import Pannel from './views/pannel'
 import Test from './views/test'
 
+import Subject from '@/views/subject'
+import Detail from '@/views/detail'
+import Paper from '@/views/paper'
+import File from '@/views/file'
+import Right from '@/views/right'
+
+
 // pannel
 import List from './components/pannel/left/list'
-import Article from './components/pannel/left/article'
-import File from './components/pannel/left/file'
+//import Article from './components/pannel/left/article'
+//import File from './components/pannel/left/file'
 
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
     routes: [
         {
             path: '/login',
-            name: 'login',
-            component: Login,
-            meta: {
-                title: 'kase-登录'
-            }
+            component: () => import('./views2/login')
         },
         {
             path: '/',
-            name: 'index',
-            component: Index,
-            meta: {
-                title: 'kase'
-            }
-        },
-        {
-            path: '/pannel',
-            redirect: '/pannel/list'
-        },
-        {
-            path: '/pannel',
-            name: 'pannel',
-            component: Pannel,
-            meta: {
-                title: 'kase-课题'
+            components: {
+                default: () => import('./views2/index/index'),
+                sub: IndexSub
             },
             children: [
                 {
-                    path: 'list',
-                    component: List
-                },
-                {
-                    path: 'article/:cid',
-                    component: Article
-                },
-                {
-                    path: 'file/:cid',
-                    component: File
+                    path:''
                 }
-            ]
-        },
-        {
-            path: '/test',
-            name: 'test',
-            component: Test
-        },
-        {
-            path: '*',
-            name: 'not_found',
-            component: Test
+            ],
         },
     ]
 })
+
+export default router

@@ -3,28 +3,36 @@
  */
 
 import conf from '../config.js'
+
 //import conf from '@/config'
 
-export function request(url, method, data = null, encoded = true, debug = false) {
+export function request(url, method, data = null, encoded = true, decode = true, debug = false) {
     console.debug('[Request]', method, url, data, encoded)
     return new Promise((resolve, reject) => {
         let xhr = new XMLHttpRequest()
         if (debug)
             url += '?XDEBUG_SESSION_START=10745'
         xhr.open(method, url)
-        if (encoded)
+        if (encoded && method === 'POST')
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
-        if (conf.CORS)
+        if (conf.CORS) {
             xhr.withCredentials = true
+        }
         xhr.onload = function () {
             if (xhr.status === 200) {
-                const res = JSON.parse(xhr.response)
-                if (res.status !== 0)
-                    reject(xhr.responseText)
-                else
-                    resolve(JSON.parse(xhr.response))
-            } else
+                if (decode) {
+                    const res = JSON.parse(xhr.response)
+                    if (res.status !== 0) {
+                        reject(xhr.responseText)
+                    } else {
+                        resolve(JSON.parse(xhr.response))
+                    }
+                } else {
+                    resolve(xhr.response)
+                }
+            } else {
                 reject(xhr.responseText)
+            }
         }
         xhr.onerror = xhr.onabort = function () {
             reject(xhr.responseText)

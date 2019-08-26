@@ -1,6 +1,6 @@
 <template>
     <!--Student function pannel-->
-    <div class="container col-12 col-md-3 ml-0 mr-0 pr-0 pl-0">
+    <div class="container col-12 ml-0 mr-0 pr-0 pl-0 col-md-3 pl-md-1 mb-3">
         <div class="card shadow">
             <div class="card-header text-left">
                 功能
@@ -15,21 +15,7 @@
                             <i class="fas fa-plus"></i>
                         </button>
                     </li>
-                    <!--
-                    <li class="list-group-item">
-                        <h6 class="card-title text-left">上传</h6>
-                        <button class="btn btn-outline-dark m-2" @click="upload_paper" data-toggle="modal"
-                                data-target="#ModalNewPaper">
-                            上传材料
-                            <i class="fas fa-file-upload"></i>
-                        </button>
-                        <button class="btn btn-outline-dark m-2" @click="upload_file" data-toggle="modal"
-                                data-target="#ModalNewPaper">
-                            上传附件
-                            <i class="fas fa-file-archive"></i>
-                        </button>
-                    </li>
-                    -->
+
                     <li class="list-group-item">
                         <h6 class="card-title text-left">事项</h6>
                         <button class="btn btn-outline-dark m-2" @click="view_notice" data-toggle="modal"
@@ -86,10 +72,10 @@
     import api from '@/service/api'
     import store from '@/store'
 
-    import new_paper from './new_paper'
-    import notice from './notice'
-    import standard from './standard'
-    import passwd from './passwd'
+    import new_paper from '@/components/pannel/new_paper'
+    import notice from '@/components/pannel/notice'
+    import standard from '@/components/pannel/standard'
+    import passwd from '@/components/pannel/passwd'
 
     export default {
         name: "right_stu",

@@ -1,5 +1,6 @@
 <template>
-    <div id="app" class="col-12">
+    <div id="app" class="container col-12">
+        <!--
         <div id="nav">
             <router-link to="/">Home</router-link>
             |
@@ -8,8 +9,16 @@
             <router-link to="/pannel">Pannel</router-link>
             |
             <router-link to="/test">Test</router-link>
+            |
+            <router-link to="/subject/1278">Content</router-link>
         </div>
-        <router-view/>
+        -->
+        <div class="row d-flex justify-content-between p-1">
+            <!--主面板-->
+            <router-view/>
+            <!--子面板-->
+            <router-view name="sub"/>
+        </div>
         <footer>
             <div class="card shadow">
                 <div class="card-body p-0">
@@ -22,11 +31,13 @@
 </template>
 <script>
     export default {
-        name:'app',
+        name: 'app',
         data: function () {
             return {
-                year:new Date().getFullYear()
+                year: new Date().getFullYear()
             }
+        },
+        async created() {
         }
     }
 </script>
@@ -39,6 +50,7 @@
         color: #2c3e50;
         margin-top: 60px;
     }
+
     footer {
         position: fixed;
         width: 100%;

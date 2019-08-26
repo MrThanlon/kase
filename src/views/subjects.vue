@@ -23,7 +23,7 @@
     </div>
 </template>
 <script>
-    //显示列表
+    //显示课题列表
     import right from '@/views/right'
     import list from '@/views/list'
     import api from '@/service/api'

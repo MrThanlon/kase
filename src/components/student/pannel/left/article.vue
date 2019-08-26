@@ -1,6 +1,6 @@
 <template>
     <div :style="{height:pdf?'73vh':'auto'}">
-        <iframe :src="pdf_src" height="100%" width="100%" v-if="pdf" @load="loaded">
+        <iframe :src="pdf_src" height="100%" width="100%" v-if="pdf" @load="console.debug('PDF loaded')">
         </iframe>
         <button v-if="!pdf" class="btn btn-outline-dark" @click="uploads">
             上传PDF
@@ -52,9 +52,6 @@
             },
             uploads() {
                 document.getElementById('file').click()
-            },
-            loaded () {
-                console.debug('PDF loaded')
             }
         }
     }

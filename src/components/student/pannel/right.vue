@@ -1,6 +1,6 @@
 <template>
     <!--Student function pannel-->
-    <div class="container col-12 col-md-3 ml-0 mr-0 pr-0 pl-0">
+    <div class="container col-12 col-md-4 ml-0 mr-0 pr-0 pl-0">
         <div class="card shadow">
             <div class="card-header text-left">
                 功能

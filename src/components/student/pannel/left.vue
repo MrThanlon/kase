@@ -1,6 +1,6 @@
 <template>
     <!--Left side pannel-->
-    <div class="container col-12 col-md-9 ml-0 mr-0 pr-0 pl-0">
+    <div class="container col-12 col-md-8 ml-0 mr-0 pr-0 pl-0">
         <div class="card shadow">
             <div class="card-header text-left p-0">
                 <nav aria-label="breadcrumb">
@@ -53,7 +53,6 @@
         },
         methods: {
             click_content({cid, pdf, zip, title}) {
-                console.log("event:", cid)
                 this.cid = cid
                 this.pdf = pdf
                 this.zip = zip
