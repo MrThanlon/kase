@@ -29,30 +29,11 @@ export default new Vuex.Store({
         type: 0,
         username: null,
         /**
-         * 登录后跳转的url
-         */
-        jumped_url: '',
-        /**
          * 登录面板的提示
          */
         loginMsg: '',
-        /**
-         * 项目列表
-         */
-        projectList: [],
-        /**
-         * 课题列表
-         */
-        contentList: []
     },
     mutations: {
-        /**
-         * 存储用于跳转的URL
-         * @param state
-         */
-        store_url(state) {
-            state.jumped_url = this.$route.fullPath
-        },
         /**
          * 万金油使用法
          * @param state
@@ -102,9 +83,6 @@ export default new Vuex.Store({
                 }
             }
         }
-    },
-    modules: {
-        pannel
     },
     strict: process.env.NODE_ENV !== 'production'
 })
