@@ -1,6 +1,5 @@
 <template>
-  <div id="app"
-       class="container col-12">
+  <div id="app">
     <!--
         <div id="nav">
             <router-link to="/">Home</router-link>
@@ -14,11 +13,10 @@
             <router-link to="/subject/1278">Content</router-link>
         </div>
         -->
-    <div class="row d-flex justify-content-between p-1">
+    <div>
       <!--主面板-->
       <router-view />
       <!--子面板-->
-      <router-view name="sub" />
     </div>
     <footer>
       <div class="card shadow">
@@ -44,4 +42,11 @@ export default {
 }
 </script>
 <style>
+footer {
+  text-align: center;
+  position: fixed;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+}
 </style>
