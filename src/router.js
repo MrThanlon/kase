@@ -24,24 +24,24 @@ import List from './components/pannel/left/list'
 Vue.use(Router)
 
 const router = new Router({
-    routes: [
-        {
-            path: '/login',
-            component: () => import('./views2/login')
-        },
-        {
-            path: '/',
-            components: {
-                default: () => import('./views2/index/index'),
-                sub: IndexSub
-            },
-            children: [
-                {
-                    path:''
-                }
-            ],
-        },
-    ]
+  routes: [{
+      path: '/login',
+      component: () => import('./views2/login')
+    },
+    {
+      path: '/',
+      components: {
+        default: () => import('./views2/index/index'),
+        sub: IndexSub
+      },
+      children: [{
+        path: ''
+      }],
+    }, {
+      path: '/adminlogin',
+      component: () => import('./pages/adminlogin/adminlogin.vue')
+    }
+  ]
 })
 
 export default router
