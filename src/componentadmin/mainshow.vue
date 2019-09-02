@@ -4,15 +4,22 @@
             class="thrparts">
       <el-col :span="8"
               class="shownum">
-        <div><a>30</a><span>待审核项目</span></div>
+        <div>
+          <router-link to="/admin/examining">32</router-link>
+          <span>待审核项目</span>
+        </div>
       </el-col>
       <el-col :span="8"
               class="shownum">
-        <div><a>30</a><span>待审核项目</span></div>
+        <div>
+          <router-link to="/admin/examined">29</router-link><span>已审核项目</span>
+        </div>
       </el-col>
       <el-col :span="8"
               class="shownum">
-        <div><a>30</a><span>待审核项目</span></div>
+        <div>
+          <router-link to="/admin/evaluate">19</router-link><span>待评审项目</span>
+        </div>
       </el-col>
     </el-row>
     <el-table :data="tabledata.slice((currentPage-1)*pagesize,currentPage*pagesize)"

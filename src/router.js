@@ -38,9 +38,38 @@ const router = new Router({
       path: '/admin',
       component: () => import('./pages/adminlogin/adminlogin.vue'),
       children: [{
-        path: '/',
-        component: () => import('./componentadmin/mainshow.vue')
-      }]
+          path: '/',
+          component: () => import('./componentadmin/mainshow.vue')
+        },
+        {
+          path: 'examining',
+          component: () => import('./componentadmin/examine.vue')
+        },
+        {
+          path: 'examined',
+          component: () => import('./componentadmin/examine.vue')
+        },
+        {
+          path: 'evaluate',
+          component: () => import('./componentadmin/evaluate.vue')
+        },
+        {
+          path: 'scoretable',
+          component: () => import('./componentadmin/scorebar.vue')
+        },
+        {
+          path: 'contentmanager',
+          component: () => import('./componentadmin/contentmanager.vue')
+        },
+        {
+          path: 'usermanager',
+          component: () => import('./componentadmin/usermanager.vue')
+        },
+        {
+          path: 'adminmanager',
+          component: () => import('./componentadmin/adminmanager.vue')
+        }
+      ]
     }
   ]
 })
