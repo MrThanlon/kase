@@ -5,34 +5,39 @@ import store from './store'
 Vue.use(Router)
 
 const router = new Router({
-  routes: [{
+  routes: [
+    {
       path: '/login',
       component: () => import('./views2/login')
     },
     {
-      path: '/',
-      redirect: '/login',
-      children: [{
-          path: 'student/:cid'
+      path: '/student',
+      children: [
+        {
+          path: '/'
         },
         {
-          path: 'student/:cid/article'
+          path: ':cid',
+          redirect: ':cid/article'
         },
         {
-          path: 'student/:cid/file'
+          path: ':cid/article'
         },
         {
-          path: 'student',
-          components: {
-            default: () => import('./views2/index'),
-            sub: () => import('./views2/index/sub')
-          },
+          path: ':cid/file'
         },
-        {
-          path: 'judger'
-        }
-
       ],
+    },
+    {
+      path: 'judger',
+      children:[
+        {
+          path:'/'
+        },
+        {
+          path:':cid'
+        }
+      ]
     },
     {
       path: '/admin',
