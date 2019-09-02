@@ -43,15 +43,22 @@ const router = new Router({
         },
         {
           path: 'examining',
-          component: () => import('./componentadmin/examine.vue')
+          component: () => import('./componentadmin/mainshow.vue')
         },
         {
           path: 'examined',
-          component: () => import('./componentadmin/examine.vue')
+          component: () => import('./componentadmin/mainshow.vue')
         },
         {
           path: 'evaluate',
-          component: () => import('./componentadmin/evaluate.vue')
+          component: () => import('./componentadmin/evaluate.vue'),
+          children: [{
+            path: '/',
+            component: () => import('./componentadmin/mainshow.vue')
+          }, {
+            path: 'divide',
+            component: () => import('./componentadmin/divide.vue')
+          }]
         },
         {
           path: 'scoretable',
