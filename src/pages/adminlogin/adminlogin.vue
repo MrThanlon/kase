@@ -1,6 +1,6 @@
 <template>
   <el-container class="maincon">
-    <el-header style="background:#00838F">
+    <el-header style="background: #00838F">
       <el-row :gutter="20"
               class="mainhead">
         <el-col :span="12"
@@ -21,7 +21,7 @@
               <span>评审材料审核</span>
             </template>
             <el-menu-item index="/admin/examining">待审核项目</el-menu-item>
-            <el-menu-item index="/admin/examined">已评审项目</el-menu-item>
+            <el-menu-item index="/admin/examined">已审核项目</el-menu-item>
             <el-menu-item index="/admin/evaluate">待评审项目</el-menu-item>
             <el-menu-item index="/admin/scoretable">打分表审核</el-menu-item>
           </el-submenu>
@@ -34,8 +34,8 @@
               <i class="el-icon-setting"></i>
               <span>权限管理</span>
             </template>
-            <el-menu-item index="adminmanager">管理员用户管理</el-menu-item>
-            <el-menu-item index="usermanager">评审人员用户管理</el-menu-item>
+            <el-menu-item index="/admin/adminmanager">管理员用户管理</el-menu-item>
+            <el-menu-item index="/admin/usermanager">评审人员用户管理</el-menu-item>
           </el-submenu>
         </el-menu>
       </el-aside>
@@ -60,12 +60,12 @@ export default {
 
 <style>
 .tohome a {
-  color: rgba(255, 255, 255, 1);
+  color: #ffffff;
   text-decoration: none;
 }
 
 .mainhead {
-  color: rgba(255, 255, 255, 1);
+  color: #ffffff;
 }
 .head1 {
   height: 60px;
