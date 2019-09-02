@@ -36,7 +36,11 @@ const router = new Router({
     },
     {
       path: '/admin',
-      component: () => import('./pages/adminlogin/adminlogin.vue')
+      component: () => import('./pages/adminlogin/adminlogin.vue'),
+      children: [{
+        path: '/',
+        component: () => import('./componentadmin/mainshow.vue')
+      }]
     }
   ]
 })
