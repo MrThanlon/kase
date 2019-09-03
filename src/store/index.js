@@ -27,6 +27,7 @@ export default new Vuex.Store({
          * 3.管理员
          */
         type: 0,
+        typeText: 'student',
         username: null,
         /**
          * 登录面板的提示

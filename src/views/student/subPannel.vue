@@ -7,7 +7,7 @@
 <script>
     // 副面板
     export default {
-        name: "sub"
+        name: "subPannel"
     }
 </script>
 

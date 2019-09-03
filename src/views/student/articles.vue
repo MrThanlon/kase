@@ -6,7 +6,7 @@
 
 <script>
     export default {
-        name: "article",
+        name: "articles",
         props: {
             cid: Number
         }
