@@ -30,11 +30,11 @@ export default {
     },
     plugins: {
       type: [String, Array],
-      default: 'lists image media table wordcount'
+      default: 'lists wordcount'
     },
     toolbar: {
       type: [String, Array],
-      default: 'undo redo |  formatselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | lists image media table | removeformat'
+      default: 'undo redo |  formatselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | lists  | removeformat'
     }
   },
   data () {

@@ -9,7 +9,8 @@
       <el-col :span="8">
         <el-input v-model="theme"
                   placeholder="请输入标题"
-                  size="medium"></el-input>
+                  size="medium"
+                  style="width:90%"></el-input>
       </el-col>
     </el-row>
     <el-row style="margin-top:20px">
@@ -66,27 +67,39 @@
       <el-col :span="8">
         <el-input v-model="headline"
                   placeholder="单行输入"
-                  size="medium"></el-input>
+                  size="medium"
+                  style="width:90%"></el-input>
       </el-col>
     </el-row>
-    <div>
-      <el-col :span="2"><span style="line-height:36px">标题</span></el-col>
+    <el-row style="margin:20px auto">
+
+      <el-col :span="3"><span style="line-height:36px">发布时间</span></el-col>
       <el-col :span="8">
-        <el-input v-model="headline"
+        <el-input v-model="time"
                   placeholder="单行输入"
-                  size="medium"></el-input>
+                  size="medium"
+                  style="width:90%"></el-input>
       </el-col>
-      <el-col :span="2"><span style="line-height:36px">标题</span></el-col>
+      <el-col :span="3"><span style="line-height:36px">截止时间</span></el-col>
       <el-col :span="8">
-        <el-input v-model="headline"
+        <el-input v-model="deadline"
                   placeholder="单行输入"
-                  size="medium"></el-input>
+                  size="medium"
+                  style="width:90%"></el-input>
       </el-col>
-    </div>
-    <!-- <tinymce ref="editor"
+    </el-row>
+    <tinymce ref="editor"
              v-model="msg"
              :disabled="disabled"
-             @onClick="onClick" /> -->
+             @onClick="onClick" />
+    <el-row type="flex"
+            justify="center">
+      <el-col :span="4"
+              style="margin:20px auto">
+        <el-button style="width:100%">保存</el-button>
+      </el-col>
+    </el-row>
+
   </div>
 </template>
 <script>
@@ -100,6 +113,8 @@ export default {
       theme: '',
       headline: '',
       time: '',
+      msg: '',
+      disabled: false,
       deadline: '',
       fileList: [{ name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }, { name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }]
     }
@@ -116,6 +131,16 @@ export default {
     },
     beforeRemove (file, fileList) {
       return this.$confirm(`确定移除 ${file.name}？`);
+    },
+    onClick (e, editor) {
+      console.log('Element clicked')
+      console.log(e)
+      console.log(editor)
+      console.log(this.msg)
+    },
+    // 清空内容
+    clear () {
+      this.$refs.editor.clear()
     }
   }
 }
