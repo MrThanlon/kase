@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="width:90%;margin:0 auto">
     <el-row :gutter="36"
             class="thrparts"
             v-if="$route.path=='/admin'">
@@ -25,9 +25,10 @@
     </el-row>
     <el-table :data="tabledata.slice((currentPage-1)*pagesize,currentPage*pagesize)"
               class="showtable"
-              :row-class-name="$route.path!=='/admin/evaluate'&&tableRowClassName"
+              :row-class-name="tableRowClassName"
               border>
-      <el-table-column prop='date'
+      <el-table-column type="index"
+                       :index="indexMethod"
                        label="序号"
                        align="center"
                        width="160"></el-table-column>
@@ -56,7 +57,8 @@
                    :current-page="currentPage"
                    :total="tabledata.length"
                    @size-change="handleSizeChange"
-                   @current-change="handleCurrentChange">
+                   @current-change="handleCurrentChange"
+                   style="margin-top:10px">
     </el-pagination>
   </div>
 </template>
@@ -114,12 +116,17 @@ export default {
       this.currentPage = val;
     },
     tableRowClassName ({ row, rowIndex }) {
-      if (row.da === '未通过') {
-        return 'warning-row';
-      } else if (row.da === '已通过') {
-        return 'success-row';
+      if (this.$route.path !== '/admin/evaluate') {
+        if (row.da === '未通过') {
+          return 'warning-row';
+        } else if (row.da === '已通过') {
+          return 'success-row';
+        }
       }
       return '';
+    },
+    indexMethod (index) {
+      return (index + 1) + (this.currentPage - 1) * (this.pagesize)
     }
   },
   mounted () {

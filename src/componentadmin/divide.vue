@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="width:90%;margin:0 auto">
     <div class="onepart">
       <el-table :data="dividedata"
                 border>
@@ -8,7 +8,7 @@
                          align="center"
                          width="180"></el-table-column>
         <el-table-column label="序号"
-                         prop="name"
+                         type="index"
                          align="center"
                          width="160"></el-table-column>
         <el-table-column label="待评审项目"
@@ -50,7 +50,7 @@
                          align="center"
                          width="180"></el-table-column>
         <el-table-column label="序号"
-                         prop="name"
+                         type="index"
                          align="center"
                          width="160"></el-table-column>
         <el-table-column label="待评审项目"
@@ -89,18 +89,8 @@
               class="mainopt"
               type="flex"
               justify="center">
-        <el-col :span="5">
-          <el-select v-model="value1"
-                     placeholder="请选择"
-                     multiple
-                     collapse-tags>
-            <el-option v-for="item in dividedata"
-                       :key="item.date"
-                       :value="item.address"></el-option>
-          </el-select>
-        </el-col>
         <el-col :span="4">
-          <el-button size="medium">添加到新分组</el-button>
+          <el-button size="medium">添加新分组</el-button>
         </el-col>
       </el-row>
     </div>
