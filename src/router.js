@@ -20,6 +20,42 @@ const router = new Router({
                     components: {
                         default: () => import('@/views/student/main'),
                         sub: () => import('@/views/student/subPannel')
+                    },
+                    meta: {
+                        title: "课题列表", subTitle: "导航"
+                    }
+                },
+                {
+                    // 新建课题
+                    path: 'new',
+                    meta: {
+                        title: "新建课题", subTitle: "导航"
+                    },
+                    components: {
+                        default: () => import('@/views/student/newSubject'),
+                        sub: () => import('@/views/student/subPannel')
+                    }
+                },
+                {
+                    // 查看通知
+                    path: 'notice',
+                    meta: {
+                        title: "通知", subTitle: "导航"
+                    },
+                    components: {
+                        default: () => import('@/views/student/notice'),
+                        sub: () => import('@/views/student/subPannel')
+                    }
+                },
+                {
+                    // 修改密码
+                    path: 'password',
+                    meta: {
+                        title: "修改密码", subTitle: "导航"
+                    },
+                    components: {
+                        default: () => import('@/views/student/password'),
+                        sub: () => import('@/views/student/subPannel')
                     }
                 },
                 {
@@ -29,25 +65,31 @@ const router = new Router({
                 {
                     // 展示文章
                     path: ':cid/article',
+                    meta: {
+                        title: "文章", subTitle: "导航"
+                    },
                     components: {
                         default: () => import('@/views/student/articles'),
                         sub: () => import('@/views/student/subPannel')
                     },
                     props: {
                         default: true,
-                        sub: false
+                        sub: true
                     }
                 },
                 {
                     // 展示附件
                     path: ':cid/file',
+                    meta: {
+                        title: "附件", subTitle: "导航"
+                    },
                     components: {
                         default: () => import('@/views/student/file'),
                         sub: () => import('@/views/student/subPannel')
                     },
                     props: {
                         default: true,
-                        sub: false
+                        sub: true
                     }
                 },
             ],
