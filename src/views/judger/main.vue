@@ -14,7 +14,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="item in listShow" @click="$router.push('/student/'+item.cid+'/article')">
+        <tr v-for="item in listShow" @click="$router.push('/judger/'+item.cid+'/article')">
             <td>{{item.cid}}</td>
             <td>{{item.name}}</td>
             <td>{{projectNameList[item.pid]}}</td>

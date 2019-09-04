@@ -94,11 +94,16 @@ const router = new Router({
                 },
             ],
         },
+        // TODO: judger router
         {
             path: 'judger',
+            component: () => import('@/views/judger/index'),
             children: [
                 {
-                    path: '/'
+                    path: '/',
+                    meta: {
+                        title: "课题列表", subTitle: "导航"
+                    },
                 },
                 {
                     path: ':cid'
@@ -148,6 +153,10 @@ const router = new Router({
                     component: () => import('./componentadmin/adminmanager.vue')
                 }
             ]
+        },
+        {
+            // TODO:404
+            path:'*',
         }
     ]
 })
