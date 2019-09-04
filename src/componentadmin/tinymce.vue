@@ -30,7 +30,7 @@ export default {
     },
     plugins: {
       type: [String, Array],
-      default: 'lists wordcount'
+      default: 'lists'
     },
     toolbar: {
       type: [String, Array],

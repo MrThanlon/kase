@@ -5,8 +5,9 @@
         <h3>评审主题</h3>
       </el-col>
     </el-row>
-    <el-row>
-      <el-col :span="8">
+    <el-row style="width:800px">
+      <el-col :span="
+            8">
         <el-input v-model="theme"
                   placeholder="请输入标题"
                   size="medium"
@@ -27,7 +28,8 @@
                    multiple
                    :limit="3"
                    :on-exceed="handleExceed"
-                   :file-list="fileList">
+                   :file-list="fileList"
+                   style="width:360px">
           <el-button size="medium">上传</el-button>
           <div slot="tip"
                class="el-upload__tip"
@@ -49,7 +51,8 @@
                    multiple
                    :limit="3"
                    :on-exceed="handleExceed"
-                   :file-list="fileList">
+                   :file-list="fileList"
+                   style="width:360px">
           <el-button size="medium">上传</el-button>
           <div slot="tip"
                class="el-upload__tip"
@@ -62,8 +65,8 @@
         <h3>评审说明发布</h3>
       </el-col>
     </el-row>
-    <el-row>
-      <el-col :span="2"><span style="line-height:36px">标题</span></el-col>
+    <el-row style="margin:20px 0;width:800px">
+      <el-col :span="3"><span style="line-height:36px">标题</span></el-col>
       <el-col :span="8">
         <el-input v-model="headline"
                   placeholder="单行输入"
@@ -71,7 +74,7 @@
                   style="width:90%"></el-input>
       </el-col>
     </el-row>
-    <el-row style="margin:20px auto">
+    <el-row style="margin:20px 0;width:800px">
 
       <el-col :span="3"><span style="line-height:36px">发布时间</span></el-col>
       <el-col :span="8">
