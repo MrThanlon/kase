@@ -1,22 +1,7 @@
 <template>
   <div id="app">
-    <!--
-        <div id="nav">
-            <router-link to="/">Home</router-link>
-            |
-            <router-link to="/login">Login</router-link>
-            |
-            <router-link to="/pannel">Pannel</router-link>
-            |
-            <router-link to="/test">Test</router-link>
-            |
-            <router-link to="/subject/1278">Content</router-link>
-        </div>
-        -->
     <div>
-      <!--主面板-->
       <router-view />
-      <!--子面板-->
     </div>
     <footer>
       <div class="card shadow">

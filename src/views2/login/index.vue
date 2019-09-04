@@ -68,7 +68,7 @@
             // 初始化
             if (this.$store.state.logined && this.$store.type) {
                 // 已经登录，直接跳转
-                this.$router.push('/' + ['', 'student', 'judger', 'admin'][this.$store.state.type])
+                this.$router.push('/' + this.$store.state.typeText)
             }
         },
         methods: {
@@ -81,7 +81,11 @@
                 if (res) {
                     // 登录成功
                     const id = await api.user.id()
-                    this.$store.commit('change_state', {logined: true, type: id.type})
+                    this.$store.commit('change_state', {
+                        logined: true,
+                        type: id.type,
+                        typeText: ['', 'student', 'judger', 'admin'][this.$store.state.type]
+                    })
                     this.$router.push('/')
                 }
             }
