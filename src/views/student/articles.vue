@@ -5,10 +5,14 @@
 </template>
 
 <script>
+    // 展示文章
     export default {
         name: "articles",
-        props: {
-            cid: Number
+        props: [
+            'cid'
+        ],
+        async created() {
+
         }
     }
 </script>

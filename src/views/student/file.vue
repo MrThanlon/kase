@@ -5,10 +5,14 @@
 </template>
 
 <script>
+    // 展示附件
     export default {
         name: "file",
-        props: {
-            cid: Number
+        props: [
+            'cid'
+        ],
+        async created() {
+
         }
     }
 </script>

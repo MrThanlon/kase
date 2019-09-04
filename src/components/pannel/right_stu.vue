@@ -15,32 +15,12 @@
                             <i class="fas fa-plus"></i>
                         </button>
                     </li>
-                    <!--
-                    <li class="list-group-item">
-                        <h6 class="card-title text-left">上传</h6>
-                        <button class="btn btn-outline-dark m-2" @click="upload_paper" data-toggle="modal"
-                                data-target="#ModalNewPaper">
-                            上传材料
-                            <i class="fas fa-file-upload"></i>
-                        </button>
-                        <button class="btn btn-outline-dark m-2" @click="upload_file" data-toggle="modal"
-                                data-target="#ModalNewPaper">
-                            上传附件
-                            <i class="fas fa-file-archive"></i>
-                        </button>
-                    </li>
-                    -->
                     <li class="list-group-item">
                         <h6 class="card-title text-left">事项</h6>
                         <button class="btn btn-outline-dark m-2" @click="view_notice" data-toggle="modal"
                                 data-target="#ModalNewPaper">
                             查看通知
                             <i class="fas fa-exclamation-circle"></i>
-                        </button>
-                        <button class="btn btn-outline-dark m-2" @click="view_standard" data-toggle="modal"
-                                data-target="#ModalNewPaper">
-                            查看标准
-                            <i class="fas fa-envelope"></i>
                         </button>
                     </li>
                     <li class="list-group-item">
@@ -58,9 +38,8 @@
                 </ul>
             </div>
         </div>
-
         <!-- Modal
-        TODO: 对话框
+        对话框
         -->
         <div class="modal fade" id="ModalNewPaper" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
              aria-hidden="true">

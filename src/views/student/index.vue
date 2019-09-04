@@ -4,7 +4,7 @@
             <div class="col-12 col-md-8 mb-3 mb-md-5">
                 <div class="card shadow">
                     <div class="card-header">
-                        <h3 class="card-title">主面板标题</h3>
+                        <h4 class="card-title mb-0">{{$route.meta.title}}</h4>
                     </div>
                     <div class="card-body">
                         <!--主面板-->
@@ -15,7 +15,7 @@
             <div class="col-12 col-md-4">
                 <div class="card shadow">
                     <div class="card-header">
-                        <h3 class="card-title">副面板标题</h3>
+                        <h4 class="card-title mb-0">导航</h4>
                     </div>
                     <div class="card-body">
                         <!--副面板-->
@@ -30,7 +30,11 @@
 <script>
     // 首页
     export default {
-        name: "index"
+        name: "index",
+        created() {
+            console.debug(this.$route)
+            console.debug(this.$router)
+        }
     }
 </script>
 
