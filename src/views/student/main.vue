@@ -14,7 +14,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="item in listShow" @click="$router.push('/student/'+item.cid+'/article')">
+        <tr v-for="item in listShow" @click="$router.push('/student/'+item.cid)">
             <td>{{item.cid}}</td>
             <td>{{item.name}}</td>
             <td>{{projectNameList[item.pid]}}</td>
@@ -214,7 +214,7 @@
                             return false
                     }
                     if (this.filterKey[7]) {
-                        // 过滤文档
+                        // 过滤附件
                         if (this.filterKey[7] !== 'y' && this.filterKey[7] !== 'n')
                             return false
                         if (this.filterKey[7] === 'y' ^ item.zip)

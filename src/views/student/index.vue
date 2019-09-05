@@ -4,7 +4,7 @@
             <div class="col-12 col-md-8 mb-3 mb-md-5">
                 <div class="card shadow">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">{{$route.meta.title}}</h4>
+                        <h5 class="card-title mb-0">{{$route.meta.title}}</h5>
                     </div>
                     <div class="card-body">
                         <!--主面板-->
@@ -15,7 +15,7 @@
             <div class="col-12 col-md-4">
                 <div class="card shadow">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">导航</h4>
+                        <h5 class="card-title mb-0">导航</h5>
                     </div>
                     <div class="card-body">
                         <!--副面板-->

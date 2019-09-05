@@ -1,13 +1,13 @@
 <template>
     <div>
-        附件：{{cid}}
+        文章：{{cid}}
     </div>
 </template>
 
 <script>
-    // 展示附件
+    // 展示文章
     export default {
-        name: "file",
+        name: "articles",
         props: [
             'cid'
         ],

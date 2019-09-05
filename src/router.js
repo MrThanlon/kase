@@ -58,12 +58,8 @@ const router = new Router({
           }
         },
         {
-          path: ':cid',
-          redirect: ':cid/article'
-        },
-        {
           // 展示文章
-          path: ':cid/article',
+          path: ':cid',
           meta: {
             title: '文章', subTitle: '导航'
           },
@@ -75,37 +71,48 @@ const router = new Router({
             default: true,
             sub: true
           }
-        },
-        {
-          // 展示附件
-          path: ':cid/file',
-          meta: {
-            title: '附件', subTitle: '导航'
-          },
-          components: {
-            default: () => import('@/views/student/file'),
-            sub: () => import('@/views/student/subPannel')
-          },
-          props: {
-            default: true,
-            sub: true
-          }
         }
       ]
     },
     // TODO: judger router
     {
-      path: 'judger',
+      path: '/judger',
       component: () => import('@/views/judger/index'),
       children: [
         {
           path: '/',
           meta: {
-            title: '课题列表', subTitle: '导航'
+            title: '课题列表', subTitle: '导航', judgeable: false
+          },
+          components: {
+            default: () => import('@/views/judger/main'),
+            sub: () => import('@/views/judger/subPannel')
           }
         },
         {
-          path: ':cid'
+          path: 'notice',
+          meta: {
+            title: '通知', subTitle: '导航', judgeable: false
+          },
+          components: {
+            default: () => import('@/views/judger/notice'),
+            sub: () => import('@/views/judger/subPannel')
+          }
+        },
+        {
+          // 展示文章
+          path: ':cid',
+          meta: {
+            title: '文章', subTitle: '导航', judgeable: true
+          },
+          components: {
+            default: () => import('@/views/judger/articles'),
+            sub: () => import('@/views/judger/subPannel')
+          },
+          props: {
+            default: true,
+            sub: true
+          }
         }
       ]
     },

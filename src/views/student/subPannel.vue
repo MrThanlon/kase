@@ -11,13 +11,13 @@
                 <i class="fas fa-plus"></i>
             </button>
             <button class="btn btn-outline-dark m-2"
-                    @click="$router.push('/student/'+cid+'/article')" v-if="cid">
-                查看文章
-                <i class="fas fa-file-alt"></i>
+                    @click="" v-if="cid">
+                下载附件
+                <i class="fas fa-file-archive"></i>
             </button>
             <button class="btn btn-outline-dark m-2"
-                    @click="$router.push('/student/'+cid+'/file')" v-if="cid">
-                查看附件
+                    @click="" v-if="cid">
+                上传附件
                 <i class="fas fa-file-archive"></i>
             </button>
         </li>
@@ -47,7 +47,11 @@
     export default {
         name: "subPannel",
         methods: {
-            logout() {
+            async logout() {
+            },
+            async downloadZIP() {
+            },
+            async uploadZIP() {
             }
         },
         props: [
