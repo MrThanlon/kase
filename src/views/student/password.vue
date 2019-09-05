@@ -1,5 +1,5 @@
 <template>
-    <form onsubmit="return false" autocomplete="off">
+    <form onsubmit="return false" autocomplete="off" class="m-3">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text">原密码</span>
