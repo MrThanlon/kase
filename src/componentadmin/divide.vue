@@ -1,99 +1,61 @@
 <template>
   <div style="width:90%;margin:0 auto">
-    <div class="onepart">
-      <el-table :data="dividedata"
-                border>
-        <el-table-column label="组别"
-                         prop="date"
-                         align="center"
-                         width="180"></el-table-column>
-        <el-table-column label="序号"
-                         type="index"
-                         align="center"
-                         width="160"></el-table-column>
-        <el-table-column label="待评审项目"
-                         prop="address"
-                         align="center"></el-table-column>
-        <el-table-column label="操作"
-                         align="center"
-                         width="180">
-          <template slot-scope="scope">
-            <el-button size="mini"
-                       @click="handleEdit(scope.$index, scope.row)">删除</el-button>
-          </template></el-table-column>
-      </el-table>
-      <el-row :gutter="10"
-              class="opt">
-        <el-col :span="5">
-          <el-select v-model="value1"
-                     placeholder="请选择"
-                     multiple
-                     collapse-tags>
-            <el-option v-for="item in dividedata"
-                       :key="item.date"
-                       :value="item.address"></el-option>
-          </el-select>
-        </el-col>
-        <el-col :span="4">
-          <el-button>添加到此分组</el-button>
-        </el-col>
-        <el-col :span="4">
-          <el-button>删除此分组</el-button>
-        </el-col>
-      </el-row>
-    </div>
-    <div class="onepart">
-      <el-table :data="dividedata"
-                border>
-        <el-table-column label="组别"
-                         prop="date"
-                         align="center"
-                         width="180"></el-table-column>
-        <el-table-column label="序号"
-                         type="index"
-                         align="center"
-                         width="160"></el-table-column>
-        <el-table-column label="待评审项目"
-                         prop="address"
-                         align="center"></el-table-column>
-        <el-table-column label="操作"
-                         align="center"
-                         width="180">
-          <template slot-scope="scope">
-            <el-button size="mini"
-                       @click="handleEdit(scope.$index, scope.row)">删除</el-button>
-          </template></el-table-column>
-      </el-table>
-      <el-row :gutter="10"
-              class="opt">
-        <el-col :span="5">
-          <el-select v-model="value1"
-                     placeholder="请选择"
-                     multiple
-                     collapse-tags>
-            <el-option v-for="item in dividedata"
-                       :key="item.date"
-                       :value="item.address"></el-option>
-          </el-select>
-        </el-col>
-        <el-col :span="4">
-          <el-button size="medium">添加到此分组</el-button>
-        </el-col>
-        <el-col :span="4">
-          <el-button size="medium">删除此分组</el-button>
-        </el-col>
-      </el-row>
-    </div>
-    <div>
-      <el-row :gutter="10"
-              class="mainopt"
-              type="flex"
-              justify="center">
-        <el-col :span="4">
-          <el-button size="medium">添加新分组</el-button>
-        </el-col>
-      </el-row>
-    </div>
+    <el-tabs type="card">
+      <el-tab-pane label="分组概览">
+        <div style="margin-bottom:40px">
+          <el-table :data="dividedata"
+                    border>
+            <el-table-column label="组别"
+                             prop="date"
+                             align="center"
+                             width="180"></el-table-column>
+            <el-table-column label="序号"
+                             type="index"
+                             align="center"
+                             width="160"></el-table-column>
+            <el-table-column label="待评审项目"
+                             prop="address"
+                             align="center"></el-table-column>
+            <el-table-column label="操作"
+                             align="center"
+                             width="180">
+              <template slot-scope="scope">
+                <el-button size="mini"
+                           @click="handleEdit(scope.$index, scope.row)">删除</el-button>
+              </template></el-table-column>
+          </el-table>
+        </div>
+      </el-tab-pane>
+      <el-tab-pane label="分组操作">
+        <span>待分组材料</span>
+        <div class="showcheck">
+
+          <el-checkbox-group v-model="cheopt"
+                             @change="cha">
+            <el-checkbox label="备选项1"
+                         border></el-checkbox>
+            <el-checkbox label="备选项2"
+                         border></el-checkbox>
+            <el-checkbox label="备选项3"
+                         border></el-checkbox>
+            <el-checkbox label="备选项4"
+                         border></el-checkbox>
+          </el-checkbox-group>
+        </div>
+        <el-select v-model="value2"
+                   placeholder="选择分组"
+                   @change="cha"
+                   class="pad">
+          <el-option v-for="(item,index) in dividedata"
+                     :label="item.address"
+                     :value="item.date"
+                     :key="item.name"></el-option>
+        </el-select>
+        <el-button class="pad">添加到此分组</el-button>
+        <el-button class="pad">删除此分组</el-button>
+      </el-tab-pane>
+    </el-tabs>
+
   </div>
 </template>
 <script>
@@ -103,22 +65,24 @@ export default {
       dividedata: [{
         date: '1',
         name: '2',
-        address: '上海市普1518弄1',
+        address: '上海111市',
         da: '已通过11111',
       },
       {
         date: '2',
         name: '3',
-        address: '上海市普陀路1518弄2',
+        address: '上海市11112',
         da: '未通过11111',
       },
       {
         date: '3',
         name: '4',
-        address: '上海沙江路1518弄3',
+        address: '上海沙111118弄3',
         da: '待审核1111',
       }],
-      value1: []
+      value1: [],
+      cheopt: [],
+      value2: ''
     }
   },
   methods: {
@@ -128,6 +92,10 @@ export default {
     handleCurrentChange (val) {
       this.currentPage = val;
     },
+    cha () {
+      console.log(this.cheopt)
+      console.log(this.value2)
+    }
   }
 }
 </script>
@@ -137,5 +105,15 @@ export default {
 }
 .mainopt {
   margin: 40px auto;
+}
+.showcheck {
+  height: 200px;
+  margin: 10px auto 40px 0;
+  border: 1px solid rgb(230, 230, 230);
+  box-sizing: border-box;
+  padding: 20px;
+}
+.pad {
+  margin-right: 40px;
 }
 </style>
