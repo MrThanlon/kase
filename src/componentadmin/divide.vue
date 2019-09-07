@@ -21,6 +21,7 @@
                              width="180">
               <template slot-scope="scope">
                 <el-button size="mini"
+                           type="danger"
                            @click="handleEdit(scope.$index, scope.row)">删除</el-button>
               </template></el-table-column>
           </el-table>
