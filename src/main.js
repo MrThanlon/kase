@@ -9,6 +9,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 import store from '@/store'
 
+import api from '@/service/api'
+
 import Vuex from 'vuex'
 Vue.use(ElementUI)
 

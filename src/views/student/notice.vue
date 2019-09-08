@@ -14,7 +14,12 @@
             }
         },
         async created() {
-
+            try{
+                this.message = await api.data.app.notice()
+            } catch (e) {
+                // TODO: 错误提示
+                console.debug(e)
+            }
         }
     }
 </script>

@@ -14,7 +14,7 @@
                                 <i class="fas fa-user"></i>
                             </span>
                         </div>
-                        <input type="text" class="form-control" name="username" placeholder="用户名" v-model="u">
+                        <input type="text" class="form-control" name="username" placeholder="用户名" v-model="u"/>
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
@@ -61,7 +61,24 @@
         async created() {
             this.u = this.$store.state.username
             if (this.$store.state.logined)
+            // 已经登录
                 this.$router.push('/')
+
+            // 检测cookie是否有效
+            try {
+                const info = api.user.id()
+                // 有效
+                this.$store.commit('change_state', {logined: true})
+                //跳转
+                if (this.$store.state.jumped_url) {
+                    this.$router.push(this.$store.state.jumped_url)
+                    this.$store.commit('change_state', {jumped_url: ''})
+                } else {
+                    this.$router.push('/')
+                }
+            } catch (e) {
+                console.debug(e)
+            }
         },
         data: function () {
             return {
@@ -75,7 +92,7 @@
                  */
                 stat: 0,
                 btn_clicked: 0,
-                flag_remember: false,
+                flag_remember: true,
                 err_msg: ''
             }
         },
@@ -87,25 +104,16 @@
                 //提交登陆
                 this.stat = 1
                 this.btn_clicked = 1
-                const res = await api.user.login({u: this.u, p: this.p}).catch(e => {
-                    console.debug(e)
-                    this.stat = 2
-                    this.btn_clicked = 0
-                    //TODO: 提示登录失败
-                })
-                if (res) {
+                try {
+                    await api.user.login({u: this.u, p: this.p})
                     //登录成功
                     console.debug(`[Login] Success`)
                     this.$store.commit('change_state', {logined: true})
-                    //跳转
-                    if (this.$store.state.jumped_url) {
-                        this.$router.push(this.$store.state.jumped_url)
-                        this.$store.commit('change_state', {jumped_url: ''})
-                    } else {
-                        this.$router.push('/')
-                    }
-                } else {
+                    // TODO:跳转
+                    this.$router.push('/')
+                } catch (e) {
                     console.debug(`[Login] Failed`)
+                    console.debug(e)
                 }
             },
             forget: function () {

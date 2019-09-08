@@ -11,12 +11,17 @@
                 <i class="fas fa-plus"></i>
             </button>
             <button class="btn btn-outline-dark m-2"
-                    @click="" v-if="cid">
+                    @click="" v-if="cid && !subject.pdf">
+                上传PDF
+                <i class="fas fa-file-pdf"></i>
+            </button>
+            <button class="btn btn-outline-dark m-2"
+                    @click="" v-if="cid && subject.zip">
                 下载附件
                 <i class="fas fa-file-archive"></i>
             </button>
             <button class="btn btn-outline-dark m-2"
-                    @click="" v-if="cid">
+                    @click="" v-if="cid && !subject.zip">
                 上传附件
                 <i class="fas fa-file-archive"></i>
             </button>
@@ -43,6 +48,8 @@
 </template>
 
 <script>
+    import api from '@/service/api'
+
     // 副面板
     export default {
         name: "subPannel",
@@ -56,7 +63,20 @@
         },
         props: [
             'cid'
-        ]
+        ],
+        computed: {
+            async subject() {
+                if (this.cid) {
+                    try {
+                        return await api.data.app.subject({cid: this.cid})
+                    } catch (e) {
+                        // TODO:提示错误
+                        console.debug(e)
+                        return {}
+                    }
+                } else return {}
+            }
+        }
     }
 </script>
 

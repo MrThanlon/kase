@@ -161,6 +161,11 @@ const router = new Router({
       ]
     },
     {
+      // 根目录，跳转决定
+      path: '/',
+      redirect: '/login'
+    },
+    {
       // TODO:404
       path: '*'
     }

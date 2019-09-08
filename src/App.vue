@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <div>
-            <router-view/>
+            <router-view />
         </div>
         <footer>
             <div class="card shadow">

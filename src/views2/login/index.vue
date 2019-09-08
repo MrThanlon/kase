@@ -14,7 +14,7 @@
                                 <i class="fas fa-user"></i>
                             </span>
                         </div>
-                        <input type="text" class="form-control" name="username" placeholder="用户名" v-model="username">
+                        <input type="text" class="form-control" name="username" placeholder="用户名" v-model="username"/>
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
@@ -22,7 +22,8 @@
                                 <i class="fas fa-key"></i>
                             </span>
                         </div>
-                        <input type="password" class="form-control" name="password" placeholder="密码" v-model="password">
+                        <input type="password" class="form-control" name="password" placeholder="密码"
+                               v-model="password"/>
                     </div>
                     <p class="text-danger">请登录</p>
                     <div class="d-flex justify-content-between">
@@ -30,17 +31,17 @@
                             登录
                             <i class="fas fa-sign-in-alt"></i>
                         </button>
-                        <button class="btn btn-outline-warning mr-3 mb-3">
+                        <button class="btn btn-outline-warning mr-3 mb-3" @click="forget">
                             忘记密码
                             <i class="fas fa-exclamation-circle"></i>
                         </button>
-                        <button class="btn btn-outline-primary mr-3 mb-3">
+                        <button class="btn btn-outline-primary mr-3 mb-3" @click="registe">
                             注册
                             <i class="fas fa-user-plus"></i>
                         </button>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox">
+                        <input class="form-check-input" type="checkbox" v-model="remembered"/>
                         <label class="form-check-label">
                             记住账号
                         </label>
@@ -52,16 +53,16 @@
 </template>
 
 <script>
-    // 登录面板
-
     import api from '@/service/api'
 
+    // 登录面板
     export default {
         name: "index",
         data: function () {
             return {
                 username: '',
-                password: ''
+                password: '',
+                remembered: true
             }
         },
         async created() {
@@ -70,15 +71,23 @@
                 // 已经登录，直接跳转
                 this.$router.push('/' + this.$store.state.typeText)
             }
+            try {
+                // 没登录，但cookie可能有效
+                const id = await api.user.id()
+                this.$store.commit('change_state', {
+                    logined: true,
+                    type: id.type,
+                    typeText: ['', 'student', 'judger', 'admin'][this.$store.state.type]
+                })
+                this.$router.push('/' + this.$store.state.typeText)
+            } catch (e) {
+                console.debug(e)
+            }
         },
         methods: {
             async login() {
-                const res = await api.user.login({u: this.username, p: this.password}).catch(e => {
-                    console.debug(e)
-                    //TODO: 提示登录失败
-                    this.$store.commit('change_state', {logined: true,})
-                })
-                if (res) {
+                try {
+                    await api.user.login({u: this.username, p: this.password})
                     // 登录成功
                     const id = await api.user.id()
                     this.$store.commit('change_state', {
@@ -86,8 +95,15 @@
                         type: id.type,
                         typeText: ['', 'student', 'judger', 'admin'][this.$store.state.type]
                     })
-                    this.$router.push('/')
+                    this.$router.push('/' + this.$store.state.typeText)
+                } catch (e) {
+                    // TODO:提示错误
+                    console.debug(e)
                 }
+            },
+            async forget() {
+            },
+            async registe() {
             }
         }
     }

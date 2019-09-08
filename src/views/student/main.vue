@@ -38,6 +38,9 @@
 </template>
 
 <script>
+    import api from '@/service/api'
+
+    // 展示课题列表
     export default {
         name: "list",
         data: function () {
@@ -152,6 +155,15 @@
                 ],
             }
         },
+        async created() {
+            try {
+                this.projectList = await api.data.app.list_prj()
+                this.subjectList = await api.data.app.list()
+            } catch (e) {
+                // TODO: 出错提示
+                console.debug(e)
+            }
+        },
         computed: {
             /**
              * 课题列表
@@ -168,7 +180,7 @@
                             pre.push(cur.pid)
                         return pre
                     }, [])
-                    console.log(pids)
+                    console.debug(pids)
                 }
                 return this.list.filter((item) => {
                     if (this.filterKey[0]) {
