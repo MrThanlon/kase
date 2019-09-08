@@ -43,7 +43,7 @@
         <div class="maintheme">
           <h2>{{title}}</h2>
         </div>
-        <router-view></router-view>
+        <router-view :key="key"></router-view>
       </el-main>
     </el-container>
   </el-container>
@@ -55,6 +55,12 @@ export default {
       title: '优秀论文评审'
     }
   },
+  computed: {
+    key () {
+      return this.$route.path + Math.random();
+    }
+  }
+
 }
 </script>
 

@@ -1,5 +1,24 @@
 <template>
   <div style="width:90%;margin:0 auto">
+    <el-dialog title="添加管理员"
+               :visible.sync="dialogVisible"
+               width="30%"
+               :before-close="handleClose">
+      <div style="width:80%;margin:0 auto">
+        <el-radio label="1"
+                  v-model="optcon">待定</el-radio>
+        <el-radio label="2"
+                  v-model="optcon">通过</el-radio>
+        <el-radio label="3"
+                  v-model="optcon">否决</el-radio>
+      </div>
+      <span slot="footer"
+            class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary"
+                   @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
     <el-row :gutter="36"
             class="thrparts"
             v-if="$route.path=='/admin'">
@@ -23,6 +42,7 @@
         </div>
       </el-col>
     </el-row>
+
     <el-table :data="tabledata.slice((currentPage-1)*pagesize,currentPage*pagesize)"
               class="showtable"
               :row-class-name="tableRowClassName"
@@ -48,7 +68,7 @@
                        width="180">
         <template slot-scope="scope">
           <el-button size="mini"
-                     @click="handleEdit(scope.$index, scope.row)">修改</el-button>
+                     @click="dialogVisible = true">修改</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -67,6 +87,8 @@
 export default {
   data () {
     return {
+      optcon: '1',
+      dialogVisible: false,
       recivedata: [{
         date: '1',
         name: '王小虎',
