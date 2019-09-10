@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4">
+    <div class="container-fluid col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4 pt-5">
         <div class="card shadow">
             <div class="card-header">
                 <h3 class="card-title mb-0">
@@ -25,7 +25,7 @@
                         <input type="password" class="form-control" name="password" placeholder="密码"
                                v-model="password"/>
                     </div>
-                    <p class="text-danger">请登录</p>
+                    <p class="text-danger">{{$store.state.loginMsg}}</p>
                     <div class="d-flex justify-content-between">
                         <button class="btn btn-outline-success mr-3 mb-3" type="submit" @click="login">
                             登录
@@ -74,6 +74,7 @@
             try {
                 // 没登录，但cookie可能有效
                 const id = await api.user.id()
+                console.debug(`[Login] Success`)
                 this.$store.commit('change_state', {
                     logined: true,
                     type: id.type,
@@ -88,12 +89,13 @@
             async login() {
                 try {
                     await api.user.login({u: this.username, p: this.password})
+                    console.debug(`[Login] Success!`)
                     // 登录成功
                     const id = await api.user.id()
                     this.$store.commit('change_state', {
                         logined: true,
                         type: id.type,
-                        typeText: ['', 'student', 'judger', 'admin'][this.$store.state.type]
+                        typeText: ['', 'student', 'judger', 'admin'][id.type]
                     })
                     this.$router.push('/' + this.$store.state.typeText)
                 } catch (e) {

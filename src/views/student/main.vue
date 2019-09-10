@@ -61,104 +61,14 @@
                  * input的placeholder
                  */
                 placeholders: ['', '', '', '', 'Accepter/Rejected/Pending', '', 'y/n', 'y/n'],
-                subjectList: [
-                    {
-                        "name": "张义飞测试",
-                        "cid": 8,
-                        "pid": 190,
-                        "applicant": "张义飞",
-                        "status": 2,
-                        "time": "2019-05-25 15:56:09",
-                        "pdf": false,
-                        "zip": true
-                    },
-                    {
-                        "name": "张义飞的第二个测试",
-                        "cid": 9,
-                        "pid": 190,
-                        "applicant": "张义飞呀",
-                        "status": 0,
-                        "time": "2019-05-25 16:12:58",
-                        "pdf": true,
-                        "zip": false
-                    },
-                    {
-                        "name": "张义飞的那些测试",
-                        "cid": 10,
-                        "pid": 190,
-                        "applicant": "张义飞2019",
-                        "status": 1,
-                        "time": "2019-05-25 16:33:59",
-                        "pdf": true,
-                        "zip": true
-                    },
-                    {
-                        "name": "你好",
-                        "cid": 11,
-                        "pid": 191,
-                        "applicant": "咯咯咯",
-                        "status": 0,
-                        "time": "2019-05-26 15:50:24",
-                        "pdf": true,
-                        "zip": true
-                    },
-                    {
-                        "name": "再来一次",
-                        "cid": 12,
-                        "pid": 191,
-                        "applicant": "稳了",
-                        "status": 0,
-                        "time": "2019-05-26 15:51:32",
-                        "pdf": false,
-                        "zip": false
-                    },
-                    {
-                        "name": "有趣",
-                        "cid": 13,
-                        "pid": 191,
-                        "applicant": "可以的",
-                        "status": 0,
-                        "time": "2019-05-26 15:52:27",
-                        "pdf": true,
-                        "zip": false
-                    },
-                    {
-                        "name": "ahsjhdj",
-                        "cid": 14,
-                        "pid": 190,
-                        "applicant": "hjajfhr3",
-                        "status": 0,
-                        "time": "2019-05-26 17:00:36",
-                        "pdf": false,
-                        "zip": false
-                    },
-                    {
-                        "name": "hentai wrx",
-                        "cid": 15,
-                        "pid": 190,
-                        "applicant": "王润新",
-                        "status": 1,
-                        "time": "2019-05-27 12:41:51",
-                        "pdf": false,
-                        "zip": false
-                    }
-                ],
-                projectList: [
-                    {
-                        "pid": 190,
-                        "name": "测试项目"
-                    },
-                    {
-                        "pid": 191,
-                        "name": "张义飞"
-                    }
-                ],
+                subjectList: [],
+                projectList: [],
             }
         },
         async created() {
             try {
-                this.projectList = await api.data.app.list_prj()
-                this.subjectList = await api.data.app.list()
+                this.projectList = (await api.data.app.list_prj()).data
+                this.subjectList = (await api.data.app.list()).data
             } catch (e) {
                 // TODO: 出错提示
                 console.debug(e)

@@ -1,14 +1,13 @@
-const path = require('path');
+const path = require('path')
 
-function resolve(dir) {
-    return path.join(__dirname, dir)
+function resolve (dir) {
+  return path.join(__dirname, dir)
 }
 
 module.exports = {
-    publicPath: './',
-    chainWebpack: (config) => {
-        config.resolve.alias
-            .set('@$', resolve('src'))
-    }
-
+  publicPath: './',
+  chainWebpack: (config) => {
+    config.resolve.alias
+      .set('@$', resolve('src'))
+  }
 }

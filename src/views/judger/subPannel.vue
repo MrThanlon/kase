@@ -46,11 +46,23 @@
 <script>
     // 副面板
     import judge from './judge'
+    import api from '@/service/api'
 
     export default {
         name: "subPannel",
         methods: {
             async logout() {
+                document.cookie = ''
+                this.$store.commit('change_state', {
+                    logined: false,
+                    type: 0
+                })
+                try {
+                    await api.user.logout()
+                } catch (e) {
+                    console.debug(e)
+                }
+                this.$router.push('/login')
             },
             async downloadZIP() {
             },
