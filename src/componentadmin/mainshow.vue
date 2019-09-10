@@ -1,9 +1,8 @@
 <template>
   <div style="width:90%;margin:0 auto">
     <el-dialog title="添加管理员"
-               :visible.sync="dialogVisible"
                width="30%"
-               :before-close="handleClose">
+               :visible.sync="dialogVisible">
       <div style="width:80%;margin:0 auto">
         <el-radio label="1"
                   v-model="optcon">待定</el-radio>
@@ -19,30 +18,31 @@
                    @click="dialogVisible = false">确 定</el-button>
       </span>
     </el-dialog>
-    <el-row :gutter="36"
-            class="thrparts"
-            v-if="$route.path=='/admin'">
-      <el-col :span="8"
-              class="shownum">
-        <div>
-          <router-link to="/admin/examining">32</router-link>
-          <span>待审核项目</span>
-        </div>
-      </el-col>
-      <el-col :span="8"
-              class="shownum">
-        <div>
-          <router-link to="/admin/examined">29</router-link><span>已审核项目</span>
-        </div>
-      </el-col>
-      <el-col :span="8"
-              class="shownum">
-        <div>
-          <router-link to="/admin/evaluate">19</router-link><span>待评审项目</span>
-        </div>
-      </el-col>
-    </el-row>
-
+    <div style="overflow:hidden;min-width:450px">
+      <el-row :gutter="36"
+              class="thrparts"
+              v-if="$route.path=='/admin'">
+        <el-col :span="8"
+                class="shownum">
+          <div>
+            <router-link to="/admin/examining">32</router-link>
+            <span>待审核项目</span>
+          </div>
+        </el-col>
+        <el-col :span="8"
+                class="shownum">
+          <div>
+            <router-link to="/admin/examined">29</router-link><span>已审核项目</span>
+          </div>
+        </el-col>
+        <el-col :span="8"
+                class="shownum">
+          <div>
+            <router-link to="/admin/evaluate">19</router-link><span>待评审项目</span>
+          </div>
+        </el-col>
+      </el-row>
+    </div>
     <el-table :data="tabledata.slice((currentPage-1)*pagesize,currentPage*pagesize)"
               class="showtable"
               :row-class-name="tableRowClassName"
@@ -89,6 +89,9 @@ export default {
     return {
       optcon: '1',
       dialogVisible: false,
+      wait: '',
+      havedone: '',
+      evaluate: '',
       recivedata: [{
         date: '1',
         name: '王小虎',
@@ -149,9 +152,19 @@ export default {
     },
     indexMethod (index) {
       return (index + 1) + (this.currentPage - 1) * (this.pagesize)
+    },
+    getlist () {
+      this.axios({
+        method: 'post',
+        url: 'data/app/list'
+      }).then((res) => {
+        console.log(res.data)
+      })
+
     }
   },
   mounted () {
+    this.getlist()
     if (this.$route.path === '/admin/examining') {
       this.tabledata = []
       for (let a = 0; a < this.recivedata.length; a++) {
