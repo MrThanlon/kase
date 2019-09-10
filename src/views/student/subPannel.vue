@@ -11,17 +11,17 @@
                 <i class="fas fa-plus"></i>
             </button>
             <button class="btn btn-outline-dark m-2"
-                    @click="" v-if="cid && !subject.pdf">
+                    @click="uploadPDF" v-if="cid && !subject.pdf">
                 上传PDF
                 <i class="fas fa-file-pdf"></i>
             </button>
             <button class="btn btn-outline-dark m-2"
-                    @click="" v-if="cid && subject.zip">
+                    @click="downloadZIP" v-if="cid && subject.zip">
                 下载附件
                 <i class="fas fa-file-archive"></i>
             </button>
             <button class="btn btn-outline-dark m-2"
-                    @click="" v-if="cid && !subject.zip">
+                    @click="uploadZIP" v-if="cid && !subject.zip">
                 上传附件
                 <i class="fas fa-file-archive"></i>
             </button>
@@ -55,10 +55,29 @@
         name: "subPannel",
         methods: {
             async logout() {
+                document.cookie = ''
+                this.$store.commit('change_state', {
+                    logined: false,
+                    type: 0
+                })
+                try {
+                    await api.user.logout()
+                } catch (e) {
+                    console.debug(e)
+                }
+                this.$router.push('/login')
+            },
+            async uploadPDF() {
+                let input = document.createElement('input')
+                input.type = 'file'
+                input.style.display = 'none'
+                document.body.appendChild(input)
             },
             async downloadZIP() {
+
             },
             async uploadZIP() {
+
             }
         },
         props: [

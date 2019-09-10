@@ -7,7 +7,7 @@ stages:
 build-staging-image:
     stage: build
     services:
-        - docker:dind
+        - docker:18.09.7-dind
 
     variables:
         DOCKER_HOST: tcp://docker:2375/
@@ -43,7 +43,7 @@ deploy-staging:
 build-production-image:
     stage: build
     services:
-        - docker:dind
+        - docker:18.09.7-dind
 
     variables:
         DOCKER_HOST: tcp://docker:2375/
@@ -71,4 +71,4 @@ deploy-production:
     - production
 
     allow_failure: false
-    when: manual
+    when: on_success
