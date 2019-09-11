@@ -17,7 +17,7 @@
                  router>
           <el-submenu index="1">
             <template slot="title">
-              <i class="el-icon-document-copy"></i>
+              <i class="el-icon-document"></i>
               <span>评审材料审核</span>
             </template>
             <el-menu-item index="/admin/examining">待审核项目</el-menu-item>

@@ -9,9 +9,8 @@ module.exports = {
   chainWebpack: (config) => {
     config.resolve.alias
       .set('@$', resolve('src'))
-  },
-  devServer: {
-    proxy: 'http://kase.stuhome.com'
   }
-
+  // devServer: {
+  //   proxy: 'http://kase.stuhome.com'
+  // }
 }

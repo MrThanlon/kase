@@ -26,19 +26,19 @@
                 class="shownum">
           <div>
             <router-link to="/admin/examining">32</router-link>
-            <span>待审核项目</span>
+            <span>待审核材料</span>
           </div>
         </el-col>
         <el-col :span="8"
                 class="shownum">
           <div>
-            <router-link to="/admin/examined">29</router-link><span>已审核项目</span>
+            <router-link to="/admin/examined">29</router-link><span>已审核材料</span>
           </div>
         </el-col>
         <el-col :span="8"
                 class="shownum">
           <div>
-            <router-link to="/admin/evaluate">19</router-link><span>待评审项目</span>
+            <router-link to="/admin/evaluate">19</router-link><span>待评审材料</span>
           </div>
         </el-col>
       </el-row>
@@ -154,9 +154,9 @@ export default {
       return (index + 1) + (this.currentPage - 1) * (this.pagesize)
     },
     getlist () {
-      this.axios({
+      this.$axios({
         method: 'post',
-        url: 'data/app/list'
+        url: 'data/adm/list'
       }).then((res) => {
         console.log(res.data)
       })
