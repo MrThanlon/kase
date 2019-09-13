@@ -63,16 +63,16 @@ const func_table = {
 /**
  *
  * @param table
- * @param pre_tag
+ * @param preTag
  */
-function parse_1 (table, pre_tag = '') {
+function parseFunc (table, preTag = '') {
   if (Array.isArray(table)) {
     // in root
-    const table_url = table.map((v) => {
-      return pre_tag + '/' + v
+    const tableUrl = table.map((v) => {
+      return preTag + '/' + v
     })
     // FIXME:没有必要使用正则
-    return table_url.reduce((o, val) => {
+    return tableUrl.reduce((o, val) => {
       o[(/.*\/(.*?)$/.exec(val))[1]] = (param) => {
         return post(conf.SERVER_PATH + val, param)
       }
@@ -81,12 +81,12 @@ function parse_1 (table, pre_tag = '') {
   }
   const ks = Object.keys(table)
   ks.map((v) => {
-    table[v] = parse_1(table[v], pre_tag + '/' + v)
+    table[v] = parseFunc(table[v], preTag + '/' + v)
   })
   return table
 }
 
-const table = parse_1(func_table)
+const table = parseFunc(func_table)
 
 // 夹私货
 table.data.app.upload_zip = (param) => {

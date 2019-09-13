@@ -44,10 +44,11 @@
 </template>
 
 <script>
-    // 副面板
     import judge from './judge'
     import api from '@/service/api'
+    import conf from '@/config'
 
+    // 副面板
     export default {
         name: "subPannel",
         methods: {
@@ -67,8 +68,13 @@
             async downloadZIP() {
             },
             async downloadTable() {
+                let a = document.createElement('a')
+                a.href = `${conf.SERVER_PATH}/data/jug/download_table${conf.PHPDEBUG ? '?XDEBUG_SESSION_START=15380' : ''}`
+                a.download = "评分表"
+                a.click()
             },
             async uploadTable() {
+
             }
         },
         props: [

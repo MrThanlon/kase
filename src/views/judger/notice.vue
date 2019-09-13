@@ -5,6 +5,8 @@
 </template>
 
 <script>
+    import api from '@/service/api'
+
     // 通知
     export default {
         name: "notice",
@@ -14,7 +16,11 @@
             }
         },
         async created() {
-
+            try {
+                this.message = await api.data.jug.notice()
+            } catch (e) {
+                console.debug(e)
+            }
         }
     }
 </script>

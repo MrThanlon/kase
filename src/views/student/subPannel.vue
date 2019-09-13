@@ -10,21 +10,24 @@
                 新建课题
                 <i class="fas fa-plus"></i>
             </button>
-            <button class="btn btn-outline-dark m-2"
-                    @click="uploadPDF" v-if="cid && !subject.pdf">
+            <button class="btn btn-outline-dark m-2" onclick="document.getElementById('pdf').click()"
+                    v-if="cid && !subject.pdf">
                 上传PDF
                 <i class="fas fa-file-pdf"></i>
             </button>
+            <input type="file" @change="uploadPDF" id="pdf" style="display: none"/>
             <button class="btn btn-outline-dark m-2"
-                    @click="downloadZIP" v-if="cid && subject.zip">
+                    onclick="document.getElementById('download').click()" v-if="cid && subject.zip">
                 下载附件
                 <i class="fas fa-file-archive"></i>
             </button>
-            <button class="btn btn-outline-dark m-2"
-                    @click="uploadZIP" v-if="cid && !subject.zip">
+            <a :href="filePath" download="" style="display: none" id="download"></a>
+            <button class="btn btn-outline-dark m-2" onclick="document.getElementById('zip').click()"
+                    v-if="cid && !subject.zip">
                 上传附件
                 <i class="fas fa-file-archive"></i>
             </button>
+            <input type="file" @change="uploadZIP" id="zip" style="display: none"/>
         </li>
         <li class="list-group-item">
             <h6 class="card-title text-left">事项</h6>
@@ -49,10 +52,27 @@
 
 <script>
     import api from '@/service/api'
+    import conf from '@/config'
 
     // 副面板
     export default {
         name: "subPannel",
+        data: function () {
+            return {
+                subject: {}
+            }
+        },
+        async created() {
+            if (this.cid) {
+                try {
+                    this.subject = (await api.data.app.subject({cid: this.cid})).data
+                    console.debug(this.subject)
+                } catch (e) {
+                    // TODO:提示错误
+                    console.debug(e)
+                }
+            }
+        },
         methods: {
             async logout() {
                 document.cookie = ''
@@ -68,32 +88,48 @@
                 this.$router.push('/login')
             },
             async uploadPDF() {
-                let input = document.createElement('input')
-                input.type = 'file'
-                input.style.display = 'none'
-                document.body.appendChild(input)
+                let data = new FormData()
+                data.append('cid', this.cid)
+                data.append('pdf', document.getElementById('pdf').files[0])
+                try {
+                    await api.data.app.upload_pdf(data)
+                } catch (e) {
+                    console.debug(e)
+                }
             },
             async downloadZIP() {
 
             },
             async uploadZIP() {
-
+                let data = new FormData()
+                data.append('cid', this.cid)
+                data.append('zip', document.getElementById('zip').files[0])
+                try {
+                    await api.data.app.upload_zip(data)
+                } catch (e) {
+                    console.debug(e)
+                }
             }
         },
         props: [
             'cid'
         ],
         computed: {
-            async subject() {
+            filePath() {
+                return `${conf.SERVER_PATH}/data/app/download_zip${conf.PHPDEBUG ? '?XDEBUG_SESSION_START=15380' : ''}`
+            }
+        },
+        watch: {
+            cid: async function () {
                 if (this.cid) {
                     try {
-                        return await api.data.app.subject({cid: this.cid})
+                        this.subject = (await api.data.app.subject({cid: this.cid})).data
+                        console.debug(this.subject)
                     } catch (e) {
                         // TODO:提示错误
                         console.debug(e)
-                        return {}
                     }
-                } else return {}
+                }
             }
         }
     }

@@ -28,6 +28,9 @@
 </template>
 
 <script>
+    import api from '@/service/api'
+
+    //主面板
     export default {
         name: "list",
         data: function () {
@@ -106,6 +109,13 @@
                         "zip": false
                     }
                 ],
+            }
+        },
+        async created() {
+            try {
+                this.subjectList = await api.data.jug.list()
+            } catch (e) {
+                console.debug(e)
             }
         },
         computed: {

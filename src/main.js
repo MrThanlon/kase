@@ -8,6 +8,7 @@ import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 import store from '@/store'
+// import AsyncComputed from 'vue-async-computed'
 
 // import axios from 'axios'
 // import VueAxios from 'vue-axios'
@@ -19,6 +20,8 @@ import Vuex from 'vuex'
 
 // Vue.use(VueAxios, axios)
 Vue.use(ElementUI)
+
+// Vue.use(AsyncComputed)
 
 Vue.config.productionTip = false
 Vue.use(Vuex)

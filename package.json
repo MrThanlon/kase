@@ -17,6 +17,7 @@
     "popper.js": "^1.15.0",
     "tinymce": "^5.0.15",
     "vue": "^2.6.10",
+    "vue-async-computed": "^3.7.0",
     "vue-axios": "^2.1.4",
     "vue-router": "^3.0.6",
     "vuex": "^3.1.1"
