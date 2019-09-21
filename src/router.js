@@ -126,6 +126,10 @@ const router = new Router({
   },
   {
     path: '/admin',
+    component: () => import('./pages/adminlogin/selectpro.vue')
+  },
+  {
+    path: '/adminindex',
     component: () => import('./pages/adminlogin/adminlogin.vue'),
     children: [{
       path: '/',

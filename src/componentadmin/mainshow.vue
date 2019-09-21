@@ -25,23 +25,27 @@
         <el-col :span="8"
                 class="shownum">
           <div>
-            <router-link to="/admin/examining">32</router-link>
+            <router-link to="/adminindex/examining">32</router-link>
             <span>待审核材料</span>
           </div>
         </el-col>
         <el-col :span="8"
                 class="shownum">
           <div>
-            <router-link to="/admin/examined">29</router-link><span>已审核材料</span>
+            <router-link to="/adminindex/examined">29</router-link><span>已审核材料</span>
           </div>
         </el-col>
         <el-col :span="8"
                 class="shownum">
           <div>
-            <router-link to="/admin/evaluate">19</router-link><span>待评审材料</span>
+            <router-link to="/adminindex/evaluate">19</router-link><span>待评审材料</span>
           </div>
         </el-col>
       </el-row>
+    </div>
+    <div class="smallhead">
+      <span style="line-height:40px">所有项目材料</span>
+      <el-button>材料导入</el-button>
     </div>
     <el-table :data="tabledata.slice((currentPage-1)*pagesize,currentPage*pagesize)"
               class="showtable"
@@ -160,33 +164,32 @@ export default {
       }).then((res) => {
         console.log(res.data)
       })
-
     }
   },
   mounted () {
     this.getlist()
-    if (this.$route.path === '/admin/examining') {
+    if (this.$route.path === '/adminindex/examining') {
       this.tabledata = []
       for (let a = 0; a < this.recivedata.length; a++) {
         if (this.recivedata[a].da === '待审核') {
           this.tabledata.push(this.recivedata[a])
         }
       }
-    } else if (this.$route.path === '/admin/examined') {
+    } else if (this.$route.path === '/adminindex/examined') {
       this.tabledata = []
       for (let a = 0; a < this.recivedata.length; a++) {
         if (this.recivedata[a].da === '已通过' || this.recivedata[a].da === '未通过') {
           this.tabledata.push(this.recivedata[a])
         }
       }
-    } else if (this.$route.path === '/admin/evaluate') {
+    } else if (this.$route.path === '/adminindex/evaluate') {
       this.tabledata = []
       for (let a = 0; a < this.recivedata.length; a++) {
         if (this.recivedata[a].da === '已通过') {
           this.tabledata.push(this.recivedata[a])
         }
       }
-    } else if (this.$route.path == '/admin') {
+    } else if (this.$route.path == '/adminindex') {
       this.tabledata = []
       this.tabledata = this.recivedata
     }
@@ -194,28 +197,28 @@ export default {
   },
   watch: {
     '$route': function () {
-      if (this.$route.path === '/admin/examining') {
+      if (this.$route.path === '/adminindex/examining') {
         this.tabledata = []
         for (let a = 0; a < this.recivedata.length; a++) {
           if (this.recivedata[a].da === '待审核') {
             this.tabledata.push(this.recivedata[a])
           }
         }
-      } else if (this.$route.path === '/admin/examined') {
+      } else if (this.$route.path === '/adminindex/examined') {
         this.tabledata = []
         for (let a = 0; a < this.recivedata.length; a++) {
           if (this.recivedata[a].da === '已通过' || this.recivedata[a].da === '未通过') {
             this.tabledata.push(this.recivedata[a])
           }
         }
-      } else if (this.$route.path === '/admin/evaluate') {
+      } else if (this.$route.path === '/adminindex/evaluate') {
         this.tabledata = []
         for (let a = 0; a < this.recivedata.length; a++) {
           if (this.recivedata[a].da === '已通过') {
             this.tabledata.push(this.recivedata[a])
           }
         }
-      } else if (this.$route.path == '/admin') {
+      } else if (this.$route.path == '/adminindex') {
         this.tabledata = []
         this.tabledata = this.recivedata
       }
@@ -255,5 +258,10 @@ export default {
 .shownum a {
   display: block;
   font-size: 2.5rem;
+}
+.smallhead {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
 }
 </style>
