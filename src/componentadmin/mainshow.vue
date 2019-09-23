@@ -8,7 +8,7 @@
                   v-model="optcon">待定</el-radio>
         <el-radio label=1
                   v-model="optcon">通过</el-radio>
-        <el-radio label=-1
+        <el-radio label=2
                   v-model="optcon">否决</el-radio>
       </div>
       <span slot="footer"
@@ -48,6 +48,14 @@
         <span style="line-height:40px;font-size:1.3rem">所有项目材料</span>
         <el-button>材料导入</el-button>
       </div>
+      <div class="smallhead"
+           v-if="$route.path=='/adminindex/examined'">
+        <span style="line-height:40px;font-size:1.3rem">待审核材料</span>
+      </div>
+      <div class="smallhead"
+           v-if="$route.path=='/adminindex/examining'">
+        <span style="line-height:40px;font-size:1.3rem">已审核材料</span>
+      </div>
     </div>
     <el-table :data="tabledata.slice((currentPage-1)*pagesize,currentPage*pagesize)"
               class="showtable"
@@ -65,7 +73,7 @@
                        label="提交时间"
                        align="center"
                        width="180"></el-table-column>
-      <el-table-column prop='da'
+      <el-table-column prop='status'
                        label="状态"
                        align="center"
                        width="180"></el-table-column>
@@ -74,7 +82,7 @@
                        width="180">
         <template slot-scope="scope">
           <el-button size="mini"
-                     @click="dialogVisible = true">修改</el-button>
+                     @click="handleEdit(scope.$index, scope.row)">修改</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -98,59 +106,40 @@ export default {
       wait: '',
       havedone: '',
       evaluate: '',
-      recivedata: [{
-        date: '1',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        da: '已通过',
-      },
-      {
-        date: '2',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        da: '未通过',
-      },
-      {
-        date: '3',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        da: '待审核',
-      },
-      {
-        date: '4',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        da: '已通过',
-      },
-      {
-        date: '5',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        da: '未通过',
-      },
-      {
-        date: '6',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        da: '待审核',
-      }],
       tabledata: [],
       currentPage: 1,
-      pagesize: 3
+      pagesize: 3,
+      cid: 0
+    }
+  },
+  props: {
+    pid: {
+      type: Number,
+      default: 0
+    },
+    recivedata: {
+      type: Array,
+      default: () => []
     }
   },
   methods: {
     handleSizeChange (val) {
       this.pagesize = val;
     },
+    handleEdit (index, row) {
+      console.log(index, row);
+      this.dialogVisible = true
+      this.cid = row.cid
+      console.log(this.cid)
+    },
     handleCurrentChange (val) {
       this.currentPage = val;
     },
     tableRowClassName ({ row, rowIndex }) {
       if (this.$route.path !== '/admin/evaluate') {
-        if (row.da === '未通过') {
+        if (row.status === '未通过') {
           return 'warning-row';
-        } else if (row.da === '已通过') {
+        } else if (row.status === '已通过') {
           return 'success-row';
         }
       }
@@ -170,28 +159,45 @@ export default {
     changestate () {
       this.dialogVisible = false
       console.log(this.optcon)
+      if (this.optcon !== 0) {
+        this.$axios({
+          method: 'post',
+          url: 'data/adm/review',
+          data: {
+            cid: this.cid,
+            result: this.optcon
+          }
+        }).then((res) => {
+          if (res.data.status === 0) {
+
+          }
+        })
+      }
     }
   },
   mounted () {
     this.getlist()
+    this.recivedata = this.$store.getters.getlist
+    console.log(this.recivedata)
+    console.log(this.pid)
     if (this.$route.path === '/adminindex/examining') {
       this.tabledata = []
       for (let a = 0; a < this.recivedata.length; a++) {
-        if (this.recivedata[a].da === '待审核') {
+        if (this.recivedata[a].status === '待审核') {
           this.tabledata.push(this.recivedata[a])
         }
       }
     } else if (this.$route.path === '/adminindex/examined') {
       this.tabledata = []
       for (let a = 0; a < this.recivedata.length; a++) {
-        if (this.recivedata[a].da === '已通过' || this.recivedata[a].da === '未通过') {
+        if (this.recivedata[a].status === '已通过' || this.recivedata[a].status === '未通过') {
           this.tabledata.push(this.recivedata[a])
         }
       }
     } else if (this.$route.path === '/adminindex/evaluate') {
       this.tabledata = []
       for (let a = 0; a < this.recivedata.length; a++) {
-        if (this.recivedata[a].da === '已通过') {
+        if (this.recivedata[a].status === '已通过') {
           this.tabledata.push(this.recivedata[a])
         }
       }
@@ -206,21 +212,22 @@ export default {
       if (this.$route.path === '/adminindex/examining') {
         this.tabledata = []
         for (let a = 0; a < this.recivedata.length; a++) {
-          if (this.recivedata[a].da === '待审核') {
+          if (this.recivedata[a].status === '待审核') {
             this.tabledata.push(this.recivedata[a])
           }
         }
       } else if (this.$route.path === '/adminindex/examined') {
         this.tabledata = []
         for (let a = 0; a < this.recivedata.length; a++) {
-          if (this.recivedata[a].da === '已通过' || this.recivedata[a].da === '未通过') {
+          if (this.recivedata[a].status === '已通过' || this.recivedata[a].status === '未通过') {
             this.tabledata.push(this.recivedata[a])
           }
         }
       } else if (this.$route.path === '/adminindex/evaluate') {
         this.tabledata = []
+        console.log(111)
         for (let a = 0; a < this.recivedata.length; a++) {
-          if (this.recivedata[a].da === '已通过') {
+          if (this.recivedata[a].status === '已通过') {
             this.tabledata.push(this.recivedata[a])
           }
         }

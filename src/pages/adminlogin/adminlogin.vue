@@ -21,9 +21,9 @@
                 <i class="el-icon-document"></i>
                 <span>评审材料审核</span>
               </template>
-              <el-menu-item index="/adminindex/examining">待审核项目</el-menu-item>
-              <el-menu-item index="/adminindex/examined">已审核项目</el-menu-item>
-              <el-menu-item index="/adminindex/evaluate">待评审项目</el-menu-item>
+              <el-menu-item index="/adminindex/examining">待审核材料</el-menu-item>
+              <el-menu-item index="/adminindex/examined">已审核材料</el-menu-item>
+              <el-menu-item index="/adminindex/evaluate">待评审材料</el-menu-item>
               <el-menu-item index="/adminindex/scoretable">打分表审核</el-menu-item>
             </el-submenu>
             <el-menu-item index="/adminindex/contentmanager">
@@ -38,7 +38,7 @@
               <el-menu-item index="/adminindex/adminmanager">管理员用户管理</el-menu-item>
               <el-menu-item index="/adminindex/usermanager">评审人员用户管理</el-menu-item>
             </el-submenu>
-            <el-menu-item index="admin">
+            <el-menu-item index="/admin">
               <i class="el-icon-document-copy"></i>
               <span>切换项目</span>
             </el-menu-item>
@@ -48,7 +48,8 @@
           <div class="maintheme">
             <h2>{{title}}</h2>
           </div>
-          <router-view :key="key"></router-view>
+          <router-view :key="key"
+                       :pid="pid"></router-view>
         </el-main>
       </el-container>
     </el-container>
@@ -57,10 +58,11 @@
 <script>
 export default {
   data () {
-    var pid = Number(this.$route.query.pid)
     return {
+      pid: Number(this.$route.query.pid),
       admin: 'admin',
-      title: '优秀论文评审'
+      title: '优秀论文评审',
+      list: []
     }
   },
   computed: {
@@ -68,8 +70,40 @@ export default {
       return this.$route.path + Math.random();
     }
   },
-  mounted () {
+  methods: {
+    getlist () {
+      this.$axios({
+        method: 'post',
+        url: 'data/adm/query_content',
+        data: {
+          pid: this.pid
+        }
+      }).then((res) => {
+        if (res.data.status === 0) {
+          console.log(res.data)
+          this.list = res.data.data
+          for (let i = 0; i < this.list.length; i++) {
+            if (this.list[i].status === 0) {
+              this.list[i].status = '待审核'
+            }
+            else if (this.list[i].status === 1) {
+              this.list[i].status = '已通过'
+            }
+            else if (this.list[i].status === -1) {
+              this.list[i].status = '未通过'
+            }
+            this.$store.commit('changelist', this.list)
+          }
+        }
+      })
+    },
+  },
+  created () {
     console.log(this.$route.query.pid)
+    this.getlist()
+    this.list = this.$store.getters.getlist
+    console.log(this.list)
+    console.log(this.$store.getters.getlist)
   }
 }
 </script>

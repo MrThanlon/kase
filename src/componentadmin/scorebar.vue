@@ -19,7 +19,7 @@
       <el-table-column prop='name'
                        label="账号"
                        align="center"></el-table-column>
-      <el-table-column prop='da'
+      <el-table-column prop='status'
                        label="提交状态"
                        align="center"
                        width="180"></el-table-column>
@@ -37,7 +37,7 @@
         <template slot-scope="scope">
           <el-button size="mini"
                      @click="handleEdit(scope.$index, scope.row)"
-                     v-if="scope.row.da ==='已通过'">下载</el-button>
+                     v-if="scope.row.status ==='已通过'">下载</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -55,42 +55,6 @@
 export default {
   data () {
     return {
-      recivedata: [{
-        date: '1',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路',
-        da: '已通过',
-      },
-      {
-        date: '2',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路',
-        da: '未通过',
-      },
-      {
-        date: '3',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路',
-        da: '已通过',
-      },
-      {
-        date: '4',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路',
-        da: '已通过',
-      },
-      {
-        date: '5',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路',
-        da: '未通过',
-      },
-      {
-        date: '6',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路',
-        da: '已通过',
-      }],
       tabledata: [],
       currentPage: 1,
       pagesize: 3
@@ -107,22 +71,23 @@ export default {
       return (index + 1) + (this.currentPage - 1) * (this.pagesize)
     },
     checkboxInit (row, index) {
-      if (row.da !== '已通过')
+      if (row.status !== '已通过')
         return 0;
       else
         return 1;
     },
     tableRowClassName ({ row, rowIndex }) {
-      if (row.da === '未通过') {
+      if (row.status === '未通过') {
         return 'warning-row';
-      } else if (row.da === '已通过') {
+      } else if (row.status === '已通过') {
         return 'success-row';
       }
       return '';
     },
   },
   mounted () {
-    this.tabledata = this.recivedata
+    this.tabledata = this.$store.getters.getlist
+    console.log(this.$store.getters.getlist)
   },
 }
 </script>

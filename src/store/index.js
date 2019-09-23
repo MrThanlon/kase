@@ -12,42 +12,96 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     /**
-         * 是否登录
-         */
+     * 是否登录
+     */
     logined: false,
     /**
-         * 是否尝试初始化
-         */
+     * 是否尝试初始化
+     */
     inited: false,
     /**
-         * 用户类型
-         * 0.未确定
-         * 1.申请人
-         * 2.审核人
-         * 3.管理员
-         */
+     * 用户类型
+     * 0.未确定
+     * 1.申请人
+     * 2.审核人
+     * 3.管理员
+     */
     type: 0,
     typeText: 'student',
     username: null,
     /**
-         * 登录面板的提示
-         */
-    loginMsg: ''
+     * 登录面板的提示
+     */
+    loginMsg: '',
+    list: [{
+      cid: 1,
+      applicant: '王小虎',
+      name: '九九九',
+      uid: '上海市普陀区金沙江路 1518 弄',
+      status: '已通过'
+    },
+    {
+      cid: 1,
+      applicant: '王小虎',
+      name: '九九九',
+      uid: '上海市普陀区金沙江路 1518 弄',
+      status: '未通过'
+    },
+    {
+      cid: 1,
+      applicant: '王小虎',
+      name: '九九九',
+      uid: '上海市普陀区金沙江路 1518 弄',
+      status: '待审核'
+    },
+    {
+      cid: 1,
+      applicant: '王小虎',
+      name: '九九九',
+      uid: '上海市普陀区金沙江路 1518 弄',
+      status: '已通过'
+    },
+    {
+      cid: 1,
+      applicant: '王小虎',
+      name: '九九九',
+      uid: '上海市普陀区金沙江路 1518 弄',
+      status: '未通过'
+    },
+    {
+      cid: 1,
+      applicant: '王小虎',
+      name: '九九九',
+      uid: '上海市普陀区金沙江路 1518 弄',
+      status: '待审核'
+    }
+    ]
+  },
+  getters: {
+    getlist (state) {
+      return state.list
+    }
   },
   mutations: {
     /**
-         * 万金油使用法
-         * @param state
-         * @param payload
-         */
+     * 万金油使用法
+     * @param state
+     * @param payload
+     */
     change_state (state, payload) {
       for (const key in payload) {
         state[key] = payload[key]
       }
+    },
+    changelist (state, thelist) {
+      state.list = thelist
     }
   },
   actions: {
-    async init ({ commit, state }) {
+    async init ({
+      commit,
+      state
+    }) {
       // 从后端拉取数据，初始化
       if (state.logined) {
         return
@@ -56,7 +110,10 @@ export default new Vuex.Store({
       const res = await api.user.id()
       if (!res) {
         // 没有得到数据，未登录
-        commit('change_state', { logined: false, type: 0 })
+        commit('change_state', {
+          logined: false,
+          type: 0
+        })
       } else {
         commit('change_state', {
           logined: true,
@@ -75,13 +132,20 @@ export default new Vuex.Store({
         if (res.type === 1) {
           const contentList = (await api.data.app.list()).data
           const projectList = (await api.data.app.list_prj()).data
-          commit('change_state', { contentList: contentList, projectList: projectList })
+          commit('change_state', {
+            contentList: contentList,
+            projectList: projectList
+          })
         } else if (res.type === 2) {
           const contentList = (await api.data.jug.list()).data
-          commit('change_state', { contentList })
+          commit('change_state', {
+            contentList
+          })
         } else if (res.type === 3) {
           const projectList = (await api.data.adm.list()).data
-          commit('change_state', { projectList })
+          commit('change_state', {
+            projectList
+          })
         }
       }
     }

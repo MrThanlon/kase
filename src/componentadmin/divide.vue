@@ -26,6 +26,30 @@
               </template></el-table-column>
           </el-table>
         </div>
+        <div style="margin-bottom:40px">
+          <el-table :data="dividedata"
+                    border>
+            <el-table-column label="组别"
+                             prop="date"
+                             align="center"
+                             width="180"></el-table-column>
+            <el-table-column label="序号"
+                             type="index"
+                             align="center"
+                             width="160"></el-table-column>
+            <el-table-column label="待评审项目"
+                             prop="address"
+                             align="center"></el-table-column>
+            <el-table-column label="操作"
+                             align="center"
+                             width="180">
+              <template slot-scope="scope">
+                <el-button size="mini"
+                           type="danger"
+                           @click="handleEdit(scope.$index, scope.row)">删除</el-button>
+              </template></el-table-column>
+          </el-table>
+        </div>
       </el-tab-pane>
       <el-tab-pane label="分组操作">
         <span>待分组材料</span>
@@ -53,7 +77,10 @@
                      :key="item.name"></el-option>
         </el-select>
         <el-button class="pad">添加到此分组</el-button>
-        <el-button class="pad">删除此分组</el-button>
+        <el-button class="pad"
+                   type="danger">删除此分组</el-button>
+        <el-button class="pad"
+                   type="primary">新建分组</el-button>
       </el-tab-pane>
     </el-tabs>
 

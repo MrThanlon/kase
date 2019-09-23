@@ -47,13 +47,18 @@ export default {
       })
     },
     turnto () {
-      this.dialogVisible = false
-      this.$router.push({
-        path: 'adminindex',
-        query: {
-          pid: this.value
-        }
-      })
+      if (this.value === '') {
+        alert("请选择项目")
+        return
+      } else {
+        this.dialogVisible = false
+        this.$router.push({
+          path: 'adminindex',
+          query: {
+            pid: this.value
+          }
+        })
+      }
     }
   },
   mounted () {
