@@ -24,7 +24,12 @@ export default {
   data () {
     return {
       value: '',
-      groups: [],
+      groups: [{
+        name: 'ttt', //项目名称
+        pid: 11, //项目编号
+        groups: 13, //分区数量
+        contents: 2 //材料数量
+      }],
       dialogVisible: true
     }
   },
@@ -46,8 +51,7 @@ export default {
       this.$router.push({
         path: 'adminindex',
         query: {
-          ID: this.ID,
-          groups: parseInt(this.groups)
+          pid: this.value
         }
       })
     }

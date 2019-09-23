@@ -4,48 +4,50 @@
                width="30%"
                :visible.sync="dialogVisible">
       <div style="width:80%;margin:0 auto">
-        <el-radio label="1"
+        <el-radio label=0
                   v-model="optcon">待定</el-radio>
-        <el-radio label="2"
+        <el-radio label=1
                   v-model="optcon">通过</el-radio>
-        <el-radio label="3"
+        <el-radio label=-1
                   v-model="optcon">否决</el-radio>
       </div>
       <span slot="footer"
             class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary"
-                   @click="dialogVisible = false">确 定</el-button>
+                   @click="changestate">确 定</el-button>
       </span>
     </el-dialog>
     <div style="overflow:hidden;min-width:450px">
-      <el-row :gutter="36"
-              class="thrparts"
-              v-if="$route.path=='/admin'">
-        <el-col :span="8"
+      <el-row class="thrparts"
+              type="flex"
+              justify="space-between"
+              v-if="$route.path=='/adminindex'">
+        <el-col :span="7"
                 class="shownum">
           <div>
             <router-link to="/adminindex/examining">32</router-link>
             <span>待审核材料</span>
           </div>
         </el-col>
-        <el-col :span="8"
+        <el-col :span="7"
                 class="shownum">
           <div>
             <router-link to="/adminindex/examined">29</router-link><span>已审核材料</span>
           </div>
         </el-col>
-        <el-col :span="8"
+        <el-col :span="7"
                 class="shownum">
           <div>
             <router-link to="/adminindex/evaluate">19</router-link><span>待评审材料</span>
           </div>
         </el-col>
       </el-row>
-    </div>
-    <div class="smallhead">
-      <span style="line-height:40px">所有项目材料</span>
-      <el-button>材料导入</el-button>
+      <div class="smallhead"
+           v-if="$route.path=='/adminindex'">
+        <span style="line-height:40px;font-size:1.3rem">所有项目材料</span>
+        <el-button>材料导入</el-button>
+      </div>
     </div>
     <el-table :data="tabledata.slice((currentPage-1)*pagesize,currentPage*pagesize)"
               class="showtable"
@@ -91,7 +93,7 @@
 export default {
   data () {
     return {
-      optcon: '1',
+      optcon: 0,
       dialogVisible: false,
       wait: '',
       havedone: '',
@@ -164,6 +166,10 @@ export default {
       }).then((res) => {
         console.log(res.data)
       })
+    },
+    changestate () {
+      this.dialogVisible = false
+      console.log(this.optcon)
     }
   },
   mounted () {
@@ -248,7 +254,9 @@ export default {
 .shownum {
   height: 120px;
   box-sizing: border-box;
-  padding-bottom: 20px;
+  border: 1px solid rgb(235, 238, 245);
+  border-radius: 5px;
+  padding-top: 14px;
 }
 .shownum div {
   width: 80%;
@@ -262,6 +270,6 @@ export default {
 .smallhead {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  margin: 1rem 0 1rem 0;
 }
 </style>

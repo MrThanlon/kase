@@ -1,11 +1,14 @@
 <template>
   <div style="width:90%;margin:0 auto">
+    <div class="smallhead">
+      <span style="line-height:40px;font-size:1.3rem">打分表审核</span>
+      <el-button>一键下载</el-button>
+    </div>
     <el-table :data="tabledata.slice((currentPage-1)*pagesize,currentPage*pagesize)"
               class="showtable"
               border
               :row-class-name="tableRowClassName">
       <el-table-column type="selection"
-                       width="36"
                        :selectable='checkboxInit'>
       </el-table-column>
       <el-table-column label="序号"
@@ -46,13 +49,6 @@
                    @current-change="handleCurrentChange"
                    class="onedown">
     </el-pagination>
-    <el-row type="flex"
-            justify="center"
-            class="onedown">
-      <el-col :span="4">
-        <el-button>一键下载</el-button>
-      </el-col>
-    </el-row>
   </div>
 </template>
 <script>
@@ -131,6 +127,11 @@ export default {
 }
 </script>
 <style>
+.smallhead {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
 .el-table .warning-row {
   background: oldlace;
 }
@@ -140,6 +141,7 @@ export default {
 }
 .cell label {
   margin: 0;
+  margin-left: 6px;
 }
 .onedown {
   margin: 10px 0 20px 0;

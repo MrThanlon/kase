@@ -9,7 +9,7 @@
               <router-link to="/adminindex">通用项目评审管理系统</router-link>
             </span></el-col>
           <el-col :span="12"
-                  class="head2"><span>欢迎您，admin<br></span><span>退出</span></el-col>
+                  class="head2"><span>欢迎您，{{admin}}<br></span><span>退出</span></el-col>
         </el-row>
       </el-header>
       <el-container>
@@ -57,7 +57,9 @@
 <script>
 export default {
   data () {
+    var pid = Number(this.$route.query.pid)
     return {
+      admin: 'admin',
       title: '优秀论文评审'
     }
   },
@@ -65,8 +67,10 @@ export default {
     key () {
       return this.$route.path + Math.random();
     }
+  },
+  mounted () {
+    console.log(this.$route.query.pid)
   }
-
 }
 </script>
 
