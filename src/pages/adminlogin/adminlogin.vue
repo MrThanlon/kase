@@ -82,18 +82,18 @@ export default {
         if (res.data.status === 0) {
           console.log(res.data)
           this.list = res.data.data
-          for (let i = 0; i < this.list.length; i++) {
-            if (this.list[i].status === 0) {
-              this.list[i].status = '待审核'
-            }
-            else if (this.list[i].status === 1) {
-              this.list[i].status = '已通过'
-            }
-            else if (this.list[i].status === -1) {
-              this.list[i].status = '未通过'
-            }
-            this.$store.commit('changelist', this.list)
-          }
+          // for (let i = 0; i < this.list.length; i++) {
+          //   if (this.list[i].status === 0) {
+          //     this.list[i].status = '待审核'
+          //   }
+          //   else if (this.list[i].status === 1) {
+          //     this.list[i].status = '已通过'
+          //   }
+          //   else if (this.list[i].status === -1) {
+          //     this.list[i].status = '未通过'
+          //   }
+          // }
+          this.$store.commit('changelist', this.list)
         }
       })
     },

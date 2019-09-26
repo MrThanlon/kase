@@ -76,7 +76,6 @@
                      :key="item.name"></el-option>
         </el-select>
         <el-button class="pad">添加到此分组</el-button>
-        <el-button class="pad">删除此分组</el-button>
       </el-tab-pane>
     </el-tabs>
 

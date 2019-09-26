@@ -94,6 +94,16 @@ export default new Vuex.Store({
       }
     },
     changelist (state, thelist) {
+      const templist = thelist
+      for (let i = 0; i < templist.length; i++) {
+        if (templist[i].status === 0) {
+          templist[i].status = '待审核'
+        } else if (templist[i].status === 1) {
+          templist[i].status = '已通过'
+        } else if (templist[i].status === -1) {
+          templist[i].status = '未通过'
+        }
+      }
       state.list = thelist
     }
   },
