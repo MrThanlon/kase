@@ -48,8 +48,7 @@
           <div class="maintheme">
             <h2>{{title}}</h2>
           </div>
-          <router-view :key="key"
-                       :pid="pid"></router-view>
+          <router-view :key="key"></router-view>
         </el-main>
       </el-container>
     </el-container>
@@ -59,7 +58,7 @@
 export default {
   data () {
     return {
-      pid: Number(this.$route.query.pid),
+      pid: 0,
       admin: 'admin',
       title: '优秀论文评审',
       list: []
@@ -82,28 +81,15 @@ export default {
         if (res.data.status === 0) {
           console.log(res.data)
           this.list = res.data.data
-          // for (let i = 0; i < this.list.length; i++) {
-          //   if (this.list[i].status === 0) {
-          //     this.list[i].status = '待审核'
-          //   }
-          //   else if (this.list[i].status === 1) {
-          //     this.list[i].status = '已通过'
-          //   }
-          //   else if (this.list[i].status === -1) {
-          //     this.list[i].status = '未通过'
-          //   }
-          // }
-          this.$store.commit('changelist', this.list)
+          this.$store.dispatch('changelist', this.list)
         }
       })
     },
   },
   created () {
-    console.log(this.$route.query.pid)
+    this.pid = this.$store.getters.getpid
     this.getlist()
     this.list = this.$store.getters.getlist
-    console.log(this.list)
-    console.log(this.$store.getters.getlist)
   }
 }
 </script>

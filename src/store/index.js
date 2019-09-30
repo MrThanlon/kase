@@ -33,45 +33,46 @@ export default new Vuex.Store({
      * 登录面板的提示
      */
     loginMsg: '',
+    proid: 0,
     list: [{
       cid: 1,
       applicant: '王小虎',
-      name: '九九九',
+      name: '王大锤',
       uid: '上海市普陀区金沙江路 1518 弄',
-      status: '已通过'
+      status: 1
     },
     {
       cid: 1,
       applicant: '王小虎',
-      name: '九九九',
+      name: '王大锤',
       uid: '上海市普陀区金沙江路 1518 弄',
       status: '未通过'
     },
     {
       cid: 1,
       applicant: '王小虎',
-      name: '九九九',
+      name: '王大锤',
       uid: '上海市普陀区金沙江路 1518 弄',
       status: '待审核'
     },
     {
       cid: 1,
       applicant: '王小虎',
-      name: '九九九',
+      name: '王大锤',
       uid: '上海市普陀区金沙江路 1518 弄',
       status: '已通过'
     },
     {
       cid: 1,
       applicant: '王小虎',
-      name: '九九九',
+      name: '王大锤',
       uid: '上海市普陀区金沙江路 1518 弄',
       status: '未通过'
     },
     {
       cid: 1,
       applicant: '王小虎',
-      name: '九九九',
+      name: '王大锤',
       uid: '上海市普陀区金沙江路 1518 弄',
       status: '待审核'
     }
@@ -79,7 +80,20 @@ export default new Vuex.Store({
   },
   getters: {
     getlist (state) {
-      return state.list
+      const templist = state.list
+      for (let i = 0; i < templist.length; i++) {
+        if (templist[i].status === 0) {
+          templist[i].status = '待审核'
+        } else if (templist[i].status === 1) {
+          templist[i].status = '已通过'
+        } else if (templist[i].status === -1) {
+          templist[i].status = '未通过'
+        }
+      }
+      return templist
+    },
+    getpid (state) {
+      return state.proid
     }
   },
   mutations: {
@@ -93,21 +107,21 @@ export default new Vuex.Store({
         state[key] = payload[key]
       }
     },
-    changelist (state, thelist) {
-      const templist = thelist
-      for (let i = 0; i < templist.length; i++) {
-        if (templist[i].status === 0) {
-          templist[i].status = '待审核'
-        } else if (templist[i].status === 1) {
-          templist[i].status = '已通过'
-        } else if (templist[i].status === -1) {
-          templist[i].status = '未通过'
-        }
-      }
+    change_list (state, thelist) {
       state.list = thelist
+    },
+    change_pid (state, pid) {
+      state.proid = pid
     }
   },
   actions: {
+    changelist (context, thelist) {
+      context.commit('change_list', thelist)
+      console.log(100)
+    },
+    changepid (context, pid) {
+      context.commit('change_pid', pid)
+    },
     async init ({
       commit,
       state

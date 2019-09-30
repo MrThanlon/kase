@@ -52,16 +52,14 @@ export default {
         return
       } else {
         this.dialogVisible = false
+        this.$store.dispatch('changepid', this.value)
         this.$router.push({
           path: 'adminindex',
-          query: {
-            pid: this.value
-          }
         })
       }
     }
   },
-  mounted () {
+  created () {
     this.getlist()
   }
 }

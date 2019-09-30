@@ -109,17 +109,8 @@ export default {
       tabledata: [],
       currentPage: 1,
       pagesize: 3,
-      cid: 0
-    }
-  },
-  props: {
-    pid: {
-      type: Number,
-      default: 0
-    },
-    recivedata: {
-      type: Array,
-      default: () => []
+      cid: 0,
+      recivedata: []
     }
   },
   methods: {
@@ -178,8 +169,7 @@ export default {
   mounted () {
     this.getlist()
     this.recivedata = this.$store.getters.getlist
-    console.log(this.recivedata)
-    console.log(this.pid)
+    this.pid = this.$store.getters.getpid
     if (this.$route.path === '/adminindex/examining') {
       this.tabledata = []
       for (let a = 0; a < this.recivedata.length; a++) {
