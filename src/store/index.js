@@ -34,49 +34,63 @@ export default new Vuex.Store({
      */
     loginMsg: '',
     proid: 0,
+    pro: [{
+      name: 'ttt',
+      pid: 11,
+      groups: 13,
+      contents: 2
+    },
+    {
+      name: 'ttt',
+      pid: 11,
+      groups: 13,
+      contents: 2
+    }
+    ],
     list: [{
       cid: 1,
       applicant: '王小虎',
-      name: '王大锤',
+      name: '王大',
       uid: '上海市普陀区金沙江路 1518 弄',
       status: 1
     },
     {
       cid: 1,
       applicant: '王小虎',
-      name: '王大锤',
+      name: '王二',
       uid: '上海市普陀区金沙江路 1518 弄',
       status: '未通过'
     },
     {
       cid: 1,
       applicant: '王小虎',
-      name: '王大锤',
+      name: '王三',
       uid: '上海市普陀区金沙江路 1518 弄',
       status: '待审核'
     },
     {
       cid: 1,
       applicant: '王小虎',
-      name: '王大锤',
+      name: '王四',
       uid: '上海市普陀区金沙江路 1518 弄',
       status: '已通过'
     },
     {
       cid: 1,
       applicant: '王小虎',
-      name: '王大锤',
+      name: '王五',
       uid: '上海市普陀区金沙江路 1518 弄',
       status: '未通过'
     },
     {
       cid: 1,
       applicant: '王小虎',
-      name: '王大锤',
+      name: '王六',
       uid: '上海市普陀区金沙江路 1518 弄',
       status: '待审核'
     }
     ]
+
   },
   getters: {
     getlist (state) {
@@ -94,6 +108,9 @@ export default new Vuex.Store({
     },
     getpid (state) {
       return state.proid
+    },
+    getpro (state) {
+      return state.pro
     }
   },
   mutations: {
@@ -112,6 +129,9 @@ export default new Vuex.Store({
     },
     change_pid (state, pid) {
       state.proid = pid
+    },
+    change_pro (state, pro) {
+      state.pro = pro
     }
   },
   actions: {
@@ -121,6 +141,9 @@ export default new Vuex.Store({
     },
     changepid (context, pid) {
       context.commit('change_pid', pid)
+    },
+    changepro (context, pro) {
+      context.commit('change_pro', pro)
     },
     async init ({
       commit,

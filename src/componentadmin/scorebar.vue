@@ -2,7 +2,7 @@
   <div style="width:90%;margin:0 auto">
     <div class="smallhead">
       <span style="line-height:40px;font-size:1.3rem">打分表审核</span>
-      <el-button>一键下载</el-button>
+      <el-button>下载所选打分表</el-button>
     </div>
     <el-table :data="tabledata.slice((currentPage-1)*pagesize,currentPage*pagesize)"
               class="showtable"

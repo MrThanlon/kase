@@ -110,7 +110,9 @@ export default {
       currentPage: 1,
       pagesize: 3,
       cid: 0,
-      recivedata: []
+      recivedata: [],
+      pid: 0,
+      list: []
     }
   },
   methods: {
@@ -159,8 +161,20 @@ export default {
             result: this.optcon
           }
         }).then((res) => {
-          if (res.data.status === 0) {
-
+          if (res.data.status_code === 0) {
+            this.$axios({
+              method: 'post',
+              url: 'data/adm/query_content',
+              data: {
+                pid: this.pid
+              }
+            }).then((res) => {
+              if (res.data.status === 0) {
+                console.log(res.data)
+                this.list = res.data.data
+                this.$store.dispatch('changelist', this.list)
+              }
+            })
           }
         })
       }

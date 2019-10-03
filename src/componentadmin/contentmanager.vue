@@ -25,15 +25,14 @@
                    :on-preview="handlePreview"
                    :on-remove="handleRemove"
                    :before-remove="beforeRemove"
-                   multiple
                    :limit="3"
                    :on-exceed="handleExceed"
                    :file-list="fileList"
-                   style="width:360px">
+                   style="width:400px">
           <el-button size="medium">上传</el-button>
           <div slot="tip"
                class="el-upload__tip"
-               style="display: inline;"> (支持doc、docx、pdf、txt、rar等)</div>
+               style="display: inline;"> (多个文件请打包成一份上传，再次上传会覆盖已有文件)</div>
         </el-upload>
       </el-col>
     </el-row>
@@ -48,19 +47,18 @@
                    :on-preview="handlePreview"
                    :on-remove="handleRemove"
                    :before-remove="beforeRemove"
-                   multiple
                    :limit="3"
                    :on-exceed="handleExceed"
                    :file-list="fileList"
-                   style="width:360px">
+                   style="width:400px">
           <el-button size="medium">上传</el-button>
           <div slot="tip"
                class="el-upload__tip"
-               style="display: inline;"> (支持doc、docx、pdf、txt、rar等)</div>
+               style="display: inline;"> (多个文件请打包成一份上传，再次上传会覆盖已有文件)</div>
         </el-upload>
       </el-col>
     </el-row>
-    <el-row style="margin-top:20px">
+    <!-- <el-row style="margin-top:20px">
       <el-col :span="24">
         <h3>评审说明发布</h3>
       </el-col>
@@ -69,7 +67,7 @@
       <el-col :span="3"><span style="line-height:36px">标题</span></el-col>
       <el-col :span="8">
         <el-input v-model="headline"
-                  placeholder="单行输入"
+                  placeholder="请输入标题"
                   size="medium"
                   style="width:90%"></el-input>
       </el-col>
@@ -79,14 +77,14 @@
       <el-col :span="3"><span style="line-height:36px">发布时间</span></el-col>
       <el-col :span="8">
         <el-input v-model="time"
-                  placeholder="单行输入"
+                  placeholder="请输入发布时间"
                   size="medium"
                   style="width:90%"></el-input>
       </el-col>
       <el-col :span="3"><span style="line-height:36px">截止时间</span></el-col>
       <el-col :span="8">
         <el-input v-model="deadline"
-                  placeholder="单行输入"
+                  placeholder="请输入截止时间"
                   size="medium"
                   style="width:90%"></el-input>
       </el-col>
@@ -101,7 +99,7 @@
               style="margin:20px auto">
         <el-button style="width:100%">保存</el-button>
       </el-col>
-    </el-row>
+    </el-row> -->
 
   </div>
 </template>

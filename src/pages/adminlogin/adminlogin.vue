@@ -1,19 +1,20 @@
 <template>
   <div>
     <el-container class="maincon">
-      <el-header style="background: #00838F">
+      <el-header style="margin:20px 0;background-color:#00838F">
         <el-row :gutter="20"
                 class="mainhead">
           <el-col :span="12"
-                  class="head1"><i class="el-icon-s-home"></i><span class="tohome">
+                  class="head1">
+            <span class="tohome">
               <router-link to="/adminindex">通用项目评审管理系统</router-link>
             </span></el-col>
           <el-col :span="12"
-                  class="head2"><span>欢迎您，{{admin}}<br></span><span>退出</span></el-col>
+                  class="head2"><span>欢迎您,{{admin}}<br></span><span>退出</span></el-col>
         </el-row>
       </el-header>
       <el-container>
-        <el-aside width="200px">
+        <el-aside width="220px">
           <el-menu :default-active="this.$route.path"
                    router>
             <el-submenu index="1">
@@ -78,7 +79,7 @@ export default {
           pid: this.pid
         }
       }).then((res) => {
-        if (res.data.status === 0) {
+        if (res.data.status_code === 0) {
           console.log(res.data)
           this.list = res.data.data
           this.$store.dispatch('changelist', this.list)
@@ -98,6 +99,7 @@ export default {
 .tohome a {
   color: #ffffff;
   text-decoration: none;
+  font-size: 1.3rem;
 }
 
 .mainhead {
@@ -119,7 +121,8 @@ export default {
 }
 .maincon h2 {
   text-align: center;
-  margin-bottom: 20px;
+  margin-top: -20px;
+  margin-bottom: 10px;
 }
 .maintheme h2 {
   font-weight: 400;

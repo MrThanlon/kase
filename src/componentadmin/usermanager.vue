@@ -2,6 +2,28 @@
   <div style="width:90%;margin:0 auto">
     <el-tabs type="card">
       <el-tab-pane label="分组概览">
+        <div class="addadmin">
+          <el-button type="text"
+                     @click="dialogVisible = true">添加评审人员</el-button>
+        </div>
+        <el-dialog title="添加评审人员"
+                   :visible.sync="dialogVisible"
+                   width="30%"
+                   :before-close="handleClose">
+          <div style="width:80%;margin:0 auto">
+            <el-input v-model="acc"
+                      placeholder="用户名"
+                      style="margin-bottom:20px"></el-input>
+            <el-input v-model="passwo"
+                      placeholder="密码"></el-input>
+          </div>
+          <span slot="footer"
+                class="dialog-footer">
+            <el-button @click="dialogVisible = false">取 消</el-button>
+            <el-button type="primary"
+                       @click="dialogVisible = false">确 定</el-button>
+          </span>
+        </el-dialog>
         <div style="margin-bottom:40px">
           <el-table :data="dividedata"
                     border>
@@ -18,11 +40,14 @@
                              align="center"></el-table-column>
             <el-table-column label="操作"
                              align="center"
-                             width="180">
+                             width="250">
               <template slot-scope="scope">
                 <el-button size="mini"
                            type="danger"
-                           @click="handleEdit(scope.$index, scope.row)">删除</el-button>
+                           @click="handleEdit(scope.$index, scope.row)">删除账号</el-button>
+                <el-button size="mini"
+                           type="danger"
+                           @click="handleEdit(scope.$index, scope.row)">移出分组</el-button>
               </template></el-table-column>
           </el-table>
         </div>
@@ -42,17 +67,20 @@
                              align="center"></el-table-column>
             <el-table-column label="操作"
                              align="center"
-                             width="180">
+                             width="250">
               <template slot-scope="scope">
                 <el-button size="mini"
                            type="danger"
-                           @click="handleEdit(scope.$index, scope.row)">删除</el-button>
+                           @click="handleEdit(scope.$index, scope.row)">删除账号</el-button>
+                <el-button size="mini"
+                           type="danger"
+                           @click="handleEdit(scope.$index, scope.row)">移出分组</el-button>
               </template></el-table-column>
           </el-table>
         </div>
       </el-tab-pane>
       <el-tab-pane label="分组操作">
-        <span>待分组评审人员</span>
+        <span>评审人员</span>
         <div class="showcheck">
           <el-checkbox-group v-model="cheopt"
                              @change="cha">
@@ -105,7 +133,8 @@ export default {
       }],
       value1: [],
       cheopt: [],
-      value2: ''
+      value2: '',
+      dialogVisible: false
     }
   },
   methods: {
@@ -138,5 +167,10 @@ export default {
 }
 .pad {
   margin-right: 40px;
+}
+.addadmin {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -10px;
 }
 </style>
