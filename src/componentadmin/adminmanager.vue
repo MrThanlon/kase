@@ -20,7 +20,7 @@
               class="dialog-footer">
           <el-button @click="dialogVisible = false">取 消</el-button>
           <el-button type="primary"
-                     @click="dialogVisible = false">确 定</el-button>
+                     @click="creatadmin">确 定</el-button>
         </span>
       </el-dialog>
     </div>
@@ -41,7 +41,7 @@
                        width="140">
         <template slot-scope="scope">
 
-          <el-button @click="handleEdit(scope.$index, scope.row)"
+          <el-button @click="handledelete(scope.$index, scope.row)"
                      type="danger"
                      size="small">删除</el-button>
         </template>
@@ -113,6 +113,36 @@ export default {
           done();
         })
         .catch(_ => { });
+    },
+    handledelete (index, row) {
+      this.$axios({
+        method: 'post',
+        url: 'data/adm/del_adm',
+        data: {
+          username: row.name
+        }
+      }).then((res) => {
+        if (res.data.status_code === 0) {
+
+        }
+        else {
+          this.$message.error('创建失败')
+        }
+      })
+    },
+    creatadmin () {
+      this.$axios({
+        method: 'post',
+        url: 'data/adm/new_adm',
+        data: {
+          username: this.acc,
+          password: this.passwo
+        }
+      }).then((res) => {
+        if (res.data.status_code === 0) {
+
+        }
+      })
     }
   },
   mounted () {

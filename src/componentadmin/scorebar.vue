@@ -2,42 +2,39 @@
   <div style="width:90%;margin:0 auto">
     <div class="smallhead">
       <span style="line-height:40px;font-size:1.3rem">打分表审核</span>
-      <el-button>下载所选打分表</el-button>
+      <el-button @click="downseveral">下载所选打分表</el-button>
     </div>
     <el-table :data="tabledata.slice((currentPage-1)*pagesize,currentPage*pagesize)"
               class="showtable"
               border
+              @selection-change="handleSelectionChange"
               :row-class-name="tableRowClassName">
       <el-table-column type="selection"
                        :selectable='checkboxInit'>
       </el-table-column>
       <el-table-column label="序号"
                        align="center"
-                       width="160"
+                       width="80"
                        type="index"
                        :index="indexMethod"></el-table-column>
-      <el-table-column prop='name'
-                       label="账号"
+      <el-table-column prop='u'
+                       label="用户名"
                        align="center"></el-table-column>
-      <el-table-column prop='status'
+      <el-table-column prop='stat'
                        label="提交状态"
                        align="center"
                        width="180"></el-table-column>
-      <el-table-column prop='address'
+      <el-table-column prop='time'
                        label="提交时间"
-                       align="center"
-                       width="180"></el-table-column>
-      <el-table-column prop='date'
-                       label="已提交打分表"
                        align="center"
                        width="180"></el-table-column>
       <el-table-column label="操作"
                        align="center"
-                       width="180">
+                       width="130">
         <template slot-scope="scope">
           <el-button size="mini"
-                     @click="handleEdit(scope.$index, scope.row)"
-                     v-if="scope.row.status ==='已通过'">下载</el-button>
+                     @click="downsingle(scope.$index, scope.row)"
+                     v-if="scope.row.stat ==='已提交'">下载</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -57,7 +54,10 @@ export default {
     return {
       tabledata: [],
       currentPage: 1,
-      pagesize: 3
+      pagesize: 3,
+      multipleSelection: [],
+      downloadsco: [],
+      pid: 0
     }
   },
   methods: {
@@ -71,23 +71,87 @@ export default {
       return (index + 1) + (this.currentPage - 1) * (this.pagesize)
     },
     checkboxInit (row, index) {
-      if (row.status !== '已通过')
+      if (row.stat !== '已提交')
         return 0;
       else
         return 1;
     },
+    downsingle (index, row) {
+      this.$axios({
+        method: 'get',
+        url: 'data/adm/download_table',
+        data: {
+          pid: this.pid,
+          u: row.u
+        },
+        responseType: 'blob'
+      }).then((res) => {
+        const content = res.data
+        const blob = new Blob([content], { type: 'application.zip' })
+        const fileName = row.u + '打分表.zip'
+        if ('download' in document.createElement('a')) {
+          const link = document.createElement('a')
+          link.download = fileName
+          link.style.display = 'none'
+          link.href = URL.createObjectURL(blob)
+          document.body.appendChild(link)
+          link.click()
+          URL.revokeObjectURL(link.href)
+          document.body.removeChild(link)
+        } else {
+          navigator.msSaveBlob(blob, fileName)
+        }
+      })
+    },
     tableRowClassName ({ row, rowIndex }) {
-      if (row.status === '未通过') {
+      if (row.stat === '未提交') {
         return 'warning-row';
-      } else if (row.status === '已通过') {
+      } else if (row.stat === '已提交') {
         return 'success-row';
       }
       return '';
     },
+    handleSelectionChange (val) {
+      this.multipleSelection = val;
+    },
+    downseveral () {
+      let users = []
+      for (let a = 0; a < this.multipleSelection.length; a++) {
+        this.users.push(this.multipleSelection[a].u)
+      }
+      this.$axios({
+        method: 'post',
+        url: 'data/adm/download_tables',
+        data: {
+          pid: this.pid,
+          user: users
+        },
+        header: {
+          'Content-Type': 'application/json'
+        },
+        responseType: 'blob'
+      }).then((res) => {
+        const content = res.data
+        const blob2 = new Blob([content], { type: 'application.zip' })
+        const fileName = '多个打分表.zip'
+        if ('download' in document.createElement('a')) {
+          const link = document.createElement('a')
+          link.download = fileName
+          link.style.display = 'none'
+          link.href = URL.createObjectURL(blob)
+          document.body.appendChild(link)
+          link.click()
+          URL.revokeObjectURL(link.href)
+          document.body.removeChild(link)
+        } else {
+          navigator.msSaveBlob(blob, fileName)
+        }
+      })
+    }
   },
-  mounted () {
-    this.tabledata = this.$store.getters.getlist
-    console.log(this.$store.getters.getlist)
+  created () {
+    this.tabledata = this.$store.getters.getevalist
+    this.pid = this.$store.getters.getpid
   },
 }
 </script>

@@ -8,11 +8,10 @@
         </div>
         <el-dialog title="添加评审人员"
                    :visible.sync="dialogVisible"
-                   width="30%"
-                   :before-close="handleClose">
+                   width="35%">
           <div style="width:80%;margin:0 auto">
             <el-input v-model="acc"
-                      placeholder="用户名"
+                      placeholder="用户名(非十一位数字,不超过20个字符)"
                       style="margin-bottom:20px"></el-input>
             <el-input v-model="passwo"
                       placeholder="密码"></el-input>
@@ -21,7 +20,7 @@
                 class="dialog-footer">
             <el-button @click="dialogVisible = false">取 消</el-button>
             <el-button type="primary"
-                       @click="dialogVisible = false">确 定</el-button>
+                       @click="createva">确 定</el-button>
           </span>
         </el-dialog>
         <div style="margin-bottom:40px">
@@ -30,11 +29,11 @@
             <el-table-column label="组别"
                              prop="date"
                              align="center"
-                             width="180"></el-table-column>
+                             width="80"></el-table-column>
             <el-table-column label="序号"
                              type="index"
                              align="center"
-                             width="160"></el-table-column>
+                             width="80"></el-table-column>
             <el-table-column label="用户名"
                              prop="address"
                              align="center"></el-table-column>
@@ -44,40 +43,14 @@
               <template slot-scope="scope">
                 <el-button size="mini"
                            type="danger"
-                           @click="handleEdit(scope.$index, scope.row)">删除账号</el-button>
+                           @click="deleteeva(scope.$index, scope.row)">删除账号</el-button>
                 <el-button size="mini"
                            type="danger"
-                           @click="handleEdit(scope.$index, scope.row)">移出分组</el-button>
+                           @click="outgroup(scope.$index, scope.row)">移出分组</el-button>
               </template></el-table-column>
           </el-table>
         </div>
-        <div>
-          <el-table :data="dividedata"
-                    border>
-            <el-table-column label="组别"
-                             prop="date"
-                             align="center"
-                             width="180"></el-table-column>
-            <el-table-column label="序号"
-                             type="index"
-                             align="center"
-                             width="160"></el-table-column>
-            <el-table-column label="用户名"
-                             prop="address"
-                             align="center"></el-table-column>
-            <el-table-column label="操作"
-                             align="center"
-                             width="250">
-              <template slot-scope="scope">
-                <el-button size="mini"
-                           type="danger"
-                           @click="handleEdit(scope.$index, scope.row)">删除账号</el-button>
-                <el-button size="mini"
-                           type="danger"
-                           @click="handleEdit(scope.$index, scope.row)">移出分组</el-button>
-              </template></el-table-column>
-          </el-table>
-        </div>
+
       </el-tab-pane>
       <el-tab-pane label="分组操作">
         <span>评审人员</span>
@@ -134,7 +107,9 @@ export default {
       value1: [],
       cheopt: [],
       value2: '',
-      dialogVisible: false
+      dialogVisible: false,
+      acc: '',
+      passwo: ''
     }
   },
   methods: {
@@ -147,6 +122,45 @@ export default {
     cha () {
       console.log(this.cheopt)
       console.log(this.value2)
+    },
+    deleteeva (index, row) {
+      this.$axios({
+        method: 'post',
+        url: 'data/adm/del_user',
+        data: {
+          u: row.name
+        }
+      }).then((res) => {
+        if (res.data.status_code === 0) {
+
+        }
+      })
+    },
+    outgroup (index, row) {
+      this.$axios({
+        method: 'post',
+        url: 'data/adm/mod_user_group',
+        data: {
+        }
+      }).then((res) => {
+        if (res.data.status_code === 0) {
+
+        }
+      })
+    },
+    createva () {
+      this.$axios({
+        method: 'post',
+        url: 'data/adm/add_user',
+        data: {
+          u: this.acc,
+          p: this.passwo
+        }
+      }).then((res) => {
+        if (res.data.status_code === 0) {
+
+        }
+      })
     }
   }
 }

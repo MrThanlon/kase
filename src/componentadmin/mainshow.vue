@@ -26,20 +26,20 @@
         <el-col :span="7"
                 class="shownum">
           <div>
-            <router-link to="/adminindex/examining">32</router-link>
+            <router-link to="/adminindex/examining">{{wait}}</router-link>
             <span>待审核材料</span>
           </div>
         </el-col>
         <el-col :span="7"
                 class="shownum">
           <div>
-            <router-link to="/adminindex/examined">29</router-link><span>已审核材料</span>
+            <router-link to="/adminindex/examined">{{havedone}}</router-link><span>已审核材料</span>
           </div>
         </el-col>
         <el-col :span="7"
                 class="shownum">
           <div>
-            <router-link to="/adminindex/evaluate">19</router-link><span>待评审材料</span>
+            <router-link to="/adminindex/evaluate">{{evaluate}}</router-link><span>待评审材料</span>
           </div>
         </el-col>
       </el-row>
@@ -69,6 +69,10 @@
       <el-table-column prop='name'
                        label="材料"
                        align="center"></el-table-column>
+      <el-table-column prop='applicant'
+                       label="申请人"
+                       align="center"
+                       width="180"></el-table-column>
       <el-table-column prop='address'
                        label="提交时间"
                        align="center"
@@ -103,16 +107,16 @@ export default {
     return {
       optcon: 0,
       dialogVisible: false,
-      wait: '',
-      havedone: '',
-      evaluate: '',
+      wait: 0,
+      havedone: 0,
+      evaluate: 0,
       tabledata: [],
       currentPage: 1,
       pagesize: 3,
       cid: 0,
       recivedata: [],
       pid: 0,
-      list: []
+      list: [],
     }
   },
   methods: {
@@ -141,14 +145,6 @@ export default {
     indexMethod (index) {
       return (index + 1) + (this.currentPage - 1) * (this.pagesize)
     },
-    getlist () {
-      this.$axios({
-        method: 'post',
-        url: 'data/adm/list'
-      }).then((res) => {
-        console.log(res.data)
-      })
-    },
     changestate () {
       this.dialogVisible = false
       console.log(this.optcon)
@@ -169,7 +165,7 @@ export default {
                 pid: this.pid
               }
             }).then((res) => {
-              if (res.data.status === 0) {
+              if (res.data.status_code === 0) {
                 console.log(res.data)
                 this.list = res.data.data
                 this.$store.dispatch('changelist', this.list)
@@ -180,8 +176,7 @@ export default {
       }
     }
   },
-  mounted () {
-    this.getlist()
+  created () {
     this.recivedata = this.$store.getters.getlist
     this.pid = this.$store.getters.getpid
     if (this.$route.path === '/adminindex/examining') {
@@ -208,6 +203,16 @@ export default {
     } else if (this.$route.path == '/adminindex') {
       this.tabledata = []
       this.tabledata = this.recivedata
+      for (let a = 0; a < this.tabledata.length; a++) {
+        if (this.tabledata[a].status === '待审核') {
+          this.wait++
+        } else if (this.tabledata[a].status === '已通过' || this.tabledata[a].status === '未通过') {
+          this.havedone++
+          if (this.tabledata[a].status === '已通过') {
+            this.evaluate++
+          }
+        }
+      }
     }
 
   },

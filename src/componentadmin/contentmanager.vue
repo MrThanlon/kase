@@ -2,7 +2,7 @@
   <div style="width:90%;margin:0 auto">
     <el-row>
       <el-col :span="24">
-        <h3>评审主题</h3>
+        <h3>修改评审主题</h3>
       </el-col>
     </el-row>
     <el-row style="width:800px">
@@ -24,8 +24,9 @@
         <el-upload action="https://jsonplaceholder.typicode.com/posts/"
                    :on-preview="handlePreview"
                    :on-remove="handleRemove"
-                   :before-remove="beforeRemove"
                    :limit="3"
+                   :with-credentials="true"
+                   :show-file-list="false"
                    :on-exceed="handleExceed"
                    :file-list="fileList"
                    style="width:400px">
@@ -48,6 +49,8 @@
                    :on-remove="handleRemove"
                    :before-remove="beforeRemove"
                    :limit="3"
+                   :with-credentials="true"
+                   :show-file-list="false"
                    :on-exceed="handleExceed"
                    :file-list="fileList"
                    style="width:400px">
@@ -100,7 +103,6 @@
         <el-button style="width:100%">保存</el-button>
       </el-col>
     </el-row> -->
-
   </div>
 </template>
 <script>

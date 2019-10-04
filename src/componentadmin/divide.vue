@@ -2,8 +2,9 @@
   <div style="width:90%;margin:0 auto">
     <el-tabs type="card">
       <el-tab-pane label="分组概览">
-        <div style="margin-bottom:40px">
-          <el-table :data="dividedata"
+        <div style="margin-bottom:40px"
+             v-for="(item,index) in tablelist">
+          <el-table :data="item"
                     border>
             <el-table-column label="组别"
                              prop="date"
@@ -22,31 +23,7 @@
               <template slot-scope="scope">
                 <el-button size="mini"
                            type="danger"
-                           @click="handleEdit(scope.$index, scope.row)">移出分组</el-button>
-              </template></el-table-column>
-          </el-table>
-        </div>
-        <div style="margin-bottom:40px">
-          <el-table :data="dividedata"
-                    border>
-            <el-table-column label="组别"
-                             prop="date"
-                             align="center"
-                             width="180"></el-table-column>
-            <el-table-column label="序号"
-                             type="index"
-                             align="center"
-                             width="160"></el-table-column>
-            <el-table-column label="待评审项目"
-                             prop="address"
-                             align="center"></el-table-column>
-            <el-table-column label="操作"
-                             align="center"
-                             width="180">
-              <template slot-scope="scope">
-                <el-button size="mini"
-                           type="danger"
-                           @click="handleEdit(scope.$index, scope.row)">移出分组</el-button>
+                           @click="handleDelete(scope.$index, scope.row)">移出分组</el-button>
               </template></el-table-column>
           </el-table>
         </div>
@@ -90,6 +67,29 @@
 export default {
   data () {
     return {
+      tablelist: [[{
+        date: '1',
+        name: '2',
+        address: '上海111市',
+        da: '已通过11111',
+      },
+      {
+        date: '2',
+        name: '3',
+        address: '上海市11112',
+        da: '未通过11111',
+      }], [{
+        date: '1',
+        name: '2',
+        address: '上海111市',
+        da: '已通过11111',
+      },
+      {
+        date: '2',
+        name: '3',
+        address: '上海市11112',
+        da: '未通过11111',
+      }]],
       dividedata: [{
         date: '1',
         name: '2',
@@ -110,7 +110,8 @@ export default {
       }],
       value1: [],
       cheopt: [],
-      value2: ''
+      value2: '',
+      delpro: ''
     }
   },
   methods: {
@@ -123,6 +124,9 @@ export default {
     cha () {
       console.log(this.cheopt)
       console.log(this.value2)
+    },
+    handleDelete (index, row) {
+
     }
   }
 }

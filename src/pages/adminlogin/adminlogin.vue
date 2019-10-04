@@ -62,7 +62,8 @@ export default {
       pid: 0,
       admin: 'admin',
       title: '优秀论文评审',
-      list: []
+      list: [],
+      evalist: []
     }
   },
   computed: {
@@ -86,11 +87,24 @@ export default {
         }
       })
     },
+    getevalist () {
+      this.$axios({
+        method: 'post',
+        url: 'data/adm/query_user',
+      }).then((res) => {
+        if (res.data.status_code === 0) {
+          this.evalist = res.data.data
+          this.$store.dispatch('changeevalist', this.evalist)
+        }
+      })
+    }
   },
   created () {
     this.pid = this.$store.getters.getpid
     this.getlist()
+    this.getevalist()
     this.list = this.$store.getters.getlist
+    this.evalist = this.$store.getters.getevalist
   }
 }
 </script>

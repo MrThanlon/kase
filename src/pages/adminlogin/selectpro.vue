@@ -2,8 +2,7 @@
   <div>
     <el-dialog title="选择项目"
                :visible.sync="dialogVisible"
-               width="40%"
-               :before-close="router.go(0)">
+               width="40%">
       <el-select v-model="value"
                  placeholder="请选择"
                  style="marigin:0 auto">
@@ -109,6 +108,9 @@ export default {
       }).then((res) => {
         if (res.data.status_code === 0) {
           this.$router.go(0)
+        }
+        else {
+          this.$message.error('创建失败')
         }
       })
     }
