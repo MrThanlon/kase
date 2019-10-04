@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-container class="maincon">
-      <el-header style="margin:20px 0;background-color:#00838F">
+      <el-header style="margin-bottom:20px;background-color:#00838F">
         <el-row :gutter="20"
                 class="mainhead">
           <el-col :span="12"
@@ -10,7 +10,8 @@
               <router-link to="/adminindex">通用项目评审管理系统</router-link>
             </span></el-col>
           <el-col :span="12"
-                  class="head2"><span>欢迎您,{{admin}}<br></span><span>退出</span></el-col>
+                  class="head2"><span>欢迎您,{{admin}}<br></span><span class="quit"
+                  @click="quit">退出</span></el-col>
         </el-row>
       </el-header>
       <el-container>
@@ -63,7 +64,8 @@ export default {
       admin: 'admin',
       title: '优秀论文评审',
       list: [],
-      evalist: []
+      evalist: [],
+      pros: []
     }
   },
   computed: {
@@ -97,14 +99,36 @@ export default {
           this.$store.dispatch('changeevalist', this.evalist)
         }
       })
+    },
+    getuser () {
+      this.$axios({
+        method: 'post',
+        url: 'user/id',
+      }).then((res) => {
+        if (res.data.status_code === 0) {
+          this.admin = res.data.data.username
+        }
+      })
+    },
+    quit () {
+      this.$router.push({ path: '/' })
     }
   },
   created () {
     this.pid = this.$store.getters.getpid
+    this.getuser()
     this.getlist()
     this.getevalist()
     this.list = this.$store.getters.getlist
     this.evalist = this.$store.getters.getevalist
+    this.pros = this.$store.getters.getpro
+    for (let i = 0; i < this.pros.length; i++) {
+      if (this.pid = this.pros[i].pid) {
+        this.title = this.pros[i].name
+        console.log(this.pros)
+        break
+      }
+    }
   }
 }
 </script>
@@ -140,5 +164,8 @@ export default {
 }
 .maintheme h2 {
   font-weight: 400;
+}
+.quit:hover {
+  cursor: pointer;
 }
 </style>

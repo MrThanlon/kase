@@ -37,77 +37,77 @@ export default new Vuex.Store({
     proid: 0,
     // 项目列表
     pro: [{
-        name: 'ttt',
-        pid: 11,
-        groups: 13,
-        contents: 2
-      },
-      {
-        name: 'ttt',
-        pid: 11,
-        groups: 13,
-        contents: 2
-      }
+      name: '毕业论文评审',
+      pid: 11,
+      groups: 13,
+      contents: 2
+    },
+    {
+      name: '项目评审',
+      pid: 12,
+      groups: 14,
+      contents: 3
+    }
     ],
     // 材料列表
     list: [{
-        cid: 1,
-        applicant: '王小虎',
-        name: '王大',
-        uid: '上海市普陀区金沙江路 1518 弄',
-        status: 1
-      },
-      {
-        cid: 1,
-        applicant: '王小虎',
-        name: '王二',
-        uid: '上海市普陀区金沙江路 1518 弄',
-        status: '未通过'
-      },
-      {
-        cid: 1,
-        applicant: '王小虎',
-        name: '王三',
-        uid: '上海市普陀区金沙江路 1518 弄',
-        status: '待审核'
-      },
-      {
-        cid: 1,
-        applicant: '王小虎',
-        name: '王四',
-        uid: '上海市普陀区金沙江路 1518 弄',
-        status: '已通过'
-      },
-      {
-        cid: 1,
-        applicant: '王小虎',
-        name: '王五',
-        uid: '上海市普陀区金沙江路 1518 弄',
-        status: '未通过'
-      },
-      {
-        cid: 1,
-        applicant: '王小虎',
-        name: '王六',
-        uid: '上海市普陀区金沙江路 1518 弄',
-        status: '待审核'
-      }
+      cid: 1,
+      applicant: '王小虎',
+      name: '王大',
+      uid: '上海市普陀区金沙江路 1518 弄',
+      status: 1
+    },
+    {
+      cid: 1,
+      applicant: '王小虎',
+      name: '王二',
+      uid: '上海市普陀区金沙江路 1518 弄',
+      status: '未通过'
+    },
+    {
+      cid: 1,
+      applicant: '王小虎',
+      name: '王三',
+      uid: '上海市普陀区金沙江路 1518 弄',
+      status: '待审核'
+    },
+    {
+      cid: 1,
+      applicant: '王小虎',
+      name: '王四',
+      uid: '上海市普陀区金沙江路 1518 弄',
+      status: '已通过'
+    },
+    {
+      cid: 1,
+      applicant: '王小虎',
+      name: '王五',
+      uid: '上海市普陀区金沙江路 1518 弄',
+      status: '未通过'
+    },
+    {
+      cid: 1,
+      applicant: '王小虎',
+      name: '王六',
+      uid: '上海市普陀区金沙江路 1518 弄',
+      status: '待审核'
+    }
     ],
     // 评审员列表
     eva: [{
-        u: '王大',
-        stat: 0,
-        time: '2019/10/1'
-      },
-      {
-        u: '王大',
-        stat: 1,
-        time: '2019/10/1'
-      }
+      u: '王大',
+      stat: 0,
+      time: '2019/10/1'
+    },
+    {
+      u: '王大',
+      stat: 1,
+      time: '2019/10/1'
+    }
     ]
   },
   getters: {
-    getlist(state) {
+    getlist (state) {
       const templist = state.list
       for (let i = 0; i < templist.length; i++) {
         if (templist[i].status === 0) {
@@ -120,13 +120,13 @@ export default new Vuex.Store({
       }
       return templist
     },
-    getpid(state) {
+    getpid (state) {
       return state.proid
     },
-    getpro(state) {
+    getpro (state) {
       return state.pro
     },
-    getevalist(state) {
+    getevalist (state) {
       const tempevalist = state.eva
       for (let i = 0; i < tempevalist.length; i++) {
         if (tempevalist[i].stat === 0) {
@@ -144,39 +144,39 @@ export default new Vuex.Store({
      * @param state
      * @param payload
      */
-    change_state(state, payload) {
+    change_state (state, payload) {
       for (const key in payload) {
         state[key] = payload[key]
       }
     },
-    change_list(state, thelist) {
+    change_list (state, thelist) {
       state.list = thelist
     },
-    change_pid(state, pid) {
+    change_pid (state, pid) {
       state.proid = pid
     },
-    change_pro(state, pro) {
+    change_pro (state, pro) {
       state.pro = pro
     },
-    change_evalist(state, evalist) {
+    change_evalist (state, evalist) {
       state.evalist = evalist
     }
   },
   actions: {
-    changelist(context, thelist) {
+    changelist (context, thelist) {
       context.commit('change_list', thelist)
       console.log(100)
     },
-    changepid(context, pid) {
+    changepid (context, pid) {
       context.commit('change_pid', pid)
     },
-    changepro(context, pro) {
+    changepro (context, pro) {
       context.commit('change_pro', pro)
     },
-    changeevalist(context, evalist) {
+    changeevalist (context, evalist) {
       context.commit('change_evalist', evalist)
     },
-    async init({
+    async init ({
       commit,
       state
     }) {
