@@ -119,13 +119,13 @@ export default {
     this.getuser()
     this.$store.dispatch('list')
     this.$store.dispatch('eva')
+    this.$store.dispatch('groups')
     this.list = this.$store.getters.getlist
     this.evalist = this.$store.getters.getevalist
     this.pros = this.$store.getters.getpro
     for (let i = 0; i < this.pros.length; i++) {
       if (this.pid = this.pros[i].pid) {
         this.title = this.pros[i].name
-        console.log(this.pros)
         break
       }
     }

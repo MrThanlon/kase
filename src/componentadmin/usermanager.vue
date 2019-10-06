@@ -23,11 +23,12 @@
                        @click="createva">确 定</el-button>
           </span>
         </el-dialog>
-        <div style="margin-bottom:40px">
-          <el-table :data="dividedata"
+        <div style="margin-bottom:40px"
+             v-for="(item,index) in evalist">
+          <el-table :data="item"
                     border>
             <el-table-column label="组别"
-                             prop="date"
+                             prop="gid"
                              align="center"
                              width="80"></el-table-column>
             <el-table-column label="序号"
@@ -35,7 +36,7 @@
                              align="center"
                              width="80"></el-table-column>
             <el-table-column label="用户名"
-                             prop="address"
+                             prop="name"
                              align="center"></el-table-column>
             <el-table-column label="操作"
                              align="center"
@@ -57,26 +58,22 @@
         <div class="showcheck">
           <el-checkbox-group v-model="cheopt"
                              @change="cha">
-            <el-checkbox label="备选项1"
-                         border></el-checkbox>
-            <el-checkbox label="备选项2"
-                         border></el-checkbox>
-            <el-checkbox label="备选项3"
-                         border></el-checkbox>
-            <el-checkbox label="备选项4"
+            <el-checkbox v-for="(item,index) in alleva"
+                         :label="item.u"
                          border></el-checkbox>
           </el-checkbox-group>
         </div>
-        <el-select v-model="value2"
+        <el-select v-model="selectgroup"
                    placeholder="选择分组"
                    @change="cha"
                    class="pad">
-          <el-option v-for="(item,index) in dividedata"
-                     :label="item.address"
-                     :value="item.date"
-                     :key="item.name"></el-option>
+          <el-option v-for="(item,index) in groups"
+                     :label="item.gid"
+                     :value="item.gid"
+                     :key="item.gid"></el-option>
         </el-select>
-        <el-button class="pad">添加到此分组</el-button>
+        <el-button class="pad"
+                   @click="addEvaTogro">添加到此分组</el-button>
       </el-tab-pane>
     </el-tabs>
 
@@ -86,32 +83,16 @@
 export default {
   data () {
     return {
-      dividedata: [{
-        date: '1',
-        name: '2',
-        address: '上海111市',
-        da: '已通过11111',
-      },
-      {
-        date: '2',
-        name: '3',
-        address: '上海市11112',
-        da: '未通过11111',
-      },
-      {
-        date: '3',
-        name: '4',
-        address: '上海沙111118弄3',
-        da: '待审核1111',
-      }],
       value1: [],
-      cheopt: [],
-      value2: '',
+      selectgroup: '',
       dialogVisible: false,
       acc: '',
       passwo: '',
       pid: 0,
-      evalist: []
+      evalist: [],
+      cheopt: [],
+      alleva: [],
+      groups: []
     }
   },
   methods: {
@@ -123,7 +104,7 @@ export default {
     },
     cha () {
       console.log(this.cheopt)
-      console.log(this.value2)
+      console.log(this.selectgroup)
     },
     deleteeva (index, row) {
       this.$axios({
@@ -143,6 +124,8 @@ export default {
         method: 'post',
         url: 'data/adm/mod_user_group',
         data: {
+          gid: row.gid,
+          u: row.name
         }
       }).then((res) => {
         if (res.data.status_code === 0) {
@@ -171,18 +154,41 @@ export default {
             if (res.data.status_code === 0) {
               this.dialogVisible = false
               this.$message({
-                message: '恭喜你，上传成功',
+                message: '创建账号成功',
                 type: 'success'
               })
+            } else {
+              this.$message.error('创建失败，请检查网络连接')
             }
           })
         }
       })
     },
+    addEvaTogro () {
+      for (let i = 0; i < this.cheopt.length; i++) {
+        this.$axios({
+          method: 'post',
+          url: 'data/adm/mod_user_project',
+          data: {
+            gid: parseInt(this.selectgroup),
+            u: this.cheopt[i]
+          }
+        })
+      }
+      this.selectgroup = '',
+        this.cheopt = []
+    }
   },
   created () {
     this.pid = this.$store.getters.getpid
-    this.evalist = this.$store.getters.getevalist
+    this.groups = this.$store.getters.getgroups
+    this.alleva = this.$store.getters.getevalist
+    for (let i = 0; i < this.groups.length; i++) {
+      this.evalist[i] = []
+      for (let a = 0; a < this.groups[i].eva.length; a++) {
+        this.evalist[i].push({ gid: this.groups[i].gid, name: this.groups[i].eva[a] })
+      }
+    }
   }
 }
 </script>

@@ -94,15 +94,38 @@ export default new Vuex.Store({
     }
     ],
     // 评审员列表
-    eva: [{
+    evas: [{
       u: '王大',
       stat: 0,
       time: '2019/10/1'
     },
     {
-      u: '王大',
+      u: '王二',
       stat: 1,
       time: '2019/10/1'
+    }
+    ],
+    group: [{
+      gid: 11,
+      eva: [
+        'jug1',
+        'jug2'
+      ],
+      content: [
+        13,
+        12
+      ]
+    },
+    {
+      gid: 12,
+      eva: [
+        'jug11',
+        'jug22'
+      ],
+      content: [
+        23,
+        22
+      ]
     }
     ]
   },
@@ -127,7 +150,7 @@ export default new Vuex.Store({
       return state.pro
     },
     getevalist (state) {
-      const tempevalist = state.eva
+      const tempevalist = state.evas
       for (let i = 0; i < tempevalist.length; i++) {
         if (tempevalist[i].stat === 0) {
           tempevalist[i].stat = '已提交'
@@ -136,6 +159,9 @@ export default new Vuex.Store({
         }
       }
       return tempevalist
+    },
+    getgroups (state) {
+      return state.group
     }
   },
   mutations: {
@@ -160,11 +186,13 @@ export default new Vuex.Store({
     },
     change_evalist (state, evalist) {
       state.evalist = evalist
+    },
+    change_groups (state, groups) {
+      state.groups = groups
     }
   },
   actions: {
     list (context) {
-      console.log(context)
       axios({
         method: 'post',
         url: 'data/adm/query_content',
@@ -187,6 +215,19 @@ export default new Vuex.Store({
         }
       })
     },
+    groups (context) {
+      axios({
+        method: 'post',
+        url: 'data/adm/list_groups',
+        data: {
+          pid: context.state.proid
+        }
+      }).then((res) => {
+        if (res.data.status_code === 0) {
+          context.commit('change_groups', res.data.data)
+        }
+      })
+    },
     changelist (context, thelist) {
       context.commit('change_list', thelist)
       console.log(100)
@@ -199,6 +240,9 @@ export default new Vuex.Store({
     },
     changeevalist (context, evalist) {
       context.commit('change_evalist', evalist)
+    },
+    changegroups (context, groups) {
+      context.commit('change_groups', groups)
     },
     async init ({
       commit,
