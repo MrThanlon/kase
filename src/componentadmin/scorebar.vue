@@ -80,7 +80,7 @@ export default {
       this.$axios({
         method: 'get',
         url: 'data/adm/download_table',
-        data: {
+        params: {
           pid: this.pid,
           u: row.u
         },
@@ -117,7 +117,7 @@ export default {
     downseveral () {
       let users = []
       for (let a = 0; a < this.multipleSelection.length; a++) {
-        this.users.push(this.multipleSelection[a].u)
+        users.push(this.multipleSelection[a].u)
       }
       this.$axios({
         method: 'post',
@@ -132,22 +132,22 @@ export default {
         responseType: 'blob'
       }).then((res) => {
         const content = res.data
-        const blob2 = new Blob([content], { type: 'application.zip' })
+        const blobs = new Blob([content], { type: 'application.zip' })
         const fileName = '多个打分表.zip'
         if ('download' in document.createElement('a')) {
           const link = document.createElement('a')
           link.download = fileName
           link.style.display = 'none'
-          link.href = URL.createObjectURL(blob)
+          link.href = URL.createObjectURL(blobs)
           document.body.appendChild(link)
           link.click()
           URL.revokeObjectURL(link.href)
           document.body.removeChild(link)
         } else {
-          navigator.msSaveBlob(blob, fileName)
+          navigator.msSaveBlob(blobs, fileName)
         }
       })
-    }
+    },
   },
   created () {
     this.tabledata = this.$store.getters.getevalist

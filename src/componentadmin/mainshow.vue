@@ -73,7 +73,7 @@
                        label="申请人"
                        align="center"
                        width="180"></el-table-column>
-      <el-table-column prop='address'
+      <el-table-column prop='time'
                        label="提交时间"
                        align="center"
                        width="180"></el-table-column>
@@ -158,19 +158,7 @@ export default {
           }
         }).then((res) => {
           if (res.data.status_code === 0) {
-            this.$axios({
-              method: 'post',
-              url: 'data/adm/query_content',
-              data: {
-                pid: this.pid
-              }
-            }).then((res) => {
-              if (res.data.status_code === 0) {
-                console.log(res.data)
-                this.list = res.data.data
-                this.$store.dispatch('changelist', this.list)
-              }
-            })
+            this.$store.dispatch('list')
           }
         })
       }

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import axios from 'axios'
 import api from '@/service/api'
 
 import pannel from './modules/pannel'
@@ -163,6 +163,30 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    list (context) {
+      console.log(context)
+      axios({
+        method: 'post',
+        url: 'data/adm/query_content',
+        data: {
+          pid: context.state.proid
+        }
+      }).then((res) => {
+        if (res.data.status_code === 0) {
+          context.commit('change_list', res.data.data)
+        }
+      })
+    },
+    eva (context) {
+      axios({
+        method: 'post',
+        url: 'data/adm/query_user'
+      }).then((res) => {
+        if (res.data.status_code === 0) {
+          context.commit('change_evalist', res.data.data)
+        }
+      })
+    },
     changelist (context, thelist) {
       context.commit('change_list', thelist)
       console.log(100)

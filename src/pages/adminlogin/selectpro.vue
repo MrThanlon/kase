@@ -2,7 +2,9 @@
   <div>
     <el-dialog title="选择项目"
                :visible.sync="dialogVisible"
-               width="40%">
+               width="40%"
+               :show-close="false"
+               :close-on-click-modal="false">
       <el-select v-model="value"
                  placeholder="请选择"
                  style="marigin:0 auto">
@@ -27,22 +29,22 @@
                       class="form">
           <el-input v-model="newpro.name"
                     class="new-pro-inp"
-                    auto-complete="off"></el-input>
+                    auto-complete="off"
+                    placeholder="请输入项目名称"></el-input>
         </el-form-item>
-        <el-form-item label="项目总分: "
+        <el-form-item label="发布时间: "
                       class="form">
-          <el-input v-model="newpro.score"
+          <el-input v-model="newpro.starttime"
                     class="new-pro-inp"
-                    auto-complete="off"></el-input>
+                    auto-complete="off"
+                    placeholder="时间格式为(xxxx/xx/xx xx:xx:xx)"></el-input>
         </el-form-item>
-        <el-form-item label="是否可以只打总分: ">
-          <el-select v-model="newpro.totalgoal"
-                     placeholder="请选择">
-            <el-option label="是"
-                       value=1></el-option>
-            <el-option label="否"
-                       value=2></el-option>
-          </el-select>
+        <el-form-item label="截止时间: "
+                      class="form">
+          <el-input v-model="newpro.deadline"
+                    class="new-pro-inp"
+                    auto-complete="off"
+                    placeholder="时间格式为(xxxx/xx/xx xx:xx:xx)"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer"
@@ -63,13 +65,13 @@ export default {
       prodialog: false,
       newpro: {
         name: '',
-        score: '',
-        totalgoal: ''
+        starttime: '',
+        deadline: ''
       }
     }
   },
   methods: {
-    getlist () {
+    getpro () {
       this.$axios({
         method: 'post',
         url: 'data/adm/list'
@@ -78,7 +80,7 @@ export default {
           console.log(res.data)
           this.groups = res.data.data
           console.log(this.groups)
-          this.$store.dispatch('changepros', this.groups)
+          this.$store.dispatch('changepro', this.groups)
         }
       })
     },
@@ -95,15 +97,13 @@ export default {
       }
     },
     createpro () {
-      console.log(this.newpro)
-      console.log(typeof (this.newpro.totalgoal))
       this.$axios({
         method: 'post',
         url: 'data/adm/new_prj',
         data: {
           name: this.newpro.name,
-          total: parseInt(this.newpro.score),
-          total_only: parseInt(this.newpro.totalgoal)
+          start: this.timetounix(this.newpro.starttime),
+          end: this.timetounix(this.newpro.deadline)
         }
       }).then((res) => {
         if (res.data.status_code === 0) {
@@ -113,10 +113,27 @@ export default {
           this.$message.error('创建失败')
         }
       })
-    }
+    },
+    timetounix (showtime) {
+      let date = new Date(showtime)
+      return date.getTime()
+    },
+    unixtotime (unixtime) {
+      if (unixtime.toString().length == 10) {
+        unixtime = unixtime * 1000
+      }
+      let date = new Date(unixtime);
+      let Y = date.getFullYear() + '/';
+      let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '/';
+      let D = date.getDate() + ' ';
+      let h = date.getHours() + ':';
+      let m = date.getMinutes() + ':';
+      let s = date.getSeconds();
+      return Y + M + D + h + m + s;
+    },
   },
   created () {
-    this.getlist()
+    this.getpro()
     this.groups = this.$store.getters.getpro
   }
 }

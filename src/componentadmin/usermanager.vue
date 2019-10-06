@@ -109,7 +109,9 @@ export default {
       value2: '',
       dialogVisible: false,
       acc: '',
-      passwo: ''
+      passwo: '',
+      pid: 0,
+      evalist: []
     }
   },
   methods: {
@@ -158,10 +160,29 @@ export default {
         }
       }).then((res) => {
         if (res.data.status_code === 0) {
-
+          this.$axios({
+            method: 'post',
+            url: 'data/adm/mod_user_project',
+            data: {
+              u: this.acc,
+              pid: this.pid
+            }
+          }).then((res) => {
+            if (res.data.status_code === 0) {
+              this.dialogVisible = false
+              this.$message({
+                message: '恭喜你，上传成功',
+                type: 'success'
+              })
+            }
+          })
         }
       })
-    }
+    },
+  },
+  created () {
+    this.pid = this.$store.getters.getpid
+    this.evalist = this.$store.getters.getevalist
   }
 }
 </script>

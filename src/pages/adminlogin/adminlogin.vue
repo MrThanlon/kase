@@ -117,8 +117,8 @@ export default {
   created () {
     this.pid = this.$store.getters.getpid
     this.getuser()
-    this.getlist()
-    this.getevalist()
+    this.$store.dispatch('list')
+    this.$store.dispatch('eva')
     this.list = this.$store.getters.getlist
     this.evalist = this.$store.getters.getevalist
     this.pros = this.$store.getters.getpro

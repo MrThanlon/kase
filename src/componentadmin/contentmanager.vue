@@ -1,39 +1,24 @@
 <template>
   <div style="width:90%;margin:0 auto">
+
     <el-row>
-      <el-col :span="24">
-        <h3>修改评审主题</h3>
-      </el-col>
-    </el-row>
-    <el-row style="width:800px">
-      <el-col :span="
-            8">
-        <el-input v-model="theme"
-                  placeholder="请输入标题"
-                  size="medium"
-                  style="width:90%"></el-input>
-      </el-col>
-    </el-row>
-    <el-row style="margin-top:20px">
       <el-col :span="24">
         <h3>申报人员材料</h3>
       </el-col>
     </el-row>
     <el-row>
       <el-col>
-        <el-upload action="https://jsonplaceholder.typicode.com/posts/"
-                   :on-preview="handlePreview"
-                   :on-remove="handleRemove"
-                   :limit="3"
+        <el-upload action="http://starstudio.uestc.edu.cn/kase/data/adm/upload_app"
                    :with-credentials="true"
                    :show-file-list="false"
-                   :on-exceed="handleExceed"
-                   :file-list="fileList"
-                   style="width:400px">
+                   accept="application/zip,application/x-zip,application/x-zip-compressed"
+                   :on-success="uploadSuccess"
+                   :on-error="uploadError"
+                   style="width:500px">
           <el-button size="medium">上传</el-button>
           <div slot="tip"
                class="el-upload__tip"
-               style="display: inline;"> (多个文件请打包成一份上传，再次上传会覆盖已有文件)</div>
+               style="display: inline;"> (仅支持zip格式，请打包为zip文件上传，再次上传会覆盖已有文件)</div>
         </el-upload>
       </el-col>
     </el-row>
@@ -44,29 +29,58 @@
     </el-row>
     <el-row>
       <el-col>
-        <el-upload action="https://jsonplaceholder.typicode.com/posts/"
-                   :on-preview="handlePreview"
-                   :on-remove="handleRemove"
-                   :before-remove="beforeRemove"
-                   :limit="3"
+        <el-upload action="http://starstudio.uestc.edu.cn/kase/data/adm/upload_jug"
                    :with-credentials="true"
                    :show-file-list="false"
-                   :on-exceed="handleExceed"
-                   :file-list="fileList"
-                   style="width:400px">
+                   accept="application/zip,application/x-zip,application/x-zip-compressed"
+                   :on-success="uploadSuccess"
+                   :on-error="uploadError"
+                   style="width:500px">
           <el-button size="medium">上传</el-button>
           <div slot="tip"
                class="el-upload__tip"
-               style="display: inline;"> (多个文件请打包成一份上传，再次上传会覆盖已有文件)</div>
+               style="display: inline;"> (仅支持zip格式，请打包为zip文件上传，再次上传会覆盖已有文件)</div>
         </el-upload>
       </el-col>
     </el-row>
-    <!-- <el-row style="margin-top:20px">
-      <el-col :span="24">
-        <h3>评审说明发布</h3>
+    <el-row style="margin-top:20px">
+      <el-col :span="12">
+        <h3>修改项目信息</h3>
+      </el-col>
+    </el-row>
+    <el-row style="width:800px">
+      <el-col :span="3"><span style="line-height:36px">项目主题</span></el-col>
+      <el-col :span="
+            8">
+        <el-input v-model="theme"
+                  placeholder="请输入标题"
+                  size="medium"
+                  style="width:90%"></el-input>
       </el-col>
     </el-row>
     <el-row style="margin:20px 0;width:800px">
+      <el-col :span="3"><span style="line-height:36px">发布时间</span></el-col>
+      <el-col :span="8">
+        <el-input v-model="starttime"
+                  placeholder="时间格式为(xxxx/xx/xx xx:xx:xx)"
+                  size="medium"
+                  style="width:90%"></el-input>
+      </el-col>
+      <el-col :span="3"><span style="line-height:36px">截止时间</span></el-col>
+      <el-col :span="8">
+        <el-input v-model="deadline"
+                  placeholder="时间格式为(xxxx/xx/xx xx:xx:xx)"
+                  size="medium"
+                  style="width:90%"></el-input>
+      </el-col>
+    </el-row>
+    <el-row type="flex"
+            style="margin-top:40px"
+            justify="center">
+      <el-button size="medium"
+                 @click="revisepro">保存修改</el-button>
+    </el-row>
+    <!-- <el-row style="margin:20px 0;width:800px">
       <el-col :span="3"><span style="line-height:36px">标题</span></el-col>
       <el-col :span="8">
         <el-input v-model="headline"
@@ -74,25 +88,9 @@
                   size="medium"
                   style="width:90%"></el-input>
       </el-col>
-    </el-row>
-    <el-row style="margin:20px 0;width:800px">
+    </el-row> -->
 
-      <el-col :span="3"><span style="line-height:36px">发布时间</span></el-col>
-      <el-col :span="8">
-        <el-input v-model="time"
-                  placeholder="请输入发布时间"
-                  size="medium"
-                  style="width:90%"></el-input>
-      </el-col>
-      <el-col :span="3"><span style="line-height:36px">截止时间</span></el-col>
-      <el-col :span="8">
-        <el-input v-model="deadline"
-                  placeholder="请输入截止时间"
-                  size="medium"
-                  style="width:90%"></el-input>
-      </el-col>
-    </el-row>
-    <tinymce ref="editor"
+    <!-- <tinymce ref="editor"
              v-model="msg"
              :disabled="disabled"
              @onClick="onClick" />
@@ -115,11 +113,11 @@ export default {
     return {
       theme: '',
       headline: '',
-      time: '',
+      starttime: '',
       msg: '',
       disabled: false,
       deadline: '',
-      fileList: [{ name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }, { name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }]
+      pid: 0,
     }
   },
   methods: {
@@ -144,7 +142,83 @@ export default {
     // 清空内容
     clear () {
       this.$refs.editor.clear()
+    },
+    uploadSuccess (res) {
+      if (res.status == 1) {
+        this.$message({
+          message: '恭喜你，上传成功',
+          type: 'success'
+        });
+      } else if (res.status == 0) {
+        this.$message({
+          message: res.msg,
+          type: 'warning'
+        });
+      } else {
+        this.$message.error('上传失败，请重新上传');
+      }
+    },
+    uploadError () {
+      this.$refs.upload.clearFiles();
+      this.$message.error('上传失败，请重新上传');
+    },
+    getdeadline () {
+      this.$axios({
+        method: 'post',
+        url: 'data/adm/query_prj',
+        data: {
+          pid: this.pid
+        }
+      }).then((res) => {
+        if (res.data.status_code === 0) {
+          this.theme = res.data.data.name
+          this.starttime = this.unixtotime(res.data.data.start)
+          this.deadline = this.unixtotime(res.data.data.end)
+        }
+      })
+    },
+    revisepro () {
+      this.$axios({
+        method: 'post',
+        url: 'data/adm/mod_prj',
+        data: {
+          pid: this.pid,
+          name: this.theme,
+          start: this.timetounix(this.starttime),
+          end: this.timetounix(this.deadline)
+        }
+      }).then((res) => {
+        if (res.data.status_code === 0) {
+          this.$message({
+            message: '修改成功',
+            type: 'success'
+          })
+        } else {
+          this.$message.error('修改保存失败,请检查日期格式和网络')
+        }
+      })
+    },
+    timetounix (showtime) {
+      let date = new Date(showtime)
+      return date.getTime()
+    },
+    unixtotime (unixtime) {
+      if (unixtime.toString().length == 10) {
+        unixtime = unixtime * 1000
+      }
+      let date = new Date(unixtime);
+      let Y = date.getFullYear() + '/';
+      let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '/';
+      let D = date.getDate() + ' ';
+      let h = date.getHours() + ':';
+      let m = date.getMinutes() + ':';
+      let s = date.getSeconds();
+      return Y + M + D + h + m + s;
     }
+  },
+  created () {
+    this.pid = this.$store.getters.getpid
+    this.getdeadline()
   }
 }
 </script>
