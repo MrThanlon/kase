@@ -61,17 +61,25 @@
     <el-row style="margin:20px 0;width:800px">
       <el-col :span="3"><span style="line-height:36px">发布时间</span></el-col>
       <el-col :span="8">
-        <el-input v-model="starttime"
+        <!-- <el-input v-model="starttime"
                   placeholder="时间格式为(xxxx/xx/xx xx:xx:xx)"
                   size="medium"
-                  style="width:90%"></el-input>
+                  style="width:90%"></el-input> -->
+        <el-date-picker v-model="starttime"
+                        type="datetime"
+                        placeholder="选择发布时间">
+        </el-date-picker>
       </el-col>
       <el-col :span="3"><span style="line-height:36px">截止时间</span></el-col>
       <el-col :span="8">
-        <el-input v-model="deadline"
+        <!-- <el-input v-model="deadline"
                   placeholder="时间格式为(xxxx/xx/xx xx:xx:xx)"
                   size="medium"
-                  style="width:90%"></el-input>
+                  style="width:90%"></el-input> -->
+        <el-date-picker v-model="deadline"
+                        type="datetime"
+                        placeholder="选择截止时间">
+        </el-date-picker>
       </el-col>
     </el-row>
     <el-row type="flex"
@@ -168,12 +176,6 @@ export default {
         url: 'data/adm/query_prj',
         data: {
           pid: this.pid
-        }
-      }).then((res) => {
-        if (res.data.status_code === 0) {
-          this.theme = res.data.data.name
-          this.starttime = this.unixtotime(res.data.data.start)
-          this.deadline = this.unixtotime(res.data.data.end)
         }
       })
     },

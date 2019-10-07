@@ -32,19 +32,25 @@
                     auto-complete="off"
                     placeholder="请输入项目名称"></el-input>
         </el-form-item>
-        <el-form-item label="发布时间: "
-                      class="form">
-          <el-input v-model="newpro.starttime"
+        <el-form-item label="发布时间: ">
+          <!-- <el-input v-model="newpro.starttime"
                     class="new-pro-inp"
                     auto-complete="off"
-                    placeholder="时间格式为(xxxx/xx/xx xx:xx:xx)"></el-input>
+                    placeholder="时间格式为(xxxx/xx/xx xx:xx:xx)"></el-input> -->
+          <el-date-picker v-model="newpro.starttime"
+                          type="datetime"
+                          placeholder="选择发布时间">
+          </el-date-picker>
         </el-form-item>
-        <el-form-item label="截止时间: "
-                      class="form">
-          <el-input v-model="newpro.deadline"
+        <el-form-item label="截止时间: ">
+          <!-- <el-input v-model="newpro.deadline"
                     class="new-pro-inp"
                     auto-complete="off"
-                    placeholder="时间格式为(xxxx/xx/xx xx:xx:xx)"></el-input>
+                    placeholder="时间格式为(xxxx/xx/xx xx:xx:xx)"></el-input> -->
+          <el-date-picker v-model="newpro.deadline"
+                          type="datetime"
+                          placeholder="选择截止时间">
+          </el-date-picker>
         </el-form-item>
       </el-form>
       <span slot="footer"
@@ -97,6 +103,7 @@ export default {
       }
     },
     createpro () {
+      console.log(this.newpro.starttime)
       this.$axios({
         method: 'post',
         url: 'data/adm/new_prj',
@@ -117,19 +124,6 @@ export default {
     timetounix (showtime) {
       let date = new Date(showtime)
       return date.getTime()
-    },
-    unixtotime (unixtime) {
-      if (unixtime.toString().length == 10) {
-        unixtime = unixtime * 1000
-      }
-      let date = new Date(unixtime);
-      let Y = date.getFullYear() + '/';
-      let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '/';
-      let D = date.getDate() + ' ';
-      let h = date.getHours() + ':';
-      let m = date.getMinutes() + ':';
-      let s = date.getSeconds();
-      return Y + M + D + h + m + s;
     },
   },
   created () {

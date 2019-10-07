@@ -6,9 +6,14 @@
                 class="mainhead">
           <el-col :span="12"
                   class="head1">
-            <span class="tohome">
-              <router-link to="/adminindex">通用项目评审管理系统</router-link>
-            </span></el-col>
+            <div class="logowrapper">
+              <img src="../../assets/uestc.png"
+                   class="logo">
+              <span class="tohome">
+                <router-link to="/adminindex">通用项目评审管理系统</router-link>
+              </span>
+            </div>
+          </el-col>
           <el-col :span="12"
                   class="head2"><span>欢迎您,{{admin}}<br></span><span class="quit"
                   @click="quit">退出</span></el-col>
@@ -137,9 +142,11 @@ export default {
 .tohome a {
   color: #ffffff;
   text-decoration: none;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
 }
-
+.tohome {
+  margin-left: 10px;
+}
 .mainhead {
   color: #ffffff;
 }
@@ -167,5 +174,13 @@ export default {
 }
 .quit:hover {
   cursor: pointer;
+}
+.logo {
+  width: 40px;
+  height: 40px;
+}
+.logowrapper {
+  display: flex;
+  align-items: center;
 }
 </style>
