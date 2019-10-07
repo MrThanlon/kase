@@ -28,7 +28,7 @@
       <el-table-column type="index"
                        label="序号"
                        align="center"
-                       width="160"></el-table-column>
+                       width="80"></el-table-column>
       <el-table-column prop='name'
                        label="用户名"
                        align="center"></el-table-column>

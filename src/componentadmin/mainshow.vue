@@ -65,14 +65,13 @@
                        :index="indexMethod"
                        label="序号"
                        align="center"
-                       width="160"></el-table-column>
+                       width="80"></el-table-column>
       <el-table-column prop='name'
                        label="材料"
                        align="center"></el-table-column>
       <el-table-column prop='applicant'
                        label="申请人"
-                       align="center"
-                       width="180"></el-table-column>
+                       align="center"></el-table-column>
       <el-table-column prop='time'
                        label="提交时间"
                        align="center"

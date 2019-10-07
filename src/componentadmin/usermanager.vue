@@ -24,7 +24,8 @@
           </span>
         </el-dialog>
         <div style="margin-bottom:40px"
-             v-for="(item,index) in evalist">
+             v-for="(item,index) in evalist"
+             :key="index">
           <el-table :data="item"
                     border>
             <el-table-column label="组别"
@@ -83,7 +84,6 @@
 export default {
   data () {
     return {
-      value1: [],
       selectgroup: '',
       dialogVisible: false,
       acc: '',
@@ -165,6 +165,7 @@ export default {
       })
     },
     addEvaTogro () {
+      let flag = 0
       for (let i = 0; i < this.cheopt.length; i++) {
         this.$axios({
           method: 'post',
@@ -173,7 +174,22 @@ export default {
             gid: parseInt(this.selectgroup),
             u: this.cheopt[i]
           }
+        }).then((res) => {
+          if (res.data.status_code === 0) {
+            flag++
+          }
         })
+      }
+      if (flag = this.cheopt.length) {
+        this.$message({
+          message: '分组成功',
+          type: 'success'
+        })
+        this.$store.dispatch('list')
+        this.$store.dispatch('groups')
+        this.formatgro()
+      } else {
+        this.$message.error('分组失败，请检查网络连接')
       }
       this.selectgroup = '',
         this.cheopt = []

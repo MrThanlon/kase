@@ -58,35 +58,35 @@ export default new Vuex.Store({
       status: 1
     },
     {
-      cid: 1,
+      cid: 13,
       applicant: '王小虎',
       name: '王二',
       uid: '上海市普陀区金沙江路 1518 弄',
       status: '未通过'
     },
     {
-      cid: 1,
+      cid: 12,
       applicant: '王小虎',
       name: '王三',
       uid: '上海市普陀区金沙江路 1518 弄',
       status: '待审核'
     },
     {
-      cid: 1,
+      cid: 11,
       applicant: '王小虎',
       name: '王四',
       uid: '上海市普陀区金沙江路 1518 弄',
       status: '已通过'
     },
     {
-      cid: 1,
+      cid: 22,
       applicant: '王小虎',
       name: '王五',
       uid: '上海市普陀区金沙江路 1518 弄',
       status: '未通过'
     },
     {
-      cid: 1,
+      cid: 23,
       applicant: '王小虎',
       name: '王六',
       uid: '上海市普陀区金沙江路 1518 弄',
@@ -230,7 +230,6 @@ export default new Vuex.Store({
     },
     changelist (context, thelist) {
       context.commit('change_list', thelist)
-      console.log(100)
     },
     changepid (context, pid) {
       context.commit('change_pid', pid)

@@ -3,19 +3,22 @@
     <el-tabs type="card">
       <el-tab-pane label="分组概览">
         <div style="margin-bottom:40px"
-             v-for="(item,index) in tablelist">
+             v-for="(item,index) in eachgro">
           <el-table :data="item"
                     border>
             <el-table-column label="组别"
-                             prop="date"
+                             prop="gid"
                              align="center"
-                             width="180"></el-table-column>
+                             width="80"></el-table-column>
             <el-table-column label="序号"
                              type="index"
                              align="center"
-                             width="160"></el-table-column>
-            <el-table-column label="待评审项目"
-                             prop="address"
+                             width="80"></el-table-column>
+            <el-table-column label="材料名称"
+                             prop="name"
+                             align="center"></el-table-column>
+            <el-table-column prop='applicant'
+                             label="申请人"
                              align="center"></el-table-column>
             <el-table-column label="操作"
                              align="center"
@@ -23,7 +26,7 @@
               <template slot-scope="scope">
                 <el-button size="mini"
                            type="danger"
-                           @click="handleDelete(scope.$index, scope.row)">移出分组</el-button>
+                           @click="outgroup(scope.$index, scope.row)">移出分组</el-button>
               </template></el-table-column>
           </el-table>
         </div>
@@ -34,30 +37,27 @@
 
           <el-checkbox-group v-model="cheopt"
                              @change="cha">
-            <el-checkbox label="备选项1"
-                         border></el-checkbox>
-            <el-checkbox label="备选项2"
-                         border></el-checkbox>
-            <el-checkbox label="备选项3"
-                         border></el-checkbox>
-            <el-checkbox label="备选项4"
+            <el-checkbox v-for="(item,index) in nogroup"
+                         :label="item.name"
                          border></el-checkbox>
           </el-checkbox-group>
         </div>
-        <el-select v-model="value2"
+        <el-select v-model="selectgroup"
                    placeholder="选择分组"
                    @change="cha"
                    class="pad">
-          <el-option v-for="(item,index) in dividedata"
-                     :label="item.address"
-                     :value="item.date"
-                     :key="item.name"></el-option>
+          <el-option v-for="(item,index) in groups"
+                     :label="item.gid"
+                     :value="item.gid"
+                     :key="item.gid"></el-option>
         </el-select>
-        <el-button class="pad">添加到此分组</el-button>
+        <el-button class="pad"
+                   @click="addctogro">添加到此分组</el-button>
         <el-button class="pad"
                    type="danger">删除此分组</el-button>
         <el-button class="pad"
-                   type="primary">新建分组</el-button>
+                   type="primary"
+                   @click="creategro">新建分组</el-button>
       </el-tab-pane>
     </el-tabs>
 
@@ -67,51 +67,14 @@
 export default {
   data () {
     return {
-      tablelist: [[{
-        date: '1',
-        name: '2',
-        address: '上海111市',
-        da: '已通过11111',
-      },
-      {
-        date: '2',
-        name: '3',
-        address: '上海市11112',
-        da: '未通过11111',
-      }], [{
-        date: '1',
-        name: '2',
-        address: '上海111市',
-        da: '已通过11111',
-      },
-      {
-        date: '2',
-        name: '3',
-        address: '上海市11112',
-        da: '未通过11111',
-      }]],
-      dividedata: [{
-        date: '1',
-        name: '2',
-        address: '上海111市',
-        da: '已通过11111',
-      },
-      {
-        date: '2',
-        name: '3',
-        address: '上海市11112',
-        da: '未通过11111',
-      },
-      {
-        date: '3',
-        name: '4',
-        address: '上海沙111118弄3',
-        da: '待审核1111',
-      }],
-      value1: [],
       cheopt: [],
-      value2: '',
-      delpro: ''
+      selectgroup: '',
+      delpro: '',
+      groups: [],
+      list: [],
+      eachgro: [],
+      nogroup: [],
+      havagro: []
     }
   },
   methods: {
@@ -123,11 +86,131 @@ export default {
     },
     cha () {
       console.log(this.cheopt)
-      console.log(this.value2)
     },
-    handleDelete (index, row) {
-
+    outgroup (index, row) {
+      this.$axios({
+        method: 'post',
+        url: 'data/adm/mod_user_group',
+        data: {
+          gid: row.gid,
+          cid: row.cid
+        }
+      }).then((res) => {
+        if (res.data.status_code === 0) {
+          this.$message({
+            message: '移除材料成功',
+            type: 'success'
+          })
+        } else {
+          this.$message.error('移除失败，请检查网络连接')
+        }
+      })
+    },
+    creategro () {
+      this.$axios({
+        method: 'post',
+        url: 'data/adm/mod_user_group',
+        data: {
+          pid: this.$store.getters.getpid
+        }
+      }).then((res) => {
+        if (res.data.status_code === 0) {
+          this.$message({
+            message: '创建分组成功',
+            type: 'success'
+          })
+          this.$store.dispatch('list')
+          this.$store.dispatch('groups')
+          this.formatgro()
+        } else {
+          this.$message.error('创建失败，请检查网络连接')
+        }
+      })
+    },
+    formatgro () {
+      for (let i = 0; i < this.groups.length; i++) {
+        this.$set(this.eachgro, i, [])
+        for (let a = 0; a < this.groups[i].content.length; a++) {
+          let cname = ''
+          let cappli = ''
+          let cstatue = ''
+          this.havagro.push(this.groups[i].content[a])
+          for (let b = 0; b < this.list.length; b++) {
+            if (this.groups[i].content[a] == this.list[b].cid) {
+              cname = this.list[b].name
+              cappli = this.list[b].applicant
+              cstatue = this.list[b].status
+              break
+            }
+          }
+          this.eachgro[i].push({ gid: this.groups[i].gid, cid: this.groups[i].content[a], name: cname, applicant: cappli })
+        }
+      }
+    },
+    addctogro () {
+      let flag = 0
+      for (let i = 0; i < this.cheopt.length; i++) {
+        let id = this.nogroup.find(item => item.name == this.cheopt[i]).cid
+        console.log(id)
+        this.$axios({
+          method: 'post',
+          url: 'data/adm/mod_user_project',
+          data: {
+            gid: parseInt(this.selectgroup),
+            cid: id
+          }
+        }).then((res) => {
+          if (res.data.status_code === 0) {
+            flag++
+          }
+        })
+      }
+      if (flag = this.cheopt.length) {
+        this.$message({
+          message: '分组成功',
+          type: 'success'
+        })
+        this.$store.dispatch('list')
+        this.$store.dispatch('groups')
+        this.formatgro()
+      } else {
+        this.$message.error('分组失败，请检查网络连接')
+      }
+      this.selectgroup = '',
+        this.cheopt = []
+    },
+    getnogro () {
+      this.nogroup = this.list.filter((l1) =>
+        this.havagro.findIndex((l2) => l1.cid == l2) == -1
+      )
+    },
+    deletgro () {
+      this.$axios({
+        method: 'post',
+        url: 'data/adm/del_group',
+        data: {
+          gid: parseInt(this.selectgroup),
+        }
+      }).then((res) => {
+        if (res.data.status_code === 0) {
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          })
+          this.$store.dispatch('list')
+          this.$store.dispatch('groups')
+          this.formatgro()
+        } else {
+          this.$message.error('删除失败，请检查网络连接')
+        }
+      })
     }
+  },
+  created () {
+    this.groups = this.$store.getters.getgroups
+    this.list = this.$store.getters.getlist
+    this.formatgro()
+    this.getnogro()
   }
 }
 </script>
