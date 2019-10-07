@@ -70,11 +70,7 @@ export default {
       cheopt: [],
       selectgroup: '',
       delpro: '',
-      groups: [],
-      list: [],
-      eachgro: [],
-      nogroup: [],
-      havagro: []
+      pid: 0
     }
   },
   methods: {
@@ -90,13 +86,13 @@ export default {
     outgroup (index, row) {
       this.$axios({
         method: 'post',
-        url: 'data/adm/mod_user_group',
+        url: 'data/adm/mod_content_group',
         data: {
           gid: row.gid,
           cid: row.cid
         }
       }).then((res) => {
-        if (res.data.status_code === 0) {
+        if (res.data.status === 0) {
           this.$message({
             message: '移除材料成功',
             type: 'success'
@@ -109,12 +105,12 @@ export default {
     creategro () {
       this.$axios({
         method: 'post',
-        url: 'data/adm/mod_user_group',
+        url: 'data/adm/new_group',
         data: {
-          pid: this.$store.getters.getpid
+          pid: this.pid
         }
       }).then((res) => {
-        if (res.data.status_code === 0) {
+        if (res.data.status === 0) {
           this.$message({
             message: '创建分组成功',
             type: 'success'
@@ -127,26 +123,7 @@ export default {
         }
       })
     },
-    formatgro () {
-      for (let i = 0; i < this.groups.length; i++) {
-        this.$set(this.eachgro, i, [])
-        for (let a = 0; a < this.groups[i].content.length; a++) {
-          let cname = ''
-          let cappli = ''
-          let cstatue = ''
-          this.havagro.push(this.groups[i].content[a])
-          for (let b = 0; b < this.list.length; b++) {
-            if (this.groups[i].content[a] == this.list[b].cid) {
-              cname = this.list[b].name
-              cappli = this.list[b].applicant
-              cstatue = this.list[b].status
-              break
-            }
-          }
-          this.eachgro[i].push({ gid: this.groups[i].gid, cid: this.groups[i].content[a], name: cname, applicant: cappli })
-        }
-      }
-    },
+
     addctogro () {
       let flag = 0
       for (let i = 0; i < this.cheopt.length; i++) {
@@ -154,18 +131,18 @@ export default {
         console.log(id)
         this.$axios({
           method: 'post',
-          url: 'data/adm/mod_user_project',
+          url: 'data/adm/mod_content',
           data: {
             gid: parseInt(this.selectgroup),
             cid: id
           }
         }).then((res) => {
-          if (res.data.status_code === 0) {
+          if (res.data.status === 0) {
             flag++
           }
         })
       }
-      if (flag = this.cheopt.length) {
+      if (flag == this.cheopt.length) {
         this.$message({
           message: '分组成功',
           type: 'success'
@@ -179,11 +156,6 @@ export default {
       this.selectgroup = '',
         this.cheopt = []
     },
-    getnogro () {
-      this.nogroup = this.list.filter((l1) =>
-        this.havagro.findIndex((l2) => l1.cid == l2) == -1
-      )
-    },
     deletgro () {
       this.$axios({
         method: 'post',
@@ -192,7 +164,7 @@ export default {
           gid: parseInt(this.selectgroup),
         }
       }).then((res) => {
-        if (res.data.status_code === 0) {
+        if (res.data.status === 0) {
           this.$message({
             message: '删除成功',
             type: 'success'
@@ -206,11 +178,52 @@ export default {
       })
     }
   },
+  computed: {
+    groups () {
+      return this.$store.getters.getgroups
+    },
+    list () {
+      return this.$store.getters.getlist
+    },
+    eachgro () {
+      let tempgro = []
+      for (let i = 0; i < this.groups.length; i++) {
+        this.$set(tempgro, i, [])
+        for (let a = 0; a < this.groups[i].content.length; a++) {
+          let cname = ''
+          let cappli = ''
+          let cstatue = ''
+          for (let b = 0; b < this.list.length; b++) {
+            if (this.groups[i].content[a] == this.list[b].cid) {
+              cname = this.list[b].name
+              cappli = this.list[b].applicant
+              cstatue = this.list[b].status
+              break
+            }
+          }
+          tempgro[i].push({ gid: this.groups[i].gid, cid: this.groups[i].content[a], name: cname, applicant: cappli })
+        }
+      }
+      return tempgro
+    },
+    havegro () {
+      let tempgro = []
+      for (let i = 0; i < this.groups.length; i++) {
+        this.$set(tempgro, i, [])
+        for (let a = 0; a < this.groups[i].content.length; a++) {
+          tempgro.push(this.groups[i].content[a])
+        }
+      }
+      return tempgro
+    },
+    nogroup () {
+      return this.list.filter((l1) =>
+        this.havegro.findIndex((l2) => l1.cid == l2) == -1
+      )
+    }
+  },
   created () {
-    this.groups = this.$store.getters.getgroups
-    this.list = this.$store.getters.getlist
-    this.formatgro()
-    this.getnogro()
+    this.pid = this.$store.getters.getpid
   }
 }
 </script>

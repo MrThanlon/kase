@@ -60,7 +60,8 @@
     <el-table :data="tabledata.slice((currentPage-1)*pagesize,currentPage*pagesize)"
               class="showtable"
               :row-class-name="tableRowClassName"
-              border>
+              border
+              :row-key="getrowkey">
       <el-table-column type="index"
                        :index="indexMethod"
                        label="序号"
@@ -68,7 +69,12 @@
                        width="80"></el-table-column>
       <el-table-column prop='name'
                        label="材料"
-                       align="center"></el-table-column>
+                       align="center">
+        <template slot-scope="scope">
+          <span class="ahref"
+                @click="openpdf(scope.$index,scope.row)">{{ scope.row.name }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop='applicant'
                        label="申请人"
                        align="center"></el-table-column>
@@ -104,16 +110,11 @@
 export default {
   data () {
     return {
-      optcon: 0,
+      optcon: 3,
       dialogVisible: false,
-      wait: 0,
-      havedone: 0,
-      evaluate: 0,
-      tabledata: [],
       currentPage: 1,
       pagesize: 3,
       cid: 0,
-      recivedata: [],
       pid: 0,
       list: [],
     }
@@ -156,86 +157,120 @@ export default {
             result: this.optcon
           }
         }).then((res) => {
-          if (res.data.status_code === 0) {
+          if (res.data.status === 0) {
             this.$store.dispatch('list')
           }
         })
       }
+    },
+    openpdf (index, row) {
+      console.log(row)
+    },
+    getrowkey (row) {
+      return row.cid
     }
   },
-  created () {
-    this.recivedata = this.$store.getters.getlist
-    this.pid = this.$store.getters.getpid
-    if (this.$route.path === '/adminindex/examining') {
-      this.tabledata = []
+  computed: {
+    recivedata () {
+      return this.$store.getters.getlist
+    },
+    wait () {
+      let temp = 0
       for (let a = 0; a < this.recivedata.length; a++) {
         if (this.recivedata[a].status === '待审核') {
-          this.tabledata.push(this.recivedata[a])
+          temp++
         }
       }
-    } else if (this.$route.path === '/adminindex/examined') {
-      this.tabledata = []
+      return temp
+    },
+    havedone () {
+      let temp = 0
       for (let a = 0; a < this.recivedata.length; a++) {
         if (this.recivedata[a].status === '已通过' || this.recivedata[a].status === '未通过') {
-          this.tabledata.push(this.recivedata[a])
+          temp++
         }
       }
-    } else if (this.$route.path === '/adminindex/evaluate') {
-      this.tabledata = []
+      return temp
+    },
+    evaluate () {
+      let temp = 0
       for (let a = 0; a < this.recivedata.length; a++) {
         if (this.recivedata[a].status === '已通过') {
-          this.tabledata.push(this.recivedata[a])
+          temp++
         }
       }
-    } else if (this.$route.path == '/adminindex') {
-      this.tabledata = []
-      this.tabledata = this.recivedata
-      for (let a = 0; a < this.tabledata.length; a++) {
-        if (this.tabledata[a].status === '待审核') {
-          this.wait++
-        } else if (this.tabledata[a].status === '已通过' || this.tabledata[a].status === '未通过') {
-          this.havedone++
-          if (this.tabledata[a].status === '已通过') {
-            this.evaluate++
-          }
-        }
-      }
-    }
-
-  },
-  watch: {
-    '$route': function () {
+      return temp
+    },
+    tabledata () {
+      let templist = []
       if (this.$route.path === '/adminindex/examining') {
-        this.tabledata = []
+        templist = []
         for (let a = 0; a < this.recivedata.length; a++) {
           if (this.recivedata[a].status === '待审核') {
-            this.tabledata.push(this.recivedata[a])
+            templist.push(this.recivedata[a])
           }
         }
       } else if (this.$route.path === '/adminindex/examined') {
-        this.tabledata = []
+        templist = []
         for (let a = 0; a < this.recivedata.length; a++) {
           if (this.recivedata[a].status === '已通过' || this.recivedata[a].status === '未通过') {
-            this.tabledata.push(this.recivedata[a])
+            templist.push(this.recivedata[a])
           }
         }
       } else if (this.$route.path === '/adminindex/evaluate') {
-        this.tabledata = []
-        console.log(111)
+        templist = []
         for (let a = 0; a < this.recivedata.length; a++) {
           if (this.recivedata[a].status === '已通过') {
-            this.tabledata.push(this.recivedata[a])
+            templist.push(this.recivedata[a])
           }
         }
-      } else if (this.$route.path == '/adminindex') {
-        this.tabledata = []
-        this.tabledata = this.recivedata
+      } else if (this.$route.path === '/adminindex') {
+        templist = []
+        templist = this.recivedata
       }
+      return templist
     }
-  }
+  },
+  created () {
+    this.pid = this.$store.getters.getpid
+
+  },
+  // watch: {
+  //   '$route': function () {
+  //     if (this.$route.path === '/adminindex/examining') {
+  //       this.tabledata = []
+  //       for (let a = 0; a < this.recivedata.length; a++) {
+  //         if (this.recivedata[a].status === '待审核') {
+  //           this.tabledata.push(this.recivedata[a])
+  //         }
+  //       }
+  //     } else if (this.$route.path === '/adminindex/examined') {
+  //       this.tabledata = []
+  //       for (let a = 0; a < this.recivedata.length; a++) {
+  //         if (this.recivedata[a].status === '已通过' || this.recivedata[a].status === '未通过') {
+  //           this.tabledata.push(this.recivedata[a])
+  //         }
+  //       }
+  //     } else if (this.$route.path === '/adminindex/evaluate') {
+  //       this.tabledata = []
+  //       console.log(111)
+  //       for (let a = 0; a < this.recivedata.length; a++) {
+  //         if (this.recivedata[a].status === '已通过') {
+  //           this.tabledata.push(this.recivedata[a])
+  //         }
+  //       }
+  //     } else if (this.$route.path == '/adminindex') {
+  //       this.tabledata = []
+  //       this.tabledata = this.recivedata
+  //     }
+  //   }
+  // }
 }
 </script>
 <style>
+.ahref :hover {
+  cursor: pointer;
+}
 .el-table .warning-row {
   background: oldlace;
 }

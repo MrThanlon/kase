@@ -24,10 +24,6 @@
                        label="提交状态"
                        align="center"
                        width="180"></el-table-column>
-      <el-table-column prop='time'
-                       label="提交时间"
-                       align="center"
-                       width="180"></el-table-column>
       <el-table-column label="操作"
                        align="center"
                        width="130">
@@ -52,7 +48,6 @@
 export default {
   data () {
     return {
-      tabledata: [],
       currentPage: 1,
       pagesize: 3,
       multipleSelection: [],
@@ -149,8 +144,12 @@ export default {
       })
     },
   },
+  computed: {
+    tabledata () {
+      return this.$store.getters.getevalist
+    }
+  },
   created () {
-    this.tabledata = this.$store.getters.getevalist
     this.pid = this.$store.getters.getpid
   },
 }

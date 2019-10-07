@@ -131,6 +131,9 @@ const router = new Router({
   {
     path: '/adminindex',
     component: () => import('./pages/adminlogin/adminlogin.vue'),
+    meta: {
+      keepAlive: false
+    },
     children: [{
       path: '/',
       component: () => import('./componentadmin/mainshow.vue')

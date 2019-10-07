@@ -68,14 +68,6 @@ export default {
       pid: 0,
       admin: 'admin',
       title: '优秀论文评审',
-      list: [],
-      evalist: [],
-      pros: []
-    }
-  },
-  computed: {
-    key () {
-      return this.$route.path + Math.random();
     }
   },
   methods: {
@@ -87,10 +79,10 @@ export default {
           pid: this.pid
         }
       }).then((res) => {
-        if (res.data.status_code === 0) {
-          console.log(res.data)
-          this.list = res.data.data
-          this.$store.dispatch('changelist', this.list)
+        if (res.data.status === 0) {
+          let templist = []
+          templist = res.data.data
+          this.$store.dispatch('changelist', templist)
         }
       })
     },
@@ -99,9 +91,10 @@ export default {
         method: 'post',
         url: 'data/adm/query_user',
       }).then((res) => {
-        if (res.data.status_code === 0) {
-          this.evalist = res.data.data
-          this.$store.dispatch('changeevalist', this.evalist)
+        if (res.data.status === 0) {
+          let templist = []
+          templist = res.data.data
+          this.$store.dispatch('changeevalist', templist)
         }
       })
     },
@@ -110,34 +103,44 @@ export default {
         method: 'post',
         url: 'user/id',
       }).then((res) => {
-        if (res.data.status_code === 0) {
-          this.admin = res.data.data.username
+        if (res.data.status === 0) {
+          this.admin = res.data.username
         }
       })
     },
     quit () {
       this.$router.push({ path: '/' })
+    },
+    gettitle () {
+      for (let i = 0; i < this.pros.length; i++) {
+        if (this.pid === this.pros[i].pid) {
+          this.title = this.pros[i].name
+        }
+      }
+    }
+  },
+  computed: {
+    key () {
+      return this.$route.path + Math.random();
+    },
+    list () {
+      return this.$store.getters.getlist
+    },
+    pros () {
+      return this.$store.getters.getpro
     }
   },
   created () {
     this.pid = this.$store.getters.getpid
     this.getuser()
-    this.$store.dispatch('list')
-    this.$store.dispatch('eva')
+    this.getlist()
+    this.getevalist()
     this.$store.dispatch('groups')
-    this.list = this.$store.getters.getlist
-    this.evalist = this.$store.getters.getevalist
-    this.pros = this.$store.getters.getpro
-    for (let i = 0; i < this.pros.length; i++) {
-      if (this.pid = this.pros[i].pid) {
-        this.title = this.pros[i].name
-        break
-      }
-    }
+    this.gettitle()
   }
 }
 </script>
-
+å
 <style>
 .tohome a {
   color: #ffffff;

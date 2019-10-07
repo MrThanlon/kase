@@ -33,20 +33,12 @@
                     placeholder="请输入项目名称"></el-input>
         </el-form-item>
         <el-form-item label="发布时间: ">
-          <!-- <el-input v-model="newpro.starttime"
-                    class="new-pro-inp"
-                    auto-complete="off"
-                    placeholder="时间格式为(xxxx/xx/xx xx:xx:xx)"></el-input> -->
           <el-date-picker v-model="newpro.starttime"
                           type="datetime"
                           placeholder="选择发布时间">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="截止时间: ">
-          <!-- <el-input v-model="newpro.deadline"
-                    class="new-pro-inp"
-                    auto-complete="off"
-                    placeholder="时间格式为(xxxx/xx/xx xx:xx:xx)"></el-input> -->
           <el-date-picker v-model="newpro.deadline"
                           type="datetime"
                           placeholder="选择截止时间">
@@ -62,11 +54,11 @@
   </div>
 </template>
 <script>
+import { type } from 'os'
 export default {
   data () {
     return {
       value: '',
-      groups: [],
       dialogVisible: true,
       prodialog: false,
       newpro: {
@@ -82,8 +74,7 @@ export default {
         method: 'post',
         url: 'data/adm/list'
       }).then((res) => {
-        if (res.data.status_code === 0) {
-          console.log(res.data)
+        if (res.data.status === 0) {
           this.groups = res.data.data
           console.log(this.groups)
           this.$store.dispatch('changepro', this.groups)
@@ -113,8 +104,13 @@ export default {
           end: this.timetounix(this.newpro.deadline)
         }
       }).then((res) => {
-        if (res.data.status_code === 0) {
-          this.$router.go(0)
+        if (res.data.status === 0) {
+          this.prodialog = false
+          this.$message({
+            message: '创建项目成功',
+            type: 'success'
+          })
+          this.getpro()
         }
         else {
           this.$message.error('创建失败')
@@ -123,12 +119,17 @@ export default {
     },
     timetounix (showtime) {
       let date = new Date(showtime)
-      return date.getTime()
+      date = date.getTime()
+      return date / 1000
     },
+  },
+  computed: {
+    groups () {
+      return this.$store.getters.getpro
+    }
   },
   created () {
     this.getpro()
-    this.groups = this.$store.getters.getpro
   }
 }
 </script>

@@ -89,10 +89,7 @@ export default {
       acc: '',
       passwo: '',
       pid: 0,
-      evalist: [],
       cheopt: [],
-      alleva: [],
-      groups: []
     }
   },
   methods: {
@@ -114,7 +111,7 @@ export default {
           u: row.name
         }
       }).then((res) => {
-        if (res.data.status_code === 0) {
+        if (res.data.status === 0) {
 
         }
       })
@@ -128,7 +125,7 @@ export default {
           u: row.name
         }
       }).then((res) => {
-        if (res.data.status_code === 0) {
+        if (res.data.status === 0) {
 
         }
       })
@@ -142,10 +139,10 @@ export default {
           p: this.passwo
         }
       }).then((res) => {
-        if (res.data.status_code === 0) {
+        if (res.data.status === 0) {
           this.$axios({
             method: 'post',
-            url: 'data/adm/mod_user_project',
+            url: 'data/adm/add_user',
             data: {
               u: this.acc,
               pid: this.pid
@@ -169,13 +166,13 @@ export default {
       for (let i = 0; i < this.cheopt.length; i++) {
         this.$axios({
           method: 'post',
-          url: 'data/adm/mod_user_project',
+          url: 'data/adm/mod_user',
           data: {
             gid: parseInt(this.selectgroup),
             u: this.cheopt[i]
           }
         }).then((res) => {
-          if (res.data.status_code === 0) {
+          if (res.data.status === 0) {
             flag++
           }
         })
@@ -195,16 +192,25 @@ export default {
         this.cheopt = []
     }
   },
-  created () {
-    this.pid = this.$store.getters.getpid
-    this.groups = this.$store.getters.getgroups
-    this.alleva = this.$store.getters.getevalist
-    for (let i = 0; i < this.groups.length; i++) {
-      this.evalist[i] = []
-      for (let a = 0; a < this.groups[i].eva.length; a++) {
-        this.evalist[i].push({ gid: this.groups[i].gid, name: this.groups[i].eva[a] })
+  computed: {
+    groups () {
+      return this.$store.getters.getgroups
+    },
+    alleva () {
+      return this.$store.getters.getevalist
+    },
+    evalist () {
+      let templist = []
+      for (let i = 0; i < this.groups.length; i++) {
+        templist[i] = []
+        for (let a = 0; a < this.groups[i].eva.length; a++) {
+          templist[i].push({ gid: this.groups[i].gid, name: this.groups[i].eva[a] })
+        }
       }
     }
+  },
+  created () {
+    this.pid = this.$store.getters.getpid
   }
 }
 </script>

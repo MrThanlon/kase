@@ -14,6 +14,8 @@
                    accept="application/zip,application/x-zip,application/x-zip-compressed"
                    :on-success="uploadSuccess"
                    :on-error="uploadError"
+                   name="zip"
+                   :data="filedata"
                    style="width:500px">
           <el-button size="medium">上传</el-button>
           <div slot="tip"
@@ -35,6 +37,8 @@
                    accept="application/zip,application/x-zip,application/x-zip-compressed"
                    :on-success="uploadSuccess"
                    :on-error="uploadError"
+                   name="zip"
+                   :data="filedata"
                    style="width:500px">
           <el-button size="medium">上传</el-button>
           <div slot="tip"
@@ -61,10 +65,6 @@
     <el-row style="margin:20px 0;width:800px">
       <el-col :span="3"><span style="line-height:36px">发布时间</span></el-col>
       <el-col :span="8">
-        <!-- <el-input v-model="starttime"
-                  placeholder="时间格式为(xxxx/xx/xx xx:xx:xx)"
-                  size="medium"
-                  style="width:90%"></el-input> -->
         <el-date-picker v-model="starttime"
                         type="datetime"
                         placeholder="选择发布时间">
@@ -72,10 +72,6 @@
       </el-col>
       <el-col :span="3"><span style="line-height:36px">截止时间</span></el-col>
       <el-col :span="8">
-        <!-- <el-input v-model="deadline"
-                  placeholder="时间格式为(xxxx/xx/xx xx:xx:xx)"
-                  size="medium"
-                  style="width:90%"></el-input> -->
         <el-date-picker v-model="deadline"
                         type="datetime"
                         placeholder="选择截止时间">
@@ -126,41 +122,21 @@ export default {
       disabled: false,
       deadline: '',
       pid: 0,
+      filedata: {
+        pid: 0
+      }
     }
   },
   methods: {
-    handleRemove (file, fileList) {
-      console.log(file, fileList);
-    },
-    handlePreview (file) {
-      console.log(file);
-    },
-    handleExceed (files, fileList) {
-      this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-    },
-    beforeRemove (file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`);
-    },
-    onClick (e, editor) {
-      console.log('Element clicked')
-      console.log(e)
-      console.log(editor)
-      console.log(this.msg)
-    },
     // 清空内容
     clear () {
       this.$refs.editor.clear()
     },
     uploadSuccess (res) {
-      if (res.status == 1) {
+      if (res.status == 0) {
         this.$message({
-          message: '恭喜你，上传成功',
+          message: '上传成功',
           type: 'success'
-        });
-      } else if (res.status == 0) {
-        this.$message({
-          message: res.msg,
-          type: 'warning'
         });
       } else {
         this.$message.error('上传失败，请重新上传');
@@ -179,6 +155,15 @@ export default {
         }
       })
     },
+    getinfo () {
+      for (let i = 0; i < this.pros.length; i++) {
+        if (this.pid === this.pros[i].pid) {
+          this.theme = this.pros[i].name
+          this.deadline = this.unixtotime(this.pros[i].end)
+          this.starttime = this.unixtotime(this.pros[i].start)
+        }
+      }
+    },
     revisepro () {
       this.$axios({
         method: 'post',
@@ -190,7 +175,7 @@ export default {
           end: this.timetounix(this.deadline)
         }
       }).then((res) => {
-        if (res.data.status_code === 0) {
+        if (res.data.status === 0) {
           this.$message({
             message: '修改成功',
             type: 'success'
@@ -218,9 +203,16 @@ export default {
       return Y + M + D + h + m + s;
     }
   },
+  computed: {
+    pros () {
+      return this.$store.getters.getpro
+    }
+  },
   created () {
     this.pid = this.$store.getters.getpid
     this.getdeadline()
+    this.getinfo()
+    this.filedata.pid = this.pid
   }
 }
 </script>

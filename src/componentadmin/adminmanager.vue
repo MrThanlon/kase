@@ -53,8 +53,7 @@ export default {
       acco: '',
       pass: '',
       dialogVisible: false,
-      adminlist: ['王小虎', '王小虎', '王小虎', '王小虎'],
-      tabledata: [],
+      adminlist: [],
       currentPage: 1,
       pagesize: 3,
       acc: '',
@@ -70,11 +69,15 @@ export default {
           username: row.name
         }
       }).then((res) => {
-        if (res.data.status_code === 0) {
-
+        if (res.data.status === 0) {
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          });
+          this.getadmin()
         }
         else {
-          this.$message.error('创建失败')
+          this.$message.error('删除失败，请检查网络连接')
         }
       })
     },
@@ -87,8 +90,15 @@ export default {
           password: this.passwo
         }
       }).then((res) => {
-        if (res.data.status_code === 0) {
+        if (res.data.status === 0) {
           this.dialogVisible = false
+          this.getadmin()
+          this.$message({
+            message: '创建成功',
+            type: 'success'
+          });
+        } else {
+          this.$message.error('创建失败，请检查网络连接')
         }
       })
     },
@@ -97,20 +107,23 @@ export default {
         method: 'post',
         url: 'data/adm/list_adm'
       }).then((res) => {
-        if (res.data.status_code === 0) {
+        if (res.data.status === 0) {
           this.adminlist = res.data.data
-          for (let i = 0; i < this.adminlist.length; i++) {
-            this.tabledata.push({ name: this.adminlist[i] })
-          }
         }
       })
+    },
+  },
+  computed: {
+    tabledata () {
+      let templist = []
+      for (let i = 0; i < this.adminlist.length; i++) {
+        templist.push({ name: this.adminlist[i] })
+      }
+      return templist
     }
   },
   created () {
     this.getadmin()
-    for (let i = 0; i < this.adminlist.length; i++) {
-      this.tabledata.push({ name: this.adminlist[i] })
-    }
   },
 }
 </script>

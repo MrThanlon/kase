@@ -94,7 +94,7 @@ export default new Vuex.Store({
     }
     ],
     // 评审员列表
-    evas: [{
+    evalist: [{
       u: '王大',
       stat: 0,
       time: '2019/10/1'
@@ -105,7 +105,7 @@ export default new Vuex.Store({
       time: '2019/10/1'
     }
     ],
-    group: [{
+    groups: [{
       gid: 11,
       eva: [
         'jug1',
@@ -131,14 +131,14 @@ export default new Vuex.Store({
   },
   getters: {
     getlist (state) {
-      const templist = state.list
+      const templist = state.list.slice()
       for (let i = 0; i < templist.length; i++) {
-        if (templist[i].status === 0) {
-          templist[i].status = '待审核'
-        } else if (templist[i].status === 1) {
-          templist[i].status = '已通过'
-        } else if (templist[i].status === -1) {
-          templist[i].status = '未通过'
+        if (templist[i].status === '0') {
+          Vue.set(templist[i], 'status', '待审核')
+        } else if (templist[i].status === '1') {
+          Vue.set(templist[i], 'status', '已通过')
+        } else if (templist[i].status === '2') {
+          Vue.set(templist[i], 'status', '未通过')
         }
       }
       return templist
@@ -150,18 +150,18 @@ export default new Vuex.Store({
       return state.pro
     },
     getevalist (state) {
-      const tempevalist = state.evas
+      const tempevalist = state.evalist.slice()
       for (let i = 0; i < tempevalist.length; i++) {
-        if (tempevalist[i].stat === 0) {
-          tempevalist[i].stat = '已提交'
-        } else if (tempevalist[i].stat === 1) {
-          tempevalist[i].stat = '未提交'
+        if (tempevalist[i].stat === true) {
+          Vue.set(tempevalist[i], 'stat', '已提交')
+        } else if (tempevalist[i].stat === false) {
+          Vue.set(tempevalist[i], 'stat', '未提交')
         }
       }
       return tempevalist
     },
     getgroups (state) {
-      return state.group
+      return state.groups
     }
   },
   mutations: {
@@ -200,7 +200,7 @@ export default new Vuex.Store({
           pid: context.state.proid
         }
       }).then((res) => {
-        if (res.data.status_code === 0) {
+        if (res.data.status === 0) {
           context.commit('change_list', res.data.data)
         }
       })
@@ -210,7 +210,7 @@ export default new Vuex.Store({
         method: 'post',
         url: 'data/adm/query_user'
       }).then((res) => {
-        if (res.data.status_code === 0) {
+        if (res.data.status === 0) {
           context.commit('change_evalist', res.data.data)
         }
       })
@@ -223,7 +223,7 @@ export default new Vuex.Store({
           pid: context.state.proid
         }
       }).then((res) => {
-        if (res.data.status_code === 0) {
+        if (res.data.status === 0) {
           context.commit('change_groups', res.data.data)
         }
       })
