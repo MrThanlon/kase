@@ -184,7 +184,6 @@ export default {
         })
         this.$store.dispatch('list')
         this.$store.dispatch('groups')
-        this.formatgro()
       } else {
         this.$message.error('分组失败，请检查网络连接')
       }
@@ -207,6 +206,7 @@ export default {
           templist[i].push({ gid: this.groups[i].gid, name: this.groups[i].eva[a] })
         }
       }
+      return templist
     }
   },
   created () {

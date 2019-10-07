@@ -36,98 +36,12 @@ export default new Vuex.Store({
     // 项目pid
     proid: 0,
     // 项目列表
-    pro: [{
-      name: '毕业论文评审',
-      pid: 11,
-      groups: 13,
-      contents: 2
-    },
-    {
-      name: '项目评审',
-      pid: 12,
-      groups: 14,
-      contents: 3
-    }
-    ],
+    pro: [],
     // 材料列表
-    list: [{
-      cid: 1,
-      applicant: '王小虎',
-      name: '王大',
-      uid: '上海市普陀区金沙江路 1518 弄',
-      status: 1
-    },
-    {
-      cid: 13,
-      applicant: '王小虎',
-      name: '王二',
-      uid: '上海市普陀区金沙江路 1518 弄',
-      status: '未通过'
-    },
-    {
-      cid: 12,
-      applicant: '王小虎',
-      name: '王三',
-      uid: '上海市普陀区金沙江路 1518 弄',
-      status: '待审核'
-    },
-    {
-      cid: 11,
-      applicant: '王小虎',
-      name: '王四',
-      uid: '上海市普陀区金沙江路 1518 弄',
-      status: '已通过'
-    },
-    {
-      cid: 22,
-      applicant: '王小虎',
-      name: '王五',
-      uid: '上海市普陀区金沙江路 1518 弄',
-      status: '未通过'
-    },
-    {
-      cid: 23,
-      applicant: '王小虎',
-      name: '王六',
-      uid: '上海市普陀区金沙江路 1518 弄',
-      status: '待审核'
-    }
-    ],
+    list: [],
     // 评审员列表
-    evalist: [{
-      u: '王大',
-      stat: 0,
-      time: '2019/10/1'
-    },
-    {
-      u: '王二',
-      stat: 1,
-      time: '2019/10/1'
-    }
-    ],
-    groups: [{
-      gid: 11,
-      eva: [
-        'jug1',
-        'jug2'
-      ],
-      content: [
-        13,
-        12
-      ]
-    },
-    {
-      gid: 12,
-      eva: [
-        'jug11',
-        'jug22'
-      ],
-      content: [
-        23,
-        22
-      ]
-    }
-    ]
+    evalist: [],
+    groups: []
   },
   getters: {
     getlist (state) {
@@ -170,6 +84,11 @@ export default new Vuex.Store({
      * @param state
      * @param payload
      */
+    reset (state) {
+      Object.key(state).foreach((k) => {
+        Vue.delete(state, k)
+      })
+    },
     change_state (state, payload) {
       for (const key in payload) {
         state[key] = payload[key]
@@ -192,6 +111,9 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    resetstate (context) {
+      context.commit('reset')
+    },
     list (context) {
       axios({
         method: 'post',

@@ -46,7 +46,22 @@
       <div class="smallhead"
            v-if="$route.path=='/adminindex'">
         <span style="line-height:40px;font-size:1.3rem">所有项目材料</span>
-        <el-button>材料导入</el-button>
+        <!-- <el-button size="medium"
+                   @click="uploadfile">材料导入</el-button> -->
+        <el-upload class="upload-demo"
+                   ref="upload"
+                   action="https://jsonplaceholder.typicode.com/posts/"
+                   :with-credentials="true"
+                   :show-file-list="false"
+                   accept="application/zip,application/x-zip,application/x-zip-compressed"
+                   :on-success="uploadSuccess"
+                   :on-error="uploadError"
+                   name="zip"
+                   :data="filedata">
+
+          <el-button size="medium"
+                     @click="uploadfile">材料导入</el-button>
+        </el-upload>
       </div>
       <div class="smallhead"
            v-if="$route.path=='/adminindex/examined'">
@@ -71,8 +86,9 @@
                        label="材料"
                        align="center">
         <template slot-scope="scope">
-          <span class="ahref"
-                @click="openpdf(scope.$index,scope.row)">{{ scope.row.name }}</span>
+          <a class="ahref"
+             :href="baseURL+'?file='+encodeURIComponent(baseURLlast+scope.row.cid)"
+             target="_blank">{{ scope.row.name }}</a>
         </template>
       </el-table-column>
       <el-table-column prop='applicant'
@@ -107,6 +123,7 @@
 </template>
 
 <script>
+import { type } from 'os';
 export default {
   data () {
     return {
@@ -117,11 +134,37 @@ export default {
       cid: 0,
       pid: 0,
       list: [],
+      baseURL: 'http://starstudio.uestc.edu.cn/kase/modules/pdf.js/web/viewer.html',
+      baseURLlast: 'http://starstudio.uestc.edu.cn/kase/data/adm/download_pdf?cid=',
+      filedata: {
+        pid: 0
+      }
     }
   },
   methods: {
     handleSizeChange (val) {
       this.pagesize = val;
+    },
+    uploadfile () {
+      this.$confirm('关于导入材料的示范:<br>假如黄某申报一个叫无线抢答器的项目，则文件命名为:<br>黄某/无线抢答器.pdf<br>请再三确认文件名后上传', '上传须知', {
+        dangerouslyUseHTMLString: true,
+      }).then(() => {
+        this.$refs.upload.submit()
+      })
+    },
+    uploadSuccess (res) {
+      if (res.status == 0) {
+        this.$message({
+          message: '上传成功',
+          type: 'success'
+        });
+      } else {
+        this.$message.error('上传失败，请重新上传');
+      }
+    },
+    uploadError () {
+      this.$refs.upload.clearFiles();
+      this.$message.error('上传失败，请重新上传');
     },
     handleEdit (index, row) {
       console.log(index, row);
@@ -233,38 +276,9 @@ export default {
   },
   created () {
     this.pid = this.$store.getters.getpid
-
-  },
-  // watch: {
-  //   '$route': function () {
-  //     if (this.$route.path === '/adminindex/examining') {
-  //       this.tabledata = []
-  //       for (let a = 0; a < this.recivedata.length; a++) {
-  //         if (this.recivedata[a].status === '待审核') {
-  //           this.tabledata.push(this.recivedata[a])
-  //         }
-  //       }
-  //     } else if (this.$route.path === '/adminindex/examined') {
-  //       this.tabledata = []
-  //       for (let a = 0; a < this.recivedata.length; a++) {
-  //         if (this.recivedata[a].status === '已通过' || this.recivedata[a].status === '未通过') {
-  //           this.tabledata.push(this.recivedata[a])
-  //         }
-  //       }
-  //     } else if (this.$route.path === '/adminindex/evaluate') {
-  //       this.tabledata = []
-  //       console.log(111)
-  //       for (let a = 0; a < this.recivedata.length; a++) {
-  //         if (this.recivedata[a].status === '已通过') {
-  //           this.tabledata.push(this.recivedata[a])
-  //         }
-  //       }
-  //     } else if (this.$route.path == '/adminindex') {
-  //       this.tabledata = []
-  //       this.tabledata = this.recivedata
-  //     }
-  //   }
-  // }
+    this.filedata.pid = this.pid
+    console.log(this.$refs.uplo)
+  }
 }
 </script>
 <style>

@@ -128,7 +128,6 @@ export default {
       let flag = 0
       for (let i = 0; i < this.cheopt.length; i++) {
         let id = this.nogroup.find(item => item.name == this.cheopt[i]).cid
-        console.log(id)
         this.$axios({
           method: 'post',
           url: 'data/adm/mod_content',
@@ -138,20 +137,17 @@ export default {
           }
         }).then((res) => {
           if (res.data.status === 0) {
-            flag++
+            this.$message({
+              message: '分组成功',
+              type: 'success'
+            })
+          } else {
+            this.$message.error('分组失败,请检查网络连接')
           }
+          this.$store.dispatch('list')
+          this.$store.dispatch('groups')
+          this.formatgro()
         })
-      }
-      if (flag == this.cheopt.length) {
-        this.$message({
-          message: '分组成功',
-          type: 'success'
-        })
-        this.$store.dispatch('list')
-        this.$store.dispatch('groups')
-        this.formatgro()
-      } else {
-        this.$message.error('分组失败，请检查网络连接')
       }
       this.selectgroup = '',
         this.cheopt = []
@@ -169,12 +165,12 @@ export default {
             message: '删除成功',
             type: 'success'
           })
-          this.$store.dispatch('list')
-          this.$store.dispatch('groups')
-          this.formatgro()
         } else {
           this.$message.error('删除失败，请检查网络连接')
         }
+        this.$store.dispatch('list')
+        this.$store.dispatch('groups')
+        this.formatgro()
       })
     }
   },
@@ -201,7 +197,7 @@ export default {
               break
             }
           }
-          tempgro[i].push({ gid: this.groups[i].gid, cid: this.groups[i].content[a], name: cname, applicant: cappli })
+          tempgro[i].push({ gid: this.groups[i].gid, cid: this.groups[i].content[a], name: cname, applicant: cappli, status: cstatue })
         }
       }
       return tempgro
@@ -217,8 +213,12 @@ export default {
       return tempgro
     },
     nogroup () {
-      return this.list.filter((l1) =>
+      let templist = []
+      templist = this.list.filter((l1) =>
         this.havegro.findIndex((l2) => l1.cid == l2) == -1
+      )
+      return templist.filter((temp) =>
+        temp.status === '已通过'
       )
     }
   },
