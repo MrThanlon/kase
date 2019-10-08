@@ -61,18 +61,17 @@
                    @click="uploadfile">材料导入</el-button> -->
 
         <el-upload class="upload-demo"
-                   ref="upload"
                    action="https://jsonplaceholder.typicode.com/posts/"
                    :with-credentials="true"
                    :show-file-list="false"
-                   accept="application/zip,application/x-zip,application/x-zip-compressed"
+                   accept="application/pdf"
                    :on-success="uploadSuccess"
                    :on-error="uploadError"
                    name="zip"
                    :data="filedata">
-          <el-button size="medium"
-                     @click="infoflag=true">材料导入</el-button>
         </el-upload>
+        <el-button size="medium"
+                   @click="infoflag=true">材料导入</el-button>
       </div>
       <div class="smallhead"
            v-if="$route.path=='/adminindex/examined'">
@@ -159,7 +158,7 @@ export default {
     },
     uploadfile () {
       this.infoflag = false
-      this.$refs.upload.submit()
+      document.getElementsByName('zip')[0].click()
     },
     uploadSuccess (res) {
       if (res.status == 0) {

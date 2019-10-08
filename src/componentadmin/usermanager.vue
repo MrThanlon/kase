@@ -104,19 +104,30 @@ export default {
       console.log(this.selectgroup)
     },
     deleteeva (index, row) {
-      this.$axios({
-        method: 'post',
-        url: 'data/adm/del_user',
-        data: {
-          u: row.name
-        }
-      }).then((res) => {
-        if (res.data.status === 0) {
-          this.$store.dispatch('eva')
-          this.$store.dispatch('list')
-          this.$store.dispatch('groups')
-        }
+      this.$confirm('将永久删除该账号, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$axios({
+          method: 'post',
+          url: 'data/adm/del_user',
+          data: {
+            u: row.name
+          }
+        }).then((res) => {
+          if (res.data.status === 0) {
+            this.$message({
+              message: '删除账号成功',
+              type: 'success'
+            })
+            this.$store.dispatch('eva')
+            this.$store.dispatch('list')
+            this.$store.dispatch('groups')
+          }
+        })
       })
+
     },
     outgroup (index, row) {
       this.$axios({
