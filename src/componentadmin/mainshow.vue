@@ -16,6 +16,19 @@
                    @click="changestate">确 定</el-button>
       </span>
     </el-dialog>
+    <el-dialog title="上传文件须知"
+               width="30%"
+               :visible.sync="infoflag">
+      <div style="width:80%;margin:0 auto">
+        <span>'关于导入材料的示范:<br>假如黄某申报一个叫无线抢答器的项目，则文件命名为:<br>黄某/无线抢答器.pdf<br>请再三确认文件名后上传'</span>
+      </div>
+      <span slot="footer"
+            class="dialog-footer">
+        <el-button @click="infoflag = false">取 消</el-button>
+        <el-button type="primary"
+                   @click="uploadfile">确 定</el-button>
+      </span>
+    </el-dialog>
     <div style="overflow:hidden;min-width:450px">
       <el-row class="thrparts"
               type="flex"
@@ -46,6 +59,8 @@
         <span style="line-height:40px;font-size:1.3rem">所有项目材料</span>
         <!-- <el-button size="medium"
                    @click="uploadfile">材料导入</el-button> -->
+        <el-button size="medium"
+                   @click="infoflag=true">材料导入</el-button>
         <el-upload class="upload-demo"
                    ref="upload"
                    action="https://jsonplaceholder.typicode.com/posts/"
@@ -55,10 +70,8 @@
                    :on-success="uploadSuccess"
                    :on-error="uploadError"
                    name="zip"
-                   :data="filedata">
-
-          <el-button size="medium"
-                     @click="uploadfile">材料导入</el-button>
+                   :data="filedata"
+                   v-show="false">
         </el-upload>
       </div>
       <div class="smallhead"
@@ -136,7 +149,8 @@ export default {
       baseURLlast: 'http://starstudio.uestc.edu.cn/kase/data/adm/download_pdf?cid=',
       filedata: {
         pid: 0
-      }
+      },
+      infoflag: false
     }
   },
   methods: {
@@ -144,13 +158,8 @@ export default {
       this.pagesize = val;
     },
     uploadfile () {
-      this.$confirm('关于导入材料的示范:<br>假如黄某申报一个叫无线抢答器的项目，则文件命名为:<br>黄某/无线抢答器.pdf<br>请再三确认文件名后上传', '上传须知', {
-        dangerouslyUseHTMLString: true,
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-      }).then(() => {
-        this.$refs.upload.submit()
-      })
+      this.infoflag = false
+      this.$refs.upload.submit()
     },
     uploadSuccess (res) {
       if (res.status == 0) {

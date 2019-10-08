@@ -144,18 +144,25 @@ export default {
         }
       }).then((res) => {
         if (res.data.status === 0) {
-          if (res.data.status === 0) {
+          this.$axios({
+            method: 'post',
+            url: 'data/adm/mod_user_project',
+            data: {
+              u: this.acc,
+              pid: this.pid
+            }
+          }).then((res) => {
             this.dialogVisible = false
             this.$message({
               message: '创建账号成功',
               type: 'success'
             })
-            this.$store.dispatch('eva')
-            this.$store.dispatch('list')
-            this.$store.dispatch('groups')
-          } else {
-            this.$message.error('创建失败，请检查网络连接')
-          }
+          })
+          this.$store.dispatch('eva')
+          this.$store.dispatch('list')
+          this.$store.dispatch('groups')
+        } else {
+          this.$message.error('创建失败，请检查网络连接')
         }
       })
     },
