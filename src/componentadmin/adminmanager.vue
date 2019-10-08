@@ -97,7 +97,10 @@ export default {
             message: '创建成功',
             type: 'success'
           });
-        } else {
+        } else if (res.data.status === -40) {
+          this.$message.error('用户名重复，请勿与评审人员用户名相同')
+        }
+        else {
           this.$message.error('创建失败，请检查网络连接')
         }
       })

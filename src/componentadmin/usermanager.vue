@@ -112,7 +112,9 @@ export default {
         }
       }).then((res) => {
         if (res.data.status === 0) {
-
+          this.$store.dispatch('eva')
+          this.$store.dispatch('list')
+          this.$store.dispatch('groups')
         }
       })
     },
@@ -126,7 +128,9 @@ export default {
         }
       }).then((res) => {
         if (res.data.status === 0) {
-
+          this.$store.dispatch('eva')
+          this.$store.dispatch('list')
+          this.$store.dispatch('groups')
         }
       })
     },
@@ -140,55 +144,51 @@ export default {
         }
       }).then((res) => {
         if (res.data.status === 0) {
-          this.$axios({
-            method: 'post',
-            url: 'data/adm/add_user',
-            data: {
-              u: this.acc,
-              pid: this.pid
-            }
-          }).then((res) => {
-            if (res.data.status_code === 0) {
-              this.dialogVisible = false
-              this.$message({
-                message: '创建账号成功',
-                type: 'success'
-              })
-            } else {
-              this.$message.error('创建失败，请检查网络连接')
-            }
-          })
+          if (res.data.status === 0) {
+            this.dialogVisible = false
+            this.$message({
+              message: '创建账号成功',
+              type: 'success'
+            })
+            this.$store.dispatch('eva')
+            this.$store.dispatch('list')
+            this.$store.dispatch('groups')
+          } else {
+            this.$message.error('创建失败，请检查网络连接')
+          }
         }
       })
     },
     addEvaTogro () {
       let flag = 0
-      for (let i = 0; i < this.cheopt.length; i++) {
-        this.$axios({
-          method: 'post',
-          url: 'data/adm/mod_user',
-          data: {
-            gid: parseInt(this.selectgroup),
-            u: this.cheopt[i]
-          }
-        }).then((res) => {
-          if (res.data.status === 0) {
-            flag++
-          }
-        })
-      }
-      if (flag = this.cheopt.length) {
-        this.$message({
-          message: '分组成功',
-          type: 'success'
-        })
+      if (this.cheopt.length != 0) {
+        for (let i = 0; i < this.cheopt.length; i++) {
+          this.$axios({
+            method: 'post',
+            url: 'data/adm/mod_user',
+            data: {
+              gid: parseInt(this.selectgroup),
+              u: this.cheopt[i]
+            }
+          }).then((res) => {
+            if (res.data.status === 0) {
+              this.$message({
+                message: '分组成功',
+                type: 'success'
+              })
+            } else {
+              this.$message.error('分组失败，请检查网络连接')
+            }
+          })
+        }
+        this.$store.dispatch('eva')
         this.$store.dispatch('list')
         this.$store.dispatch('groups')
+        this.selectgroup = '',
+          this.cheopt = []
       } else {
-        this.$message.error('分组失败，请检查网络连接')
+        this.$message.error('请选择评审人员')
       }
-      this.selectgroup = '',
-        this.cheopt = []
     }
   },
   computed: {

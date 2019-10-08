@@ -4,8 +4,6 @@
                width="30%"
                :visible.sync="dialogVisible">
       <div style="width:80%;margin:0 auto">
-        <el-radio label=0
-                  v-model="optcon">待定</el-radio>
         <el-radio label=1
                   v-model="optcon">通过</el-radio>
         <el-radio label=2
@@ -148,6 +146,8 @@ export default {
     uploadfile () {
       this.$confirm('关于导入材料的示范:<br>假如黄某申报一个叫无线抢答器的项目，则文件命名为:<br>黄某/无线抢答器.pdf<br>请再三确认文件名后上传', '上传须知', {
         dangerouslyUseHTMLString: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
       }).then(() => {
         this.$refs.upload.submit()
       })

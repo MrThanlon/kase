@@ -54,7 +54,8 @@
         <el-button class="pad"
                    @click="addctogro">添加到此分组</el-button>
         <el-button class="pad"
-                   type="danger">删除此分组</el-button>
+                   type="danger"
+                   @click="deletgro">删除此分组</el-button>
         <el-button class="pad"
                    type="primary"
                    @click="creategro">新建分组</el-button>
@@ -97,6 +98,9 @@ export default {
             message: '移除材料成功',
             type: 'success'
           })
+          this.$store.dispatch('list')
+          this.$store.dispatch('groups')
+          this.formatgro()
         } else {
           this.$message.error('移除失败，请检查网络连接')
         }
@@ -172,6 +176,8 @@ export default {
         this.$store.dispatch('groups')
         this.formatgro()
       })
+      this.selectgroup = '',
+        this.cheopt = []
     }
   },
   computed: {
@@ -207,7 +213,7 @@ export default {
       for (let i = 0; i < this.groups.length; i++) {
         this.$set(tempgro, i, [])
         for (let a = 0; a < this.groups[i].content.length; a++) {
-          tempgro.push(this.groups[i].content[a])
+          tempgro[i].push(this.groups[i].content[a])
         }
       }
       return tempgro
