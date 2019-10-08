@@ -59,8 +59,7 @@
         <span style="line-height:40px;font-size:1.3rem">所有项目材料</span>
         <!-- <el-button size="medium"
                    @click="uploadfile">材料导入</el-button> -->
-        <el-button size="medium"
-                   @click="infoflag=true">材料导入</el-button>
+
         <el-upload class="upload-demo"
                    ref="upload"
                    action="https://jsonplaceholder.typicode.com/posts/"
@@ -70,8 +69,9 @@
                    :on-success="uploadSuccess"
                    :on-error="uploadError"
                    name="zip"
-                   :data="filedata"
-                   v-show="false">
+                   :data="filedata">
+          <el-button size="medium"
+                     @click="infoflag=true">材料导入</el-button>
         </el-upload>
       </div>
       <div class="smallhead"

@@ -47,11 +47,11 @@ export default new Vuex.Store({
     getlist (state) {
       const templist = state.list.slice()
       for (let i = 0; i < templist.length; i++) {
-        if (templist[i].status === '0') {
+        if (templist[i].status === 0) {
           Vue.set(templist[i], 'status', '待审核')
-        } else if (templist[i].status === '1') {
+        } else if (templist[i].status === 1) {
           Vue.set(templist[i], 'status', '已通过')
-        } else if (templist[i].status === '2') {
+        } else if (templist[i].status === 2) {
           Vue.set(templist[i], 'status', '未通过')
         }
       }
