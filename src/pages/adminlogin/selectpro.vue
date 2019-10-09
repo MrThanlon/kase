@@ -69,9 +69,6 @@ export default {
     }
   },
   methods: {
-    getpro () {
-
-    },
     turnto () {
       if (this.value === '') {
         alert("请选择项目")

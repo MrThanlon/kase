@@ -1,6 +1,6 @@
 <template>
   <div style="width:90%;margin:0 auto">
-    <el-dialog title="添加管理员"
+    <el-dialog title="修改评审状态"
                width="30%"
                :visible.sync="dialogVisible">
       <div style="width:80%;margin:0 auto">
