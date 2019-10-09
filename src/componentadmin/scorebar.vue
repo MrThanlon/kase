@@ -45,6 +45,8 @@
   </div>
 </template>
 <script>
+import qs from 'qs'
+import { stringify } from 'querystring';
 export default {
   data () {
     return {
@@ -76,7 +78,6 @@ export default {
         method: 'get',
         url: 'data/adm/download_table',
         params: {
-          pid: this.pid,
           u: row.u
         },
         responseType: 'blob'
@@ -114,17 +115,19 @@ export default {
       for (let a = 0; a < this.multipleSelection.length; a++) {
         users.push(this.multipleSelection[a].u)
       }
+      //     users = JSON.stringify(users)
+      console.log(users)
       this.$axios({
         method: 'post',
         url: 'data/adm/download_tables',
-        data: {
-          pid: this.pid,
-          user: users
-        },
-        header: {
-          'Content-Type': 'application/json'
-        },
-        responseType: 'blob'
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        data: users,
+        responseType: 'blob',
+        transformRequest: [
+          function (data) {
+            return JSON.stringify(data)
+          }
+        ]
       }).then((res) => {
         const content = res.data
         const blobs = new Blob([content], { type: 'application.zip' })

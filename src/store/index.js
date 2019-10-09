@@ -85,9 +85,8 @@ export default new Vuex.Store({
      * @param payload
      */
     reset (state) {
-      Object.key(state).foreach((k) => {
-        Vue.delete(state, k)
-      })
+      state = {}
+      console.log(state)
     },
     change_state (state, payload) {
       for (const key in payload) {

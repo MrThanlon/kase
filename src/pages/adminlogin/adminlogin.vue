@@ -111,7 +111,6 @@ export default {
     quit () {
       window.localStorage.clear()
       window.sessionStorage.clear()
-      clearCookie()
       this.$store.dispatch('resetstate')
       this.$router.push({ path: '/' })
     },

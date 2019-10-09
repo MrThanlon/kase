@@ -97,7 +97,7 @@
                        align="center">
         <template slot-scope="scope">
           <a class="ahref"
-             :href="baseURL+'?file='+encodeURIComponent(baseURLlast+scope.row.cid)"
+             :href="baseURLlast+scope.row.cid"
              target="_blank">{{ scope.row.name }}</a>
         </template>
       </el-table-column>
@@ -145,7 +145,7 @@ export default {
       pid: 0,
       list: [],
       baseURL: 'http://starstudio.uestc.edu.cn/kase/modules/pdf.js/web/viewer.html',
-      baseURLlast: 'http://starstudio.uestc.edu.cn/kase/data/adm/download_pdf?cid=',
+      baseURLlast: 'data/adm/download_pdf?cid=',
       filedata: {
         pid: 0
       },
@@ -285,7 +285,6 @@ export default {
   created () {
     this.pid = this.$store.getters.getpid
     this.filedata.pid = this.pid
-    console.log(this.$refs.uplo)
   }
 }
 </script>
