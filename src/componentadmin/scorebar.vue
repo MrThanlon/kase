@@ -115,19 +115,17 @@ export default {
       for (let a = 0; a < this.multipleSelection.length; a++) {
         users.push(this.multipleSelection[a].u)
       }
-      //     users = JSON.stringify(users)
+
+      // qs.stringify({ user: users }, { arrayFormat: 'repeat' })
       console.log(users)
       this.$axios({
-        method: 'post',
+        method: 'get',
         url: 'data/adm/download_tables',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        data: users,
+        params: { user: users },
         responseType: 'blob',
-        transformRequest: [
-          function (data) {
-            return JSON.stringify(data)
-          }
-        ]
+        paramsSerializer: function (params) {
+          return qs.stringify(params, { arrayFormat: 'repeat' })
+        }
       }).then((res) => {
         const content = res.data
         const blobs = new Blob([content], { type: 'application.zip' })
