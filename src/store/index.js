@@ -136,6 +136,17 @@ export default new Vuex.Store({
         }
       })
     },
+    pros (context) {
+      axios({
+        method: 'post',
+        url: 'data/adm/list'
+      }).then((res) => {
+        if (res.data.status === 0) {
+          console.log(res.data.data)
+          context.commit('change_groups', res.data.data)
+        }
+      })
+    },
     groups (context) {
       axios({
         method: 'post',

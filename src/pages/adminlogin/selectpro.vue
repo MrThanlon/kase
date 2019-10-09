@@ -70,16 +70,7 @@ export default {
   },
   methods: {
     getpro () {
-      this.$axios({
-        method: 'post',
-        url: 'data/adm/list'
-      }).then((res) => {
-        if (res.data.status === 0) {
-          this.groups = res.data.data
-          console.log(this.groups)
-          this.$store.dispatch('changepro', this.groups)
-        }
-      })
+
     },
     turnto () {
       if (this.value === '') {
@@ -124,12 +115,17 @@ export default {
     },
   },
   computed: {
-    groups () {
-      return this.$store.getters.getpro
+    groups: {
+      get () {
+        return this.$store.getters.getgroups
+      },
+      set (val) {
+
+      }
     }
   },
   created () {
-    this.getpro()
+    this.$store.dispatch('pros')
   }
 }
 </script>
