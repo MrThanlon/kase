@@ -16,7 +16,7 @@
           </el-col>
           <el-col :span="12"
                   class="head2"><span>欢迎您,{{admin}}<br></span><span class="quit"
-                  @click="quit">退出</span></el-col>
+                  @click="logout">退出</span></el-col>
         </el-row>
       </el-header>
       <el-container>
@@ -108,11 +108,18 @@ export default {
         }
       })
     },
-    quit () {
-      window.localStorage.clear()
-      window.sessionStorage.clear()
-      this.$store.dispatch('resetstate')
-      this.$router.push({ path: '/' })
+    async logout() {
+      document.cookie = ''
+      this.$store.commit('change_state', {
+        logined: false,
+        type: 0
+      })
+      try {
+        await api.user.logout()
+      } catch (e) {
+        console.debug(e)
+      }
+      this.$router.push('/login')
     },
     gettitle () {
       for (let i = 0; i < this.pros.length; i++) {

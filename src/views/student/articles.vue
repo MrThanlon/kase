@@ -1,13 +1,19 @@
 <template>
     <!-- TODO:使用PDF.js在web上渲染PDF文件 -->
     <div>
-        <span v-if="subject.pdf">文章：{{cid}}</span>
+        <div v-if="subject.pdf">
+            <iframe :src="src"
+                    style="width: 100%; height: 500px" name="ifd"
+                    onload="this.height=ifd.document.body.scrollHeight">
+            </iframe>
+        </div>
         <span v-else>文章还未上传</span>
     </div>
 </template>
 
 <script>
     import api from '@/service/api'
+    import conf from '@/config'
 
     // 展示文章
     export default {
@@ -15,19 +21,24 @@
         props: [
             'cid'
         ],
-        computed:{
-            async subject() {
-                try {
-                    return await api.data.app.subject({cid: this.cid})
-                } catch (e) {
-                    // TODO: 提示错误
-                    console.debug(e)
-                    return {}
-                }
+        data: function () {
+            return {
+                subject: {}
+            }
+        },
+        computed: {
+            src() {
+                return conf.PDFJS_PATH +
+                    window.encodeURIComponent('https://calibre-ebook.com/downloads/demos/demo.docx')
             }
         },
         async created() {
-
+            try {
+                this.subject = (await api.data.app.subject({cid: this.cid})).data
+            } catch (e) {
+                // TODO: 提示错误
+                console.debug(e)
+            }
         }
     }
 </script>

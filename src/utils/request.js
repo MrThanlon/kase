@@ -13,7 +13,9 @@ export function request (url, method, data = null, encoded = true, decode = true
     const xhr = new XMLHttpRequest()
     if (conf.PHPDEBUG) { url += '?XDEBUG_SESSION_START=10745' }
     xhr.open(method, url)
-    if (encoded && method === 'POST') { xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded') }
+    if (encoded && method === 'POST') {
+      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+    }
     if (conf.CORS) {
       xhr.withCredentials = true
     }

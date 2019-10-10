@@ -21,7 +21,7 @@
                 下载附件
                 <i class="fas fa-file-archive"></i>
             </button>
-            <a :href="filePath" download="" style="display: none" id="download"></a>
+            <a :href="filePath" download="附件" style="display: none" id="download"></a>
             <button class="btn btn-outline-dark m-2" onclick="document.getElementById('zip').click()"
                     v-if="cid && !subject.zip">
                 上传附件
@@ -31,10 +31,11 @@
         </li>
         <li class="list-group-item">
             <h6 class="card-title text-left">事项</h6>
-            <button class="btn btn-outline-dark m-2" @click="$router.push('/student/notice')">
-                查看通知
+            <button class="btn btn-outline-dark m-2" onclick="document.getElementById('downloadNotice').click()">
+                下载申报材料
                 <i class="fas fa-exclamation-circle"></i>
             </button>
+            <a :href="noticePath" download="材料" style="display: none" id="downloadNotice"></a>
         </li>
         <li class="list-group-item">
             <h6 class="card-title text-left">账户</h6>
@@ -109,6 +110,9 @@
                 } catch (e) {
                     console.debug(e)
                 }
+            },
+            async downloadNotice() {
+
             }
         },
         props: [
@@ -117,6 +121,9 @@
         computed: {
             filePath() {
                 return `${conf.SERVER_PATH}/data/app/download_zip${conf.PHPDEBUG ? '?XDEBUG_SESSION_START=15380' : ''}`
+            },
+            noticePath() {
+                return `${conf.SERVER_PATH}/data/app/notice${conf.PHPDEBUG ? '?XDEBUG_SESSION_START=15380' : ''}`
             }
         },
         watch: {
