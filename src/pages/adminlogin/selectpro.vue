@@ -98,7 +98,7 @@ export default {
             message: '创建项目成功',
             type: 'success'
           })
-          this.getpro()
+          this.$store.dispatch('pros')
         }
         else {
           this.$message.error('创建失败')

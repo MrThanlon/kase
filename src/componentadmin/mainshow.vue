@@ -20,7 +20,7 @@
                width="30%"
                :visible.sync="infoflag">
       <div style="width:80%;margin:0 auto">
-        <span>'关于导入材料的示范:<br>假如黄某申报一个叫无线抢答器的项目，则文件命名为:<br>黄某/无线抢答器.pdf<br>请再三确认文件名后上传'</span>
+        <span>关于导入材料的示范:<br>压缩包中的格式为：<br>申请人/课题名称/文件.pdf<br>如果有附件则附件为:<br>申请人/课题名称/文件.zip<br>请再三确认文件格式后上传'</span>
       </div>
       <span slot="footer"
             class="dialog-footer">
@@ -61,10 +61,10 @@
                    @click="uploadfile">材料导入</el-button> -->
 
         <el-upload class="upload-demo"
-                   action="https://jsonplaceholder.typicode.com/posts/"
+                   action="http://starstudio.uestc.edu.cn/kase/data/adm/import"
                    :with-credentials="true"
                    :show-file-list="false"
-                   accept="application/pdf"
+                   accept="application/zip,application/x-zip,application/x-zip-compressed"
                    :on-success="uploadSuccess"
                    :on-error="uploadError"
                    name="zip"
@@ -166,7 +166,10 @@ export default {
           message: '上传成功',
           type: 'success'
         });
-      } else {
+      } else if (res.status === -10) {
+        this.$message.error('登录已失效，请重新登录')
+      }
+      else {
         this.$message.error('上传失败，请重新上传');
       }
     },
@@ -210,6 +213,9 @@ export default {
         }).then((res) => {
           if (res.data.status === 0) {
             this.$store.dispatch('list')
+          }
+          else if (res.data.status === -10) {
+            this.$message.error('登录已失效，请重新登录')
           }
         })
       }

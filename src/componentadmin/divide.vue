@@ -101,7 +101,10 @@ export default {
           this.$store.dispatch('list')
           this.$store.dispatch('groups')
           this.formatgro()
-        } else {
+        } else if (res.data.status === -10) {
+          this.$message.error('登录已失效，请重新登录')
+        }
+        else {
           this.$message.error('移除失败，请检查网络连接')
         }
       })
@@ -122,7 +125,10 @@ export default {
           this.$store.dispatch('list')
           this.$store.dispatch('groups')
           this.formatgro()
-        } else {
+        } else if (res.data.status === -10) {
+          this.$message.error('登录已失效，请重新登录')
+        }
+        else {
           this.$message.error('创建失败，请检查网络连接')
         }
       })
@@ -145,7 +151,10 @@ export default {
               message: '分组成功',
               type: 'success'
             })
-          } else {
+          } else if (res.data.status === -10) {
+            this.$message.error('登录已失效，请重新登录')
+          }
+          else {
             this.$message.error('分组失败,请检查网络连接')
           }
           this.$store.dispatch('list')
@@ -169,7 +178,10 @@ export default {
             message: '删除成功',
             type: 'success'
           })
-        } else {
+        } else if (res.data.status === -10) {
+          this.$message.error('登录已失效，请重新登录')
+        }
+        else {
           this.$message.error('删除失败，请检查网络连接')
         }
         this.$store.dispatch('list')

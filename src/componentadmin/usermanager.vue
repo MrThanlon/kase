@@ -142,6 +142,10 @@ export default {
           this.$store.dispatch('eva')
           this.$store.dispatch('list')
           this.$store.dispatch('groups')
+        } else if (res.data.status === -10) {
+          this.$message.error('登录已失效，请重新登录')
+        } else {
+          this.$message.error('移除失效，请检查网络连接')
         }
       })
     },
@@ -194,7 +198,10 @@ export default {
                 message: '分组成功',
                 type: 'success'
               })
-            } else {
+            } else if (res.data.status === -10) {
+              this.$message.error('登录已失效，请重新登录')
+            }
+            else {
               this.$message.error('分组失败，请检查网络连接')
             }
           })

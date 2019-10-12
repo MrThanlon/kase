@@ -75,6 +75,8 @@ export default {
             type: 'success'
           });
           this.getadmin()
+        } else if (res.data.status === -10) {
+          this.$message.error('登录已失效，请重新登录')
         }
         else {
           this.$message.error('删除失败，请检查网络连接')
@@ -99,6 +101,8 @@ export default {
           });
         } else if (res.data.status === -40) {
           this.$message.error('用户名重复，请勿与评审人员用户名相同')
+        } else if (res.data.status === -10) {
+          this.$message.error('登录已失效，请重新登录')
         }
         else {
           this.$message.error('创建失败，请检查网络连接')
@@ -112,6 +116,8 @@ export default {
       }).then((res) => {
         if (res.data.status === 0) {
           this.adminlist = res.data.data
+        } else if (res.data.status === -10) {
+          this.$message.error('登录已失效，请重新登录')
         }
       })
     },

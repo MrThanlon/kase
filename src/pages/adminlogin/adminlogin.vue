@@ -83,6 +83,8 @@ export default {
           let templist = []
           templist = res.data.data
           this.$store.dispatch('changelist', templist)
+        } else if (res.data.status === -10) {
+          this.$message.error('登录已失效，请重新登录')
         }
       })
     },
@@ -95,6 +97,8 @@ export default {
           let templist = []
           templist = res.data.data
           this.$store.dispatch('changeevalist', templist)
+        } else if (res.data.status === -10) {
+          this.$message.error('登录已失效，请重新登录')
         }
       })
     },
@@ -105,10 +109,12 @@ export default {
       }).then((res) => {
         if (res.data.status === 0) {
           this.admin = res.data.username
+        } else if (res.data.status === -10) {
+          this.$message.error('登录已失效，请重新登录')
         }
       })
     },
-    async logout() {
+    async logout () {
       document.cookie = ''
       this.$store.commit('change_state', {
         logined: false,
@@ -117,7 +123,6 @@ export default {
       try {
         await api.user.logout()
       } catch (e) {
-        console.debug(e)
       }
       this.$router.push('/login')
     },

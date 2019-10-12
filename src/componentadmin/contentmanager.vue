@@ -138,7 +138,10 @@ export default {
           message: '上传成功',
           type: 'success'
         });
-      } else {
+      } else if (res.status === -10) {
+        this.$message.error('登录已失效，请重新登录')
+      }
+      else {
         this.$message.error('上传失败，请重新上传');
       }
     },
@@ -180,7 +183,10 @@ export default {
             message: '修改成功',
             type: 'success'
           })
-        } else {
+        } else if (res.data.status === -10) {
+          this.$message.error('登录已失效，请重新登录')
+        }
+        else {
           this.$message.error('修改保存失败,请检查日期格式和网络')
         }
       })
