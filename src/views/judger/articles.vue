@@ -1,12 +1,16 @@
 <template>
-    <!-- TODO:使用PDF.js在web上渲染PDF文件 -->
     <div>
-        文章：{{cid}}
+        <!-- FIXME:检测文章是否上传 -->
+        <iframe :src="src"
+                style="width: 100%; height: 500px" name="ifd"
+                onload="this.height=ifd.document.body.scrollHeight">
+        </iframe>
     </div>
 </template>
 
 <script>
     import api from '@/service/api'
+    import conf from '@/config'
 
     // 展示文章
     export default {
@@ -14,8 +18,11 @@
         props: [
             'cid'
         ],
-        async created() {
-
+        computed: {
+            src() {
+                return conf.PDFJS_PATH +
+                    window.encodeURIComponent(conf.SERVER_PATH + "/data/app/download_pdf?cid=" + this.cid)
+            }
         }
     }
 </script>

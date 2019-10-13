@@ -1,5 +1,4 @@
 <template>
-    <!-- TODO:使用PDF.js在web上渲染PDF文件 -->
     <div>
         <div v-if="subject.pdf">
             <iframe :src="src"
