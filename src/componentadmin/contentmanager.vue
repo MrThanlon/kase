@@ -221,9 +221,6 @@ export default {
       return date.getTime()
     },
     unixtotime (unixtime) {
-      if (unixtime.toString().length == 10) {
-        unixtime = unixtime * 1000
-      }
       let date = new Date(unixtime);
       let Y = date.getFullYear() + '/';
       let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '/';
