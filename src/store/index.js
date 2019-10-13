@@ -143,7 +143,7 @@ export default new Vuex.Store({
       }).then((res) => {
         if (res.data.status === 0) {
           console.log(res.data.data)
-          context.commit('change_groups', res.data.data)
+          context.commit('change_pro', res.data.data)
         }
       })
     },

@@ -66,8 +66,8 @@ export default {
   data () {
     return {
       pid: 0,
-      admin: 'admin',
-      title: '优秀论文评审',
+      admin: '',
+      title: '',
     }
   },
   methods: {
@@ -132,6 +132,7 @@ export default {
           this.title = this.pros[i].name
         }
       }
+      console.log(this.pros)
     }
   },
   computed: {

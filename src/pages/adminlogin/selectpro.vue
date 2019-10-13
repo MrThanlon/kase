@@ -114,7 +114,7 @@ export default {
   computed: {
     groups: {
       get () {
-        return this.$store.getters.getgroups
+        return this.$store.getters.getpro
       },
       set (val) {
 
