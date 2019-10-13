@@ -15,19 +15,9 @@
             <div class="col-12 col-md-4 mb-3 mb-md-5 pl-1 pr-1">
                 <div class="card shadow">
                     <div class="card-header">
-                        <h5 class="card-title mb-2 mt-2" v-if="!$route.meta.judgeable">
+                        <h5 class="card-title mb-2 mt-2">
                             导航
                         </h5>
-                        <div class="btn-group btn-group-toggle" data-toggle="buttons" v-if="$route.meta.judgeable">
-                            <label class="btn btn-outline-dark active" @click="subType='nav'">
-                                <input type="radio" autocomplete="off" checked>
-                                导航
-                            </label>
-                            <label class="btn btn-outline-dark" @click="subType='judge'">
-                                <input type="radio" autocomplete="off">
-                                评分
-                            </label>
-                        </div>
                     </div>
                     <div class="card-body">
                         <!--副面板-->

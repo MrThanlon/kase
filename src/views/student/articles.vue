@@ -29,7 +29,7 @@
         computed: {
             src() {
                 return conf.PDFJS_PATH +
-                    window.encodeURIComponent('https://calibre-ebook.com/downloads/demos/demo.docx')
+                    window.encodeURIComponent(conf.SERVER_PATH + "/data/app/download_pdf?cid=" + this.cid)
             }
         },
         async created() {

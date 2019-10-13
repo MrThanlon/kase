@@ -7,29 +7,34 @@
                     课题列表
                     <i class="fas fa-list"></i>
                 </button>
+                <!--FIXME: 判断是否上传附件 -->
                 <button class="btn btn-outline-dark m-2"
-                        @click="downloadZIP" v-if="cid">
+                        onclick="document.getElementById('download').click()" v-if="cid">
                     下载附件
                     <i class="fas fa-file-archive"></i>
                 </button>
+                <a :href="filePath" download="" style="display: none" id="download"></a>
             </li>
             <li class="list-group-item">
                 <h6 class="card-title text-left">评分表</h6>
-                <button class="btn btn-outline-dark m-2" @click="uploadTable">
+                <button class="btn btn-outline-dark m-2" onclick="document.getElementById('utable').click()">
                     上传评分表
                     <i class="fas fa-file-upload"></i>
                 </button>
-                <button class="btn btn-outline-dark m-2" @click="downloadTable">
+                <input type="file" @change="uploadTable" id="utable" style="display: none"/>
+                <button class="btn btn-outline-dark m-2" onclick="document.getElementById('table').click()">
                     下载评分表
                     <i class="fas fa-file-download"></i>
                 </button>
+                <a :href="tablePath" download="" style="display: none" id="table"></a>
             </li>
             <li class="list-group-item">
                 <h6 class="card-title text-left">事项</h6>
-                <button class="btn btn-outline-dark m-2" @click="$router.push('/judger/notice')">
-                    查看通知
+                <button class="btn btn-outline-dark m-2" onclick="document.getElementById('notice').click()">
+                    下载评审材料
                     <i class="fas fa-exclamation-circle"></i>
                 </button>
+                <a :href="noticePath" download="" style="display: none" id="notice"></a>
             </li>
             <li class="list-group-item">
                 <h6 class="card-title text-left">账户</h6>
@@ -65,21 +70,30 @@
                 }
                 this.$router.push('/login')
             },
-            async downloadZIP() {
-            },
-            async downloadTable() {
-                let a = document.createElement('a')
-                a.href = `${conf.SERVER_PATH}/data/jug/download_table${conf.PHPDEBUG ? '?XDEBUG_SESSION_START=15380' : ''}`
-                a.download = "评分表"
-                a.click()
-            },
             async uploadTable() {
-
+                let data = new FormData()
+                data.append('file', document.getElementById('utable').files[0])
+                try {
+                    await api.data.app.upload_table(data)
+                } catch (e) {
+                    console.debug(e)
+                }
             }
         },
         props: [
             'cid', 'type'
         ],
+        computed: {
+            filePath() {
+                return `${conf.SERVER_PATH}/data/jug/download_zip?cid=${this.cid}`
+            },
+            noticePath() {
+                return `${conf.SERVER_PATH}/data/jug/notice`
+            },
+            tablePath() {
+                return `${conf.SERVER_PATH}/data/jug/download_table`
+            }
+        },
         components: {
             judge
         }

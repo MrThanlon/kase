@@ -96,4 +96,8 @@ table.data.app.upload_pdf = (param) => {
   return request(conf.SERVER_PATH + '/data/app/upload_pdf', 'POST', param, false)
 }
 
+table.data.app.upload_table = (param) => {
+  return request(conf.SERVER_PATH + '/data/jug/upload_table', 'POST', param, false)
+}
+
 export default table

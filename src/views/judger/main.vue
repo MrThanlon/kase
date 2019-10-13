@@ -51,69 +51,12 @@
                  * input的placeholder
                  */
                 placeholders: ['', '', '', '', 'y/n'],
-                subjectList: [
-                    {
-                        "name": "张义飞测试",
-                        "cid": 8,
-                        "applicant": "张义飞",
-                        "time": "2019-05-25 15:56:09",
-                        "zip": true
-                    },
-                    {
-                        "name": "张义飞的第二个测试",
-                        "cid": 9,
-                        "applicant": "张义飞呀",
-                        "time": "2019-05-25 16:12:58",
-                        "zip": false
-                    },
-                    {
-                        "name": "张义飞的那些测试",
-                        "cid": 10,
-                        "applicant": "张义飞2019",
-                        "time": "2019-05-25 16:33:59",
-                        "zip": true
-                    },
-                    {
-                        "name": "你好",
-                        "cid": 11,
-                        "applicant": "咯咯咯",
-                        "time": "2019-05-26 15:50:24",
-                        "zip": true
-                    },
-                    {
-                        "name": "再来一次",
-                        "cid": 12,
-                        "applicant": "稳了",
-                        "time": "2019-05-26 15:51:32",
-                        "zip": false
-                    },
-                    {
-                        "name": "有趣",
-                        "cid": 13,
-                        "applicant": "可以的",
-                        "time": "2019-05-26 15:52:27",
-                        "zip": false
-                    },
-                    {
-                        "name": "ahsjhdj",
-                        "cid": 14,
-                        "applicant": "hjajfhr3",
-                        "time": "2019-05-26 17:00:36",
-                        "zip": false
-                    },
-                    {
-                        "name": "hentai wrx",
-                        "cid": 15,
-                        "applicant": "王润新",
-                        "time": "2019-05-27 12:41:51",
-                        "zip": false
-                    }
-                ],
+                subjectList: [],
             }
         },
         async created() {
             try {
-                this.subjectList = await api.data.jug.list()
+                this.subjectList = (await api.data.jug.list()).data
             } catch (e) {
                 console.debug(e)
             }

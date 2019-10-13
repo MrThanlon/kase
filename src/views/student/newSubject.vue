@@ -40,6 +40,8 @@
 
 <script>
     // 新建课题
+    import api from '@/service/api'
+
     export default {
         name: "newSubject",
         data: function () {
@@ -60,6 +62,10 @@
             }
         },
         computed: {},
+        async created() {
+            const t = (new Date().getTime()) / 1000
+            this.projectList = (await api.data.app.list_prj()).data.filter(v => v.start < t && v.end > t)
+        },
         methods: {
             async submit() {
                 console.debug("PID:" + this.selectedPID)

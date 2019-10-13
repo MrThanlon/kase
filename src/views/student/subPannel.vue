@@ -11,7 +11,7 @@
                 <i class="fas fa-plus"></i>
             </button>
             <button class="btn btn-outline-dark m-2" onclick="document.getElementById('pdf').click()"
-                    v-if="cid && !subject.pdf">
+                    v-if="cid">
                 上传PDF
                 <i class="fas fa-file-pdf"></i>
             </button>
@@ -21,9 +21,9 @@
                 下载附件
                 <i class="fas fa-file-archive"></i>
             </button>
-            <a :href="filePath" download="附件" style="display: none" id="download"></a>
+            <a :href="filePath" download="" style="display: none" id="download"></a>
             <button class="btn btn-outline-dark m-2" onclick="document.getElementById('zip').click()"
-                    v-if="cid && !subject.zip">
+                    v-if="cid">
                 上传附件
                 <i class="fas fa-file-archive"></i>
             </button>
@@ -31,11 +31,10 @@
         </li>
         <li class="list-group-item">
             <h6 class="card-title text-left">事项</h6>
-            <button class="btn btn-outline-dark m-2" onclick="document.getElementById('downloadNotice').click()">
+            <button class="btn btn-outline-dark m-2" @click="$router.push('/student/notice')">
                 下载申报材料
                 <i class="fas fa-exclamation-circle"></i>
             </button>
-            <a :href="noticePath" download="材料" style="display: none" id="downloadNotice"></a>
         </li>
         <li class="list-group-item">
             <h6 class="card-title text-left">账户</h6>
@@ -98,9 +97,6 @@
                     console.debug(e)
                 }
             },
-            async downloadZIP() {
-
-            },
             async uploadZIP() {
                 let data = new FormData()
                 data.append('cid', this.cid)
@@ -110,9 +106,6 @@
                 } catch (e) {
                     console.debug(e)
                 }
-            },
-            async downloadNotice() {
-
             }
         },
         props: [
@@ -120,10 +113,7 @@
         ],
         computed: {
             filePath() {
-                return `${conf.SERVER_PATH}/data/app/download_zip${conf.PHPDEBUG ? '?XDEBUG_SESSION_START=15380' : ''}`
-            },
-            noticePath() {
-                return `${conf.SERVER_PATH}/data/app/notice${conf.PHPDEBUG ? '?XDEBUG_SESSION_START=15380' : ''}`
+                return `${conf.SERVER_PATH}/data/app/download_zip?cid=${this.cid}`
             }
         },
         watch: {

@@ -146,7 +146,7 @@
                 })
             },
             projectNameList() {
-                return this.list.reduce((pre, cur) => {
+                return this.projectList.reduce((pre, cur) => {
                     pre[cur.pid] = cur.name
                     return pre
                 }, [])
