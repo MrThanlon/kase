@@ -183,6 +183,8 @@ export default {
             message: '修改成功',
             type: 'success'
           })
+          this.getdeadline()
+          this.getinfo()
         } else if (res.data.status === -10) {
           this.$message.error('登录已失效，请重新登录')
         }
