@@ -48,6 +48,29 @@
       </el-col>
     </el-row>
     <el-row style="margin-top:20px">
+      <el-col :span="24">
+        <h3>上传打分表</h3>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col>
+        <el-upload action="http://starstudio.uestc.edu.cn/kase/data/adm/upload_table"
+                   :with-credentials="true"
+                   :show-file-list="false"
+                   accept="application/zip,application/x-zip,application/x-zip-compressed"
+                   :on-success="uploadSuccess"
+                   :on-error="uploadError"
+                   name="file"
+                   :data="filedata"
+                   style="width:500px">
+          <el-button size="medium">上传</el-button>
+          <div slot="tip"
+               class="el-upload__tip"
+               style="display: inline;"> (仅支持zip格式，请打包为zip文件上传，再次上传会覆盖已有文件)</div>
+        </el-upload>
+      </el-col>
+    </el-row>
+    <el-row style="margin-top:20px">
       <el-col :span="12">
         <h3>修改项目信息</h3>
       </el-col>
