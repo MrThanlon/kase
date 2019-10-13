@@ -21,7 +21,7 @@
         computed: {
             src() {
                 return conf.PDFJS_PATH +
-                    window.encodeURIComponent(conf.SERVER_PATH + "/data/app/download_pdf?cid=" + this.cid)
+                    window.encodeURIComponent(conf.SERVER_PATH + "/data/jug/download_pdf?cid=" + this.cid)
             }
         }
     }
