@@ -1,14 +1,12 @@
 <template>
-    <div>
-        <!-- FIXME:检测文章是否上传 -->
-        <iframe :src="src"
-                style="width: 100%; height: 500px" name="ifd"
-                onload="this.height=ifd.document.body.scrollHeight">
-        </iframe>
-    </div>
+    <iframe :src="src"
+            style="width: 100%; height: 100%" name="ifd"
+            onload="this.height=ifd.document.body.scrollHeight">
+    </iframe>
 </template>
 
 <script>
+    // FIXME:检测文章是否上传
     import api from '@/service/api'
     import conf from '@/config'
 

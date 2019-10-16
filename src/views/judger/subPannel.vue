@@ -36,13 +36,6 @@
                 </button>
                 <a :href="noticePath" download="" style="display: none" id="notice"></a>
             </li>
-            <li class="list-group-item">
-                <h6 class="card-title text-left">账户</h6>
-                <button class="btn btn-outline-dark m-2" @click="logout">
-                    登出
-                    <i class="fas fa-sign-out-alt"></i>
-                </button>
-            </li>
         </ul>
         <judge v-if="type==='judge'"/>
     </div>
