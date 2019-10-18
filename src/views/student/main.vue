@@ -21,7 +21,7 @@
             <td>{{item.applicant}}</td>
             <td>
                 <span class="badge badge-pill"
-                      :class="[item.status===0?'badge-primary':item.status===1?'badge-success':'badge-danger']">
+                      :class="[item.status===0?'badge-dark':item.status===1?'badge-success':'badge-secondary']">
                     {{statText[item.status]}}
                 </span>
             </td>
@@ -48,7 +48,7 @@
                 /**
                  * 状态名称
                  */
-                statText: ['Pending', 'Accepted', 'Rejected'],
+                statText: ['等待审核', '通过', '拒绝'],
                 /**
                  * 标题列表
                  */
