@@ -58,6 +58,9 @@
             } catch (e) {
                 console.debug(e)
             }
+            if(!this.$store.state.proid){
+                this.$router.push('/student/project')
+            }
         },
         data: function () {
             return {
@@ -73,7 +76,8 @@
                 document.cookie = ''
                 this.$store.commit('change_state', {
                     logined: false,
-                    type: 0
+                    type: 0,
+                    proid: 0
                 })
                 try {
                     await api.user.logout()

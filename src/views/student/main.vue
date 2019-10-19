@@ -47,7 +47,7 @@
                 /**
                  * 状态名称
                  */
-                statText: ['等待审核', '通过', '拒绝'],
+                statText: ['待审核', '已通过', '未通过'],
                 /**
                  * 标题列表
                  */
@@ -81,6 +81,7 @@
                 return this.subjectList
             },
             listShow() {
+                //筛选
                 let pids = []
                 if (this.filterKey[2]) {
                     // 查找项目名称，pid填充
@@ -92,6 +93,10 @@
                     console.debug(pids)
                 }
                 return this.list.filter((item) => {
+                    //过滤pid
+                    if (this.$store.state.proid !== item.pid) {
+                        return false
+                    }
                     if (this.filterKey[0]) {
                         // 过滤ID
                         if (item.cid.toString().indexOf(this.filterKey[0]) === -1)

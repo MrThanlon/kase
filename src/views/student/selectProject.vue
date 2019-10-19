@@ -1,0 +1,45 @@
+<template>
+    <div class="input-group p-5">
+        <div class="input-group-prepend">
+            <label class="input-group-text">选择项目</label>
+        </div>
+        <select class="custom-select" @change="change" v-model="pid">
+            <option v-for="item in projectList" :value="item.pid">{{item.name}}</option>
+        </select>
+    </div>
+</template>
+
+<script>
+    import api from '@/service/api'
+
+    // 选择项目
+    export default {
+        name: "selectProject",
+        data() {
+            return {
+                projectList: [],
+                pid: null
+            }
+        },
+        async created() {
+            const t = (new Date().getTime()) / 1000
+            try {
+                this.projectList = (await api.data.app.list_prj()).data.filter((v) => v.start < t && v.end > t)
+            } catch (e) {
+                console.debug(e)
+            }
+        },
+        methods: {
+            async change() {
+                this.$store.commit('change_state', {
+                    proid: this.pid
+                })
+                this.$router.push('/student')
+            }
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>

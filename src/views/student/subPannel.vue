@@ -32,10 +32,12 @@
             </li>
             <li class="list-group-item">
                 <h6 class="card-title text-left">事项</h6>
-                <button class="btn btn-outline-dark m-2" @click="$router.push('/student/notice')">
+                <button class="btn btn-outline-dark m-2" onclick="document.getElementById('downloadNotice').click()">
                     下载申报材料
                     <i class="fas fa-exclamation-circle"></i>
                 </button>
+                <a :href="noticePath" download="" style="display: none" id="downloadNotice"></a>
+
             </li>
         </ul>
     </div>
@@ -105,6 +107,9 @@
         computed: {
             filePath() {
                 return `${conf.SERVER_PATH}/data/app/download_zip?cid=${this.cid}`
+            },
+            noticePath() {
+                return `${conf.SERVER_PATH}/data/app/notice?pid=${this.$store.state.proid}`
             }
         },
         watch: {

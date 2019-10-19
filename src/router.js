@@ -9,6 +9,16 @@ const router = new Router({
     component: () => import('./views2/login')
   },
   {
+    path: '/student/project',
+    meta: {
+      title: '选择项目',
+      subTitle: ''
+    },
+    components: {
+      default: () => import('@/views/student/selectProject')
+    }
+  },
+  {
     path: '/student',
     component: () => import('@/views/student/index'),
     children: [{
