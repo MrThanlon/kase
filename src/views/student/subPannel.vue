@@ -37,17 +37,6 @@
                     <i class="fas fa-exclamation-circle"></i>
                 </button>
             </li>
-            <li class="list-group-item">
-                <h6 class="card-title text-left">账户</h6>
-                <button class="btn btn-outline-dark m-2" @click="$router.push('/student/password')">
-                    修改密码
-                    <i class="fas fa-key"></i>
-                </button>
-                <button class="btn btn-outline-dark m-2" @click="logout">
-                    登出
-                    <i class="fas fa-sign-out-alt"></i>
-                </button>
-            </li>
         </ul>
     </div>
 </template>

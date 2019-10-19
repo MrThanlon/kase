@@ -18,8 +18,8 @@
                 </span>
             </div>
         </div>
-        <div class="row ml-0 mr-0" style="height: 93vh">
-            <div class="col-12 col-md-9 mb-3 mb-md-5 mt-3 pl-1 pr-1">
+        <div class="row ml-0 mr-0 mb-5 mt-3" style="height: 93vh">
+            <div class="col-12 col-md-9 mb-3 pl-1 pr-1">
                 <div class="card border-light rounded-0 h-100">
                     <div class="card-header">
                         <h5 class="card-title mb-0">{{$route.meta.title}}</h5>
@@ -30,7 +30,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-3 mb-3 mb-md-5 mt-3 pl-1 pr-1">
+            <div class="col-12 col-md-3 mb-3 pl-1 pr-1">
                 <div class="card border-light rounded-0">
                     <div class="card-header">
                         <h5 class="card-title mb-0">导航</h5>

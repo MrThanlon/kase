@@ -1,11 +1,10 @@
 <template>
-    <div>
-        <div v-if="subject.pdf">
+    <div class="h-100">
             <iframe :src="src"
-                    style="width: 100%; height: 500px" name="ifd"
+                    v-if="subject.pdf"
+                    style="width: 100%; height: 100%" name="ifd"
                     onload="this.height=ifd.document.body.scrollHeight">
             </iframe>
-        </div>
         <span v-else>文章还未上传</span>
     </div>
 </template>
