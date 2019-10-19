@@ -17,7 +17,6 @@
         <tr v-for="item in listShow" @click="$router.push('/student/'+item.cid)">
             <td>{{item.cid}}</td>
             <td>{{item.name}}</td>
-            <td>{{projectNameList[item.pid]}}</td>
             <td>{{item.applicant}}</td>
             <td>
                 <span class="badge badge-pill"
@@ -52,7 +51,7 @@
                 /**
                  * 标题列表
                  */
-                formHeaders: ['ID', '课题名称', '项目名称', '申请人', '当前状态', '申请日期', '文档', '附件'],
+                formHeaders: ['ID', '课题名称', '申请人', '当前状态', '申请日期', '文档', '附件'],
                 /**
                  * 过滤关键词，来自input
                  */
@@ -60,7 +59,7 @@
                 /**
                  * input的placeholder
                  */
-                placeholders: ['', '', '', '', 'Accepter/Rejected/Pending', '', 'y/n', 'y/n'],
+                placeholders: ['', '', '', '', '', 'y/n', 'y/n'],
                 subjectList: [],
                 projectList: [],
             }

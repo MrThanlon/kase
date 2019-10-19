@@ -1,53 +1,55 @@
 <template>
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item">
-            <h6 class="card-title text-left">课题</h6>
-            <button class="btn btn-outline-dark m-2" @click="$router.push('/student/')">
-                课题列表
-                <i class="fas fa-list"></i>
-            </button>
-            <button class="btn btn-outline-dark m-2" @click="$router.push('/student/new')">
-                新建课题
-                <i class="fas fa-plus"></i>
-            </button>
-            <button class="btn btn-outline-dark m-2" onclick="document.getElementById('pdf').click()"
-                    v-if="cid">
-                上传PDF
-                <i class="fas fa-file-pdf"></i>
-            </button>
-            <input type="file" @change="uploadPDF" id="pdf" style="display: none"/>
-            <button class="btn btn-outline-dark m-2"
-                    onclick="document.getElementById('download').click()" v-if="cid && subject.zip">
-                下载附件
-                <i class="fas fa-file-archive"></i>
-            </button>
-            <a :href="filePath" download="" style="display: none" id="download"></a>
-            <button class="btn btn-outline-dark m-2" onclick="document.getElementById('zip').click()"
-                    v-if="cid">
-                上传附件
-                <i class="fas fa-file-archive"></i>
-            </button>
-            <input type="file" @change="uploadZIP" id="zip" style="display: none"/>
-        </li>
-        <li class="list-group-item">
-            <h6 class="card-title text-left">事项</h6>
-            <button class="btn btn-outline-dark m-2" @click="$router.push('/student/notice')">
-                下载申报材料
-                <i class="fas fa-exclamation-circle"></i>
-            </button>
-        </li>
-        <li class="list-group-item">
-            <h6 class="card-title text-left">账户</h6>
-            <button class="btn btn-outline-dark m-2" @click="$router.push('/student/password')">
-                修改密码
-                <i class="fas fa-key"></i>
-            </button>
-            <button class="btn btn-outline-dark m-2" @click="logout">
-                登出
-                <i class="fas fa-sign-out-alt"></i>
-            </button>
-        </li>
-    </ul>
+    <div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <h6 class="card-title text-left">课题</h6>
+                <button class="btn btn-outline-dark m-2" @click="$router.push('/student/')">
+                    课题列表
+                    <i class="fas fa-list"></i>
+                </button>
+                <button class="btn btn-outline-dark m-2" @click="$router.push('/student/new')">
+                    新建课题
+                    <i class="fas fa-plus"></i>
+                </button>
+                <button class="btn btn-outline-dark m-2" onclick="document.getElementById('pdf').click()"
+                        v-if="cid">
+                    上传PDF
+                    <i class="fas fa-file-pdf"></i>
+                </button>
+                <input type="file" @change="uploadPDF" id="pdf" style="display: none"/>
+                <button class="btn btn-outline-dark m-2"
+                        onclick="document.getElementById('download').click()" v-if="cid && subject.zip">
+                    下载附件
+                    <i class="fas fa-file-archive"></i>
+                </button>
+                <a :href="filePath" download="" style="display: none" id="download"></a>
+                <button class="btn btn-outline-dark m-2" onclick="document.getElementById('zip').click()"
+                        v-if="cid">
+                    上传附件
+                    <i class="fas fa-file-archive"></i>
+                </button>
+                <input type="file" @change="uploadZIP" id="zip" style="display: none"/>
+            </li>
+            <li class="list-group-item">
+                <h6 class="card-title text-left">事项</h6>
+                <button class="btn btn-outline-dark m-2" @click="$router.push('/student/notice')">
+                    下载申报材料
+                    <i class="fas fa-exclamation-circle"></i>
+                </button>
+            </li>
+            <li class="list-group-item">
+                <h6 class="card-title text-left">账户</h6>
+                <button class="btn btn-outline-dark m-2" @click="$router.push('/student/password')">
+                    修改密码
+                    <i class="fas fa-key"></i>
+                </button>
+                <button class="btn btn-outline-dark m-2" @click="logout">
+                    登出
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </li>
+        </ul>
+    </div>
 </template>
 
 <script>
