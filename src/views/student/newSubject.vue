@@ -12,22 +12,29 @@
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text">
-                    隶属项目&nbsp;
-                    <i class="fas fa-project-diagram"></i>
-                </span>
-            </div>
-            <select class="custom-select" v-model="selectedPID">
-                <option v-for="item in projectList" :value="item.pid">{{item.name}}</option>
-            </select>
-        </div>
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">
                     申请人&nbsp;
                     <i class="fas fa-user"></i>
                 </span>
             </div>
             <input type="text" class="form-control" v-model="applicant"/>
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    PDF文件&nbsp;
+                    <i class="fas fa-file-pdf"></i>
+                </span>
+            </div>
+            <input type="file" class="form-control" id="pdf"/>
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    附件&nbsp;
+                    <i class="fas fa-file-archive"></i>
+                </span>
+            </div>
+            <input type="file" class="form-control" id="zip"/>
         </div>
         <div class="row justify-content-center">
             <button type="submit" class="btn btn-outline-dark" @click="submit">
@@ -46,16 +53,6 @@
         name: "newSubject",
         data: function () {
             return {
-                projectList: [
-                    {
-                        "pid": 190,
-                        "name": "测试项目"
-                    },
-                    {
-                        "pid": 191,
-                        "name": "张义飞"
-                    }
-                ],
                 subjectName: '',
                 selectedPID: null,
                 applicant: ''
@@ -63,19 +60,36 @@
         },
         computed: {},
         async created() {
-            const t = (new Date().getTime()) / 1000
-            this.projectList = (await api.data.app.list_prj()).data.filter(v => v.start < t && v.end > t)
+
         },
         methods: {
             async submit() {
                 console.debug("PID:" + this.selectedPID)
                 try {
                     // TODO: 成功提示
-                    await api.data.app.new_app({
+                    // 创建
+                    const c = await api.data.app.new_app({
                         name: this.subjectName,
-                        pid: parseInt(this.selectedPID),
+                        pid: this.$store.state.proid,
                         applicant: this.applicant
                     })
+                    console.debug(c)
+                    // 上传pdf
+                    let data = new FormData()
+                    if(document.getElementById('pdf').files[0]) {
+                        data.append('cid', c.cid)
+                        data.append('pdf', document.getElementById('pdf').files[0])
+                        await api.data.app.upload_pdf(data)
+                    }
+
+                    //上传zip
+                    if(document.getElementById('zip').files[0]) {
+                        data = new FormData()
+                        data.append('cid', c.cid)
+                        data.append('zip', document.getElementById('zip').files[0])
+                        await api.data.app.upload_zip(data)
+                    }
+
                     this.$router.push('/student')
                 } catch (e) {
                     // TODO: 出错提示
