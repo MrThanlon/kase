@@ -1,10 +1,8 @@
 <template>
-  <div id="app">
-    <div>
-      <router-view />
-    </div>
+  <div id="app" class="h-100">
+    <router-view />
     <footer>
-      <div class="card shadow">
+      <div class="card border-0 rounded-0">
         <div class="card-body p-0">
           &copy;<a target="_blank"
              href="https://github.com/mrthanlon/kase-be">Kase</a>
