@@ -9,6 +9,10 @@ const router = new Router({
     component: () => import('./views2/login')
   },
   {
+    path: '/register',
+    component: () => import('./views2/register')
+  },
+  {
     path: '/student/project',
     meta: {
       title: '选择项目',

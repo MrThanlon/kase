@@ -25,7 +25,7 @@
             <input type="text"
                    class="form-control"
                    name="username"
-                   placeholder="用户名"
+                   placeholder="手机号/用户名"
                    v-model="username" />
           </div>
           <div class="input-group mb-3">
@@ -70,10 +70,10 @@
                 记住登录
               </label>
             </div>
-            <div class="link">
-              找回密码
+            <div class="link" @click="forget">
+              忘记密码
             </div>
-            <div class="link">
+            <div class="link" @click="registe">
               注册账号
             </div>
           </div>
@@ -129,13 +129,21 @@ export default {
         url: 'user/login',
         data: {
           u: this.username,
-          p: this.password
+          p: this.password,
+          method: 'password'
         }
       })
     },
     async login () {
       try {
-        await api.user.login({ u: this.username, p: this.password })
+        if (this.method === 'password') {
+          await api.user.login({u: this.username, p: this.password})
+        } else if (this.method === 'sms') {
+          await api.user.one_time_login({u: this.username, token: this.password})
+        } else {
+          console.debug("Unknow error")
+          return
+        }
         console.debug(`[Login] Success!`)
         // 登录成功
         const id = await api.user.id()
@@ -156,8 +164,26 @@ export default {
       }
     },
     async forget () {
+      if (this.username.length === 11) {
+        this.method = 'sms'
+        console.debug("SMS login")
+        try {
+          await api.user.sms({u:this.username})
+        } catch (e) {
+          console.debug(e)
+        }
+      }
     },
     async registe () {
+      if (this.username.length === 11) {
+        this.method = 'sms'
+        console.debug("SMS registe")
+        try {
+          await api.user.reg({u:this.username})
+        } catch (e) {
+          console.debug(e)
+        }
+      }
     }
   }
 }
