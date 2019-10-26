@@ -16,51 +16,7 @@
       </div>
       <div class="card-body" style="background-color: #b6e1df">
         <form onsubmit="return false">
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text">
-                <i class="fas fa-user"></i>
-              </span>
-            </div>
-            <input type="text"
-                   class="form-control"
-                   name="username"
-                   placeholder="手机号/用户名"
-                   v-model="username" />
-          </div>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text">
-                <i class="fas fa-key"></i>
-              </span>
-            </div>
-            <input type="password"
-                   class="form-control"
-                   name="password"
-                   placeholder="密码"
-                   v-model="password" />
-          </div>
-          <p class="text-danger">{{$store.state.loginMsg}}</p>
-          <div class="d-flex justify-content-center">
-            <button class="btn btn-outline-dark mb-3 w-100"
-                    type="submit"
-                    @click="login">
-              登录
-              <i class="fas fa-sign-in-alt"></i>
-            </button>
-            <!--
-            <button class="btn btn-outline-warning mr-3 mb-3"
-                    @click="forget">
-              忘记密码
-              <i class="fas fa-exclamation-circle"></i>
-            </button>
-            <button class="btn btn-outline-primary mr-3 mb-3"
-                    @click="registe">
-              注册
-              <i class="fas fa-user-plus"></i>
-            </button>
-            -->
-          </div>
+          <router-view/>
           <div class="form-check d-flex justify-content-between">
             <div>
               <input class="form-check-input"
@@ -70,14 +26,19 @@
                 记住登录
               </label>
             </div>
-            <div class="link" @click="forget">
-              忘记密码
-            </div>
-            <div class="link" @click="registe">
-              注册账号
-            </div>
           </div>
         </form>
+        <div class="d-flex flex-nowrap justify-content-between">
+          <div class="link" @click="$router.push('/login')">
+            密码登录
+          </div>
+          <div class="link" @click="$router.push('/login/sms')">
+            快捷登录
+          </div>
+          <div class="link" @click="$router.push('/login/registe')">
+            注册账号
+          </div>
+        </div>
       </div>
     </div>
     <img class="m-4" src="../../assets/login.png">
@@ -94,7 +55,8 @@ export default {
     return {
       username: '',
       password: '',
-      remembered: true
+      remembered: true,
+      sms: false
     }
   },
   async created () {

@@ -6,11 +6,20 @@ Vue.use(Router)
 const router = new Router({
   routes: [{
     path: '/login',
-    component: () => import('./views2/login')
-  },
-  {
-    path: '/register',
-    component: () => import('./views2/register')
+    component: () => import('./views2/login'),
+    children: [{
+      path: '/',
+      component: () => import('./views2/login/passwordLogin')
+    },
+    {
+      path: 'sms',
+      component: () => import('./views2/login/sms')
+    },
+    {
+      path: 'registe',
+      component: () => import('./views2/login/registe')
+    }
+    ]
   },
   {
     path: '/student/project',
