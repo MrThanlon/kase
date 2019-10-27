@@ -6,18 +6,18 @@ Vue.use(Router)
 const router = new Router({
   routes: [{
     path: '/login',
-    component: () => import('./views2/login'),
+    component: () => import('./views/login/index'),
     children: [{
       path: '/',
-      component: () => import('./views2/login/passwordLogin')
+      component: () => import('./views/login/passwordLogin')
     },
     {
       path: 'sms',
-      component: () => import('./views2/login/sms')
+      component: () => import('./views/login/sms')
     },
     {
       path: 'registe',
-      component: () => import('./views2/login/registe')
+      component: () => import('./views/login/registe')
     }
     ]
   },
@@ -100,7 +100,6 @@ const router = new Router({
     }
     ]
   },
-  // TODO: judger router
   {
     path: '/judger',
     component: () => import('@/views/judger/index'),
