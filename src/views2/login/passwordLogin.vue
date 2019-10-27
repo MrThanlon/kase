@@ -48,7 +48,7 @@
             }
         },
         methods: {
-            async login () {
+            async login() {
                 try {
                     await api.user.login({u: this.username, p: this.password})
                     console.debug(`[Login] Success!`)
@@ -60,10 +60,9 @@
                         typeText: ['', 'student', 'judger', 'admin'][id.type]
                     })
                     this.$store.commit('change_state', {loginMsg: ""})
-                    if(id.type === 1) {
+                    if (id.type === 1) {
                         this.$router.push('/student/project')
-                    }
-                    else {
+                    } else {
                         this.$router.push('/' + this.$store.state.typeText)
                     }
                 } catch (e) {
