@@ -8,8 +8,8 @@
             </div>
             <input type="text"
                    class="form-control"
-                   name="username"
                    placeholder="手机号"
+                   maxlength="11"
                    v-model="username"/>
         </div>
         <div class="input-group mb-3">
@@ -18,9 +18,8 @@
                 <i class="fas fa-key"></i>
               </span>
             </div>
-            <input type="text"
+            <input type="password"
                    class="form-control"
-                   name="username"
                    placeholder="密码"
                    v-model="password"/>
         </div>
@@ -30,9 +29,8 @@
                 <i class="fas fa-key"></i>
               </span>
             </div>
-            <input type="text"
+            <input type="password"
                    class="form-control"
-                   name="username"
                    placeholder="再次输入密码"
                    v-model="passwordAgain"/>
         </div>
@@ -43,15 +41,15 @@
                 <i class="fas fa-envelope"></i>
               </span>
                 </div>
-                <input type="password"
+                <input type="number"
                        class="form-control"
-                       name="password"
                        placeholder="验证码"
                        v-model="token"/>
             </div>
-            <button class="btn btn-outline-dark mb-3 ml-3 w-50" @click="registe">
-                发送
-                <i class="fas fa-plane-departure"></i>
+            <button class="btn btn-outline-dark mb-3 ml-3 w-50" @click="registe" :disabled="sended">
+                {{sended?'已发送':'发送'}}
+                <span v-if="sended">，{{count}}秒</span>
+                <i class="fas fa-plane-departure" v-if="!sended"></i>
             </button>
         </div>
         <p class="text-danger">{{$store.state.loginMsg}}</p>
@@ -76,7 +74,10 @@
                 username: '',
                 password: '',
                 passwordAgain: '',
-                token: ''
+                token: '',
+                sended: false,
+                sendTime: 0,
+                count: 0
             }
         },
         methods: {
@@ -111,6 +112,12 @@
                     try {
                         await api.user.reg({u: this.username})
                         this.$store.commit('change_state', {loginMsg: ""})
+                        this.sended = true
+                        this.sendTime = Date.parse(new Date()) / 1000
+                        this.countDown()
+                        setTimeout(() => {
+                            this.sended = false
+                        }, 30000)
                     } catch (e) {
                         console.debug(e)
                         this.$store.commit('change_state', {loginMsg: "错误"})
@@ -118,6 +125,15 @@
                 } else {
                     this.$store.commit('change_state', {loginMsg: "请输入11位手机号"})
                 }
+            },
+            /**
+             * 倒计时
+             */
+            countDown() {
+                const t = Date.parse(new Date()) / 1000
+                this.count = this.sendTime + 30 - t
+                if (this.count >= 0)
+                    setTimeout(this.countDown, 1000)
             }
         }
     }
