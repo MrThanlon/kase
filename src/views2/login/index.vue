@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid pl-0 pr-0 pt-5 d-flex justify-content-center align-items-center flex-wrap h-100" style="background-color: #87ccc8">
+  <div class="container-fluid pb-5 pl-0 pr-0 pt-5 d-flex justify-content-center align-items-center flex-wrap h-100" style="background-color: #87ccc8">
     <div class="row justify-content-between mr-0 ml-0 w-100" style="background-color: #00838f;position: absolute;top: 0">
       <div class="p-2 ml-3">
         <img src="../../assets/uestc.png" class="logo">
@@ -8,7 +8,7 @@
         </span>
       </div>
     </div>
-    <div class="card rounded-0 border-0 col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4" style="background-color: #87ccc8">
+    <div class="card rounded-0 border-0 mt-4 col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4" style="background-color: #87ccc8">
       <div class="card-header border-0 rounded-0" style="background-color: #b6e1df">
         <h6 class="card-title mb-0">
           登陆
@@ -41,7 +41,9 @@
         </div>
       </div>
     </div>
-    <img class="m-4" src="../../assets/login.png">
+    <div class="row d-flex justify-content-center w-100">
+      <img class="w-50" src="../../assets/login.png">
+    </div>
   </div>
 </template>
 

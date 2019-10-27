@@ -3,7 +3,7 @@
         <div class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text">
-                <i class="fas fa-user"></i>
+                <i class="fas fa-phone"></i>
               </span>
             </div>
             <input type="text"
@@ -12,11 +12,35 @@
                    placeholder="手机号"
                    v-model="username"/>
         </div>
-        <div class="d-flex">
-            <div class="input-group mb-3 w-75">
-                <div class="input-group-prepend">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
               <span class="input-group-text">
                 <i class="fas fa-key"></i>
+              </span>
+            </div>
+            <input type="text"
+                   class="form-control"
+                   name="username"
+                   placeholder="密码"
+                   v-model="password"/>
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="fas fa-key"></i>
+              </span>
+            </div>
+            <input type="text"
+                   class="form-control"
+                   name="username"
+                   placeholder="再次输入密码"
+                   v-model="passwordAgain"/>
+        </div>
+        <div class="d-flex justify-content-between">
+            <div class="input-group mb-3 w-50">
+                <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="fas fa-envelope"></i>
               </span>
                 </div>
                 <input type="password"
@@ -25,7 +49,7 @@
                        placeholder="验证码"
                        v-model="token"/>
             </div>
-            <button class="btn btn-outline-dark mb-3 ml-3" @click="registe">
+            <button class="btn btn-outline-dark mb-3 ml-3 w-50" @click="registe">
                 发送
                 <i class="fas fa-plane-departure"></i>
             </button>
@@ -50,13 +74,23 @@
         data: function () {
             return {
                 username: '',
+                password: '',
+                passwordAgain: '',
                 token: ''
             }
         },
         methods: {
             async login() {
+                if (this.password !== this.passwordAgain) {
+                    this.$store.commit('change_state', {loginMsg: "密码不一致"})
+                    return
+                }
                 try {
-                    await api.user.one_time_login({u: this.username, token: this.token})
+                    await api.user.one_time_login({
+                        u: this.username,
+                        token: this.token,
+                        password: this.password
+                    })
                     console.debug(`[Login] Success!`)
                     // 登录成功
                     const id = await api.user.id()
@@ -69,6 +103,7 @@
                 } catch (e) {
                     // TODO:提示错误
                     console.debug(e)
+                    this.$store.commit('change_state', {loginMsg: "错误"})
                 }
             },
             async registe() {
