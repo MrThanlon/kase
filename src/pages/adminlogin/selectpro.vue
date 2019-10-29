@@ -5,18 +5,21 @@
                width="40%"
                :show-close="false"
                :close-on-click-modal="false">
-      <el-select v-model="value"
-                 placeholder="请选择"
-                 style="marigin:0 auto">
-        <el-option v-for="(item,index) in groups"
-                   :value="item.pid"
-                   :label="item.name"
-                   :key="index"></el-option>
-      </el-select>
-      <span slot="footer"
-            class="dialog-footer">
+      <div class="diabody">
+        <el-select v-model="value"
+                   placeholder="请选择"
+                   style="marigin:0 auto">
+          <el-option v-for="(item,index) in groups"
+                     :value="item.pid"
+                     :label="item.name"
+                     :key="index"
+                     class="margin-left:40px;"></el-option>
+        </el-select>
         <el-button type="primary"
                    @click="prodialog=true">创建新项目</el-button>
+      </div>
+      <span slot="footer"
+            class="dialog-footer">
         <el-button type="primary"
                    @click="turnto">确 定</el-button>
       </span>
@@ -133,5 +136,10 @@ export default {
 }
 .form label {
   line-height: 60px;
+}
+.diabody {
+  display: flex;
+  justify-content: space-between;
+  max-width: 330px;
 }
 </style>

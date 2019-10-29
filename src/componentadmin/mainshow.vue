@@ -75,11 +75,11 @@
       </div>
       <div class="smallhead"
            v-if="$route.path=='/adminindex/examined'">
-        <span style="line-height:40px;font-size:1.3rem">待审核材料</span>
+        <span style="line-height:40px;font-size:1.3rem">已审核材料</span>
       </div>
       <div class="smallhead"
            v-if="$route.path=='/adminindex/examining'">
-        <span style="line-height:40px;font-size:1.3rem">已审核材料</span>
+        <span style="line-height:40px;font-size:1.3rem">待审核材料</span>
       </div>
     </div>
     <el-table :data="tabledata.slice((currentPage-1)*pagesize,currentPage*pagesize)"
