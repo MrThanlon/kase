@@ -1,8 +1,8 @@
 <template>
     <form onsubmit="return false" autocomplete="off" class="m-3">
         <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">
+            <div class="input-group-prepend w-25">
+                <span class="input-group-text w-100 justify-content-center">
                     课题名称&nbsp;
                     <i class="fas fa-heading"></i>
                 </span>
@@ -10,8 +10,8 @@
             <input type="text" class="form-control" v-model="subjectName"/>
         </div>
         <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">
+            <div class="input-group-prepend w-25">
+                <span class="input-group-text w-100 justify-content-center">
                     申请人&nbsp;
                     <i class="fas fa-user"></i>
                 </span>
@@ -19,23 +19,26 @@
             <input type="text" class="form-control" v-model="applicant"/>
         </div>
         <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">
+            <div class="input-group-prepend w-25">
+                <span class="input-group-text w-100 justify-content-center">
                     PDF文件&nbsp;
                     <i class="fas fa-file-pdf"></i>
                 </span>
             </div>
             <input type="file" class="form-control" id="pdf"/>
         </div>
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">
+        <div class="input-group">
+            <div class="input-group-prepend w-25">
+                <span class="input-group-text w-100 justify-content-center">
                     附件&nbsp;
                     <i class="fas fa-file-archive"></i>
                 </span>
             </div>
             <input type="file" class="form-control" id="zip"/>
         </div>
+        <span class="text-secondary">
+            提示：如果不要求提交附件可不进行提交附件操作。
+        </span>
         <div class="row justify-content-center">
             <button type="submit" class="btn btn-outline-dark" @click="submit">
                 提交
@@ -76,14 +79,14 @@
                     console.debug(c)
                     // 上传pdf
                     let data = new FormData()
-                    if(document.getElementById('pdf').files[0]) {
+                    if (document.getElementById('pdf').files[0]) {
                         data.append('cid', c.cid)
                         data.append('pdf', document.getElementById('pdf').files[0])
                         await api.data.app.upload_pdf(data)
                     }
 
                     //上传zip
-                    if(document.getElementById('zip').files[0]) {
+                    if (document.getElementById('zip').files[0]) {
                         data = new FormData()
                         data.append('cid', c.cid)
                         data.append('zip', document.getElementById('zip').files[0])
@@ -101,5 +104,7 @@
 </script>
 
 <style scoped>
-
+    span {
+        font-size: 14px;
+    }
 </style>

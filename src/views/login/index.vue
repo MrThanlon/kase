@@ -1,9 +1,9 @@
 <template>
   <div class="container-fluid pb-5 pl-0 pr-0 pt-5 d-flex justify-content-center align-items-center flex-wrap h-100" style="background-color: #87ccc8">
-    <div class="row justify-content-between mr-0 ml-0 w-100" style="background-color: #00838f;position: absolute;top: 0">
+    <div class="row justify-content-between align-items-center mr-0 ml-0 w-100" style="background-color: #00838f;position: absolute;top: 0">
       <div class="p-2 ml-3">
         <img src="../../assets/uestc.png" class="logo">
-        <span class="align-middle">
+        <span class="align-middle text-light">
           通用项目评审管理系统
         </span>
       </div>
@@ -42,7 +42,7 @@
       </div>
     </div>
     <div class="row d-flex justify-content-center w-100 pb-3" style="background-color: #87ccc8">
-      <img class="w-50 h-50" src="../../assets/login.png">
+      <img class="mt-4" src="../../assets/login.png" style="width: 40%; height: 40%;">
     </div>
   </div>
 </template>

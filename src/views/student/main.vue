@@ -6,12 +6,6 @@
                 {{item}}
             </th>
         </tr>
-        <tr>
-            <th scope="col" v-for="(item,idx) in formHeaders">
-                <input class="form-control" :aria-label="item"
-                       v-model="filterKey[idx]" :placeholder="placeholders[idx]">
-            </th>
-        </tr>
         </thead>
         <tbody>
         <tr v-for="item in listShow" @click="$router.push('/student/'+item.cid)">
