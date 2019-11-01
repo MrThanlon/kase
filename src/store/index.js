@@ -44,7 +44,7 @@ export default new Vuex.Store({
     groups: []
   },
   getters: {
-    getlist (state) {
+    getlist(state) {
       const templist = state.list.slice()
       for (let i = 0; i < templist.length; i++) {
         if (templist[i].status === 0) {
@@ -57,19 +57,14 @@ export default new Vuex.Store({
       }
       return templist
     },
-    getpid (state) {
+    getpid(state) {
       return state.proid
     },
-    getpro (state) {
+    getpro(state) {
       return state.pro
     },
-    getevalist (state) {
-      var tempevalist = state.evalist.slice()
-      for (let i = 0; i < state.evalist.length; i++) {
-        if (state.evalist[i].pid !== state.proid) {
-          tempevalist.splice(i, 1)
-        }
-      }
+    getevalist(state) {
+      var tempevalist = state.evalist.filter(value => value.pid === state.proid)
       for (let i = 0; i < tempevalist.length; i++) {
         if (tempevalist[i].stat === true) {
           Vue.set(tempevalist[i], 'stat', '已提交')
@@ -79,7 +74,7 @@ export default new Vuex.Store({
       }
       return tempevalist
     },
-    getgroups (state) {
+    getgroups(state) {
       return state.groups
     }
   },
@@ -89,36 +84,36 @@ export default new Vuex.Store({
      * @param state
      * @param payload
      */
-    reset (state) {
+    reset(state) {
       state = {}
       console.log(state)
     },
-    change_state (state, payload) {
+    change_state(state, payload) {
       for (const key in payload) {
         state[key] = payload[key]
       }
     },
-    change_list (state, thelist) {
+    change_list(state, thelist) {
       state.list = thelist
     },
-    change_pid (state, pid) {
+    change_pid(state, pid) {
       state.proid = pid
     },
-    change_pro (state, pro) {
+    change_pro(state, pro) {
       state.pro = pro
     },
-    change_evalist (state, evalist) {
+    change_evalist(state, evalist) {
       state.evalist = evalist
     },
-    change_groups (state, groups) {
+    change_groups(state, groups) {
       state.groups = groups
     }
   },
   actions: {
-    resetstate (context) {
+    resetstate(context) {
       context.commit('reset')
     },
-    list (context) {
+    list(context) {
       axios({
         method: 'post',
         url: 'data/adm/query_content',
@@ -131,7 +126,7 @@ export default new Vuex.Store({
         }
       })
     },
-    eva (context) {
+    eva(context) {
       axios({
         method: 'post',
         url: 'data/adm/query_user'
@@ -141,7 +136,7 @@ export default new Vuex.Store({
         }
       })
     },
-    pros (context) {
+    pros(context) {
       axios({
         method: 'post',
         url: 'data/adm/list'
@@ -151,7 +146,7 @@ export default new Vuex.Store({
         }
       })
     },
-    groups (context) {
+    groups(context) {
       axios({
         method: 'post',
         url: 'data/adm/list_groups',
@@ -164,22 +159,22 @@ export default new Vuex.Store({
         }
       })
     },
-    changelist (context, thelist) {
+    changelist(context, thelist) {
       context.commit('change_list', thelist)
     },
-    changepid (context, pid) {
+    changepid(context, pid) {
       context.commit('change_pid', pid)
     },
-    changepro (context, pro) {
+    changepro(context, pro) {
       context.commit('change_pro', pro)
     },
-    changeevalist (context, evalist) {
+    changeevalist(context, evalist) {
       context.commit('change_evalist', evalist)
     },
-    changegroups (context, groups) {
+    changegroups(context, groups) {
       context.commit('change_groups', groups)
     },
-    async init ({
+    async init({
       commit,
       state
     }) {
