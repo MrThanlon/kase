@@ -64,14 +64,21 @@ export default new Vuex.Store({
       return state.pro
     },
     getevalist (state) {
-      const tempevalist = state.evalist.slice()
+      var tempevalist = state.evalist.slice()
       for (let i = 0; i < tempevalist.length; i++) {
-        if (tempevalist[i].stat === true) {
-          Vue.set(tempevalist[i], 'stat', '已提交')
-        } else if (tempevalist[i].stat === false) {
-          Vue.set(tempevalist[i], 'stat', '未提交')
+        if (tempevalist[i].pid !== state.proid) {
+          console.log(tempevalist[i])
+          tempevalist.splice(i, 1)
+        } else {
+          if (tempevalist[i].stat === true) {
+            Vue.set(tempevalist[i], 'stat', '已提交')
+          } else if (tempevalist[i].stat === false) {
+            Vue.set(tempevalist[i], 'stat', '未提交')
+          }
         }
       }
+      console.log(state.proid)
+      console.log(tempevalist)
       return tempevalist
     },
     getgroups (state) {
@@ -142,7 +149,6 @@ export default new Vuex.Store({
         url: 'data/adm/list'
       }).then((res) => {
         if (res.data.status === 0) {
-          console.log(res.data.data)
           context.commit('change_pro', res.data.data)
         }
       })

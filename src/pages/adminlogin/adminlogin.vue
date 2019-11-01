@@ -153,6 +153,10 @@ export default {
     this.getevalist()
     this.$store.dispatch('groups')
     this.gettitle()
+  },
+  mounted () {
+    document.getElementsByTagName('html')[0].style.height = ''
+    document.body.style.height = ""
   }
 }
 </script>

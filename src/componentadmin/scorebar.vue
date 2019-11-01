@@ -51,7 +51,7 @@ export default {
   data () {
     return {
       currentPage: 1,
-      pagesize: 3,
+      pagesize: 10,
       multipleSelection: [],
       downloadsco: [],
       pid: 0

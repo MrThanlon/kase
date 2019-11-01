@@ -140,7 +140,7 @@ export default {
       optcon: 3,
       dialogVisible: false,
       currentPage: 1,
-      pagesize: 3,
+      pagesize: 10,
       cid: 0,
       pid: 0,
       list: [],
