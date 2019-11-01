@@ -1,18 +1,26 @@
 <template>
     <div class="container p-0 m-0 mw-100">
-        <div class="row justify-content-between mr-0 ml-0" style="background-color: #00838f">
-            <div class="p-2 ml-3">
+        <div class="row justify-content-between mr-0 ml-0 p-2" style="background-color: #00838f">
+            <div class="d-flex w-25">
                 <img src="../../assets/uestc.png" class="logo">
-                <span class="tohome align-middle">
+                <span class="align-self-center tohome align-middle">
                     <router-link to="/">通用项目评审管理系统</router-link>
                 </span>
             </div>
-            <div class="p-2 mr-3 text-right">
+            <div class="d-flex justify-content-center w-50">
+                <h4 class="text-light align-self-center">{{$store.state.proName}}</h4>
+            </div>
+            <div class="text-right w-25">
                 <span class="text-light">欢迎您,{{username}}</span>
                 <br/>
+                <span class="text-light quit" @click="changeProject">
+                    切换项目
+                </span>
+                |
                 <span class="text-light quit" @click="$router.push('/student/password')">
                     修改密码
                 </span>
+                |
                 <span class="text-light quit" @click="logout">
                     退出
                 </span>
@@ -58,7 +66,7 @@
             } catch (e) {
                 console.debug(e)
             }
-            if(!this.$store.state.proid){
+            if (!this.$store.state.proid) {
                 this.$router.push('/student/project')
             }
         },
@@ -77,7 +85,8 @@
                 this.$store.commit('change_state', {
                     logined: false,
                     type: 0,
-                    proid: 0
+                    proid: 0,
+                    proName: ''
                 })
                 try {
                     await api.user.logout()
@@ -86,6 +95,13 @@
                 }
                 this.$router.push('/login')
             },
+            async changeProject() {
+                this.$store.commit('change_state', {
+                    proid: 0,
+                    proName: ''
+                })
+                this.$router.push('/student/project')
+            }
         }
     }
 </script>

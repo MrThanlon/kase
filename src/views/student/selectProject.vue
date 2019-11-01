@@ -1,13 +1,13 @@
 <template>
     <div class="row d-flex justify-content-center align-middle" style="margin-top: 30vh">
-    <div class="input-group p-5 col-12 col-md-6 col-xl-4">
-        <div class="input-group-prepend">
-            <label class="input-group-text">选择项目</label>
+        <div class="input-group p-5 col-12 col-md-6 col-xl-4">
+            <div class="input-group-prepend">
+                <label class="input-group-text">选择项目</label>
+            </div>
+            <select class="custom-select" @change="change" v-model="pid">
+                <option v-for="item in projectList" :value="item.pid">{{item.name}}</option>
+            </select>
         </div>
-        <select class="custom-select" @change="change" v-model="pid">
-            <option v-for="item in projectList" :value="item.pid">{{item.name}}</option>
-        </select>
-    </div>
     </div>
 </template>
 
@@ -34,7 +34,8 @@
         methods: {
             async change() {
                 this.$store.commit('change_state', {
-                    proid: this.pid
+                    proid: this.pid,
+                    proName: this.projectList.reduce((pre, cur) => pre || (cur.pid === this.pid && cur.name), '')
                 })
                 this.$router.push('/student/')
             }
