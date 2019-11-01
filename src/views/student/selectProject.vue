@@ -36,7 +36,7 @@
                 this.$store.commit('change_state', {
                     proid: this.pid
                 })
-                this.$router.push('/student')
+                this.$router.push('/student/')
             }
         }
     }
