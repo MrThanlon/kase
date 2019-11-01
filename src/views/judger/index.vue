@@ -1,6 +1,6 @@
 <template>
     <div class="container p-0 m-0 mw-100">
-        <div class="row justify-content-between mr-0 ml-0">
+        <div class="row justify-content-between mr-0 ml-0" style="background-color: #00838f">
             <div class="p-2 ml-3">
                 <img src="../../assets/uestc.png" class="logo">
                 <span class="tohome align-middle">
@@ -17,7 +17,7 @@
         </div>
         <div class="row ml-0 mr-0" style="height: 93vh">
             <div class="col-12 col-md-9 mb-3 mb-md-5 mt-3 pl-1 pr-1">
-                <div class="card border-light rounded-0 h-100">
+                <div class="card border-light rounded-0">
                     <!--
                     <div class="card-header">
                         <h5 class="card-title mb-2 mt-2">{{$route.meta.title}}</h5>

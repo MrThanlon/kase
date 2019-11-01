@@ -2,14 +2,14 @@
     <div>
         <ul class="list-group list-group-flush" v-if="type==='nav'">
             <li class="list-group-item">
-                <h6 class="card-title text-left">课题&nbsp;{{cid}}</h6>
+                <h6 class="card-title text-left">课题</h6>
                 <button class="btn btn-outline-dark m-2" @click="$router.push('/judger/')">
                     课题列表
                     <i class="fas fa-list"></i>
                 </button>
                 <!--FIXME: 判断是否上传附件 -->
                 <button class="btn btn-outline-dark m-2"
-                        onclick="document.getElementById('download').click()" v-if="cid">
+                        onclick="document.getElementById('download').click()" v-if="fileAvailable">
                     下载附件
                     <i class="fas fa-file-archive"></i>
                 </button>
@@ -49,6 +49,11 @@
     // 副面板
     export default {
         name: "subPannel",
+        data: function () {
+            return {
+                subjectList: []
+            }
+        },
         methods: {
             async logout() {
                 document.cookie = ''
@@ -76,6 +81,16 @@
         props: [
             'cid', 'type'
         ],
+        async created() {
+            try {
+                this.subjectList = (await api.data.jug.list()).data.reduce((pre, cur) => {
+                    pre[cur.cid] = cur
+                    return pre
+                }, [])
+            } catch (e) {
+                console.debug(e)
+            }
+        },
         computed: {
             filePath() {
                 return `${conf.SERVER_PATH}/data/jug/download_zip?cid=${this.cid}`
@@ -85,6 +100,9 @@
             },
             tablePath() {
                 return `${conf.SERVER_PATH}/data/jug/download_table`
+            },
+            fileAvailable() {
+                return this.cid && this.subjectList[this.cid]
             }
         },
         components: {
