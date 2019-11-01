@@ -3,11 +3,13 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
                 <h6 class="card-title text-left">课题</h6>
-                <button class="btn btn-outline-dark m-2" @click="$router.push('/student/')">
+                <button class="btn btn-outline-dark m-2" @click="$router.push('/student/')"
+                        :disabled="$route.path==='/student/'">
                     课题列表
                     <i class="fas fa-list"></i>
                 </button>
-                <button class="btn btn-outline-dark m-2" @click="$router.push('/student/new')">
+                <button class="btn btn-outline-dark m-2" @click="$router.push('/student/new')"
+                        :disabled="$route.path==='/student/new'">
                     新建课题
                     <i class="fas fa-plus"></i>
                 </button>

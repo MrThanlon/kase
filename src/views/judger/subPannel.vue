@@ -3,7 +3,9 @@
         <ul class="list-group list-group-flush" v-if="type==='nav'">
             <li class="list-group-item">
                 <h6 class="card-title text-left">课题</h6>
-                <button class="btn btn-outline-dark m-2" @click="$router.push('/judger/')">
+                <button class="btn btn-outline-dark m-2"
+                        @click="$router.push('/judger/')"
+                        :disabled="$route.path==='/judger/'">
                     课题列表
                     <i class="fas fa-list"></i>
                 </button>
