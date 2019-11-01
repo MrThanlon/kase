@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="h-100">
+  <div id="app">
     <router-view />
     <footer>
       <div class="card border-0 rounded-0">
