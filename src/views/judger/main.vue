@@ -15,7 +15,6 @@
         </thead>
         <tbody>
         <tr v-for="item in listShow" @click="$router.push('/judger/'+item.cid)">
-            <td>{{item.cid}}</td>
             <td>{{item.name}}</td>
             <td>{{item.applicant}}</td>
             <td>{{item.time}}</td>
@@ -42,7 +41,7 @@
                 /**
                  * 标题列表
                  */
-                formHeaders: ['ID', '课题名称', '申请人', '申请日期', '附件'],
+                formHeaders: ['课题名称', '申请人', '申请日期', '附件'],
                 /**
                  * 过滤关键词，来自input
                  */
@@ -71,26 +70,21 @@
             listShow() {
                 return this.list.filter((item) => {
                     if (this.filterKey[0]) {
-                        // 过滤ID
-                        if (item.cid.toString().indexOf(this.filterKey[0]) === -1)
-                            return false
-                    }
-                    if (this.filterKey[1]) {
                         // 过滤课题名称
                         if (item.name.toString().indexOf(this.filterKey[1]) === -1)
                             return false
                     }
-                    if (this.filterKey[2]) {
+                    if (this.filterKey[1]) {
                         // 过滤申请人
                         if (item.applicant.indexOf(this.filterKey[2]) === -1)
                             return false
                     }
-                    if (this.filterKey[3]) {
+                    if (this.filterKey[2]) {
                         // 过滤申请日期
                         if (item.time.indexOf(this.filterKey[3]) === -1)
                             return false
                     }
-                    if (this.filterKey[4]) {
+                    if (this.filterKey[3]) {
                         // 过滤附件
                         if (this.filterKey[4] !== 'y' && this.filterKey[4] !== 'n')
                             return false

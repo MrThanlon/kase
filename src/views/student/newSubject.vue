@@ -1,5 +1,5 @@
 <template>
-    <form onsubmit="return false" autocomplete="off" class="m-3">
+    <form onsubmit="return false" autocomplete="off" class="m-3 pl-md-5 pr-md-5">
         <div class="input-group mb-3">
             <div class="input-group-prepend w-25">
                 <span class="input-group-text w-100 justify-content-center">
@@ -39,12 +39,15 @@
         <span class="text-secondary">
             提示：如果不要求提交附件可不进行提交附件操作。
         </span>
-        <div class="row justify-content-center">
+        <div class="row justify-content-center flex-wrap">
             <button type="submit" class="btn btn-outline-dark" @click="submit">
                 提交
                 <i class="fas fa-check"></i>
             </button>
         </div>
+        <p class="row text-danger" v-if="errorMsg">
+            {{errorMsg}}
+        </p>
     </form>
 </template>
 
@@ -58,7 +61,8 @@
             return {
                 subjectName: '',
                 selectedPID: null,
-                applicant: ''
+                applicant: '',
+                errorMsg: ''
             }
         },
         computed: {},
@@ -68,35 +72,49 @@
         methods: {
             async submit() {
                 console.debug("PID:" + this.selectedPID)
+                let step = {}
                 try {
                     // TODO: 成功提示
                     // 创建
+                    step.created = false
                     const c = await api.data.app.new_app({
                         name: this.subjectName,
                         pid: this.$store.state.proid,
                         applicant: this.applicant
                     })
+                    step.created = true
                     console.debug(c)
                     // 上传pdf
                     let data = new FormData()
                     if (document.getElementById('pdf').files[0]) {
+                        step.pdf = false
                         data.append('cid', c.cid)
                         data.append('pdf', document.getElementById('pdf').files[0])
                         await api.data.app.upload_pdf(data)
                     }
+                    step.pdf = true
 
                     //上传zip
                     if (document.getElementById('zip').files[0]) {
+                        step.zip = false
                         data = new FormData()
                         data.append('cid', c.cid)
                         data.append('zip', document.getElementById('zip').files[0])
                         await api.data.app.upload_zip(data)
                     }
+                    step.zip = true
 
-                    this.$router.push('/student')
+                    this.$router.push('/student/' + c.cid)
                 } catch (e) {
                     // TODO: 出错提示
                     console.debug(e)
+                    if (step.created === false) {
+                        this.errorMsg = '无法新建课题。'
+                    } else if (step.pdf === false) {
+                        this.errorMsg = '课题已新建，但是无法上传PDF，请到课题详情页再次上传。'
+                    } else if (step.zip === false) {
+                        this.errorMsg = '课题已新建，但是无法上传附件，请到课题详情页再次上传。'
+                    }
                 }
             }
         }

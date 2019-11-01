@@ -1,6 +1,6 @@
 <template>
     <div class="container p-0 m-0 mw-100">
-        <div class="row justify-content-between mr-0 ml-0" style="background-color: #00838f">
+        <div class="row justify-content-between mr-0 ml-0">
             <div class="p-2 ml-3">
                 <img src="../../assets/uestc.png" class="logo">
                 <span class="tohome align-middle">
