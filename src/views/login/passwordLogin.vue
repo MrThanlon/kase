@@ -63,7 +63,7 @@
                     if (id.type === 1) {
                         this.$router.push('/student/project')
                     } else {
-                        this.$router.push('/' + this.$store.state.typeText)
+                        this.$router.push('/' + this.$store.state.typeText + '/')
                     }
                 } catch (e) {
                     // TODO:提示错误
