@@ -103,7 +103,8 @@
       </el-table-column>
       <el-table-column prop='applicant'
                        label="申请人"
-                       align="center"></el-table-column>
+                       align="center"
+                       width="140"></el-table-column>
       <el-table-column prop='time'
                        label="提交时间"
                        align="center"
@@ -111,7 +112,7 @@
       <el-table-column prop='status'
                        label="状态"
                        align="center"
-                       width="180"></el-table-column>
+                       width="100"></el-table-column>
       <el-table-column label="操作"
                        align="center"
                        width="180">

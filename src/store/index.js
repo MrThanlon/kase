@@ -65,20 +65,18 @@ export default new Vuex.Store({
     },
     getevalist (state) {
       var tempevalist = state.evalist.slice()
-      for (let i = 0; i < tempevalist.length; i++) {
-        if (tempevalist[i].pid !== state.proid) {
-          console.log(tempevalist[i])
+      for (let i = 0; i < state.evalist.length; i++) {
+        if (state.evalist[i].pid !== state.proid) {
           tempevalist.splice(i, 1)
-        } else {
-          if (tempevalist[i].stat === true) {
-            Vue.set(tempevalist[i], 'stat', '已提交')
-          } else if (tempevalist[i].stat === false) {
-            Vue.set(tempevalist[i], 'stat', '未提交')
-          }
         }
       }
-      console.log(state.proid)
-      console.log(tempevalist)
+      for (let i = 0; i < tempevalist.length; i++) {
+        if (tempevalist[i].stat === true) {
+          Vue.set(tempevalist[i], 'stat', '已提交')
+        } else if (tempevalist[i].stat === false) {
+          Vue.set(tempevalist[i], 'stat', '未提交')
+        }
+      }
       return tempevalist
     },
     getgroups (state) {
