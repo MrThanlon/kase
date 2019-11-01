@@ -29,8 +29,13 @@
         <div class="row ml-0 mr-0 mb-5 mt-3 justify-content-center">
             <div class="col-12 col-md-8 mb-3 pl-1 pr-1">
                 <div class="card border-light rounded-0">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">{{$route.meta.title}}</h5>
+                    <div class="card-header d-flex justify-content-between flex-nowrap">
+                        <h5 class="card-title mb-0">
+                            {{$route.meta.title}}
+                        </h5>
+                        <span class="text-secondary">
+                            如果想覆盖之前上传的材料，请点击材料进入详情页，重新上传。
+                        </span>
                     </div>
                     <div class="card-body p-0 p-md-3" style="overflow: scroll">
                         <!--主面板-->
