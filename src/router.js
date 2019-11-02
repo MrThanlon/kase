@@ -9,11 +9,11 @@ const router = new Router({
     component: () => import('./views/login/index'),
     children: [{
       path: '/',
-      component: () => import('./views/login/passwordLogin')
+      component: () => import('./views/login/sms')
     },
     {
-      path: 'sms',
-      component: () => import('./views/login/sms')
+      path: 'password',
+      component: () => import('./views/login/passwordLogin')
     },
     {
       path: 'registe',

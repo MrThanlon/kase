@@ -1,25 +1,37 @@
 <template>
     <div class="container-fluid pb-5 pl-0 pr-0 pt-5 d-flex justify-content-center align-items-center flex-wrap h-100"
          style="background-color: #87ccc8; min-height: 100vh">
-        <div class="row justify-content-between align-items-center mr-0 ml-0 w-100"
+        <div class="row justify-content-start align-items-center mr-0 ml-0 w-100 p-2"
              style="background-color: #00838f;position: absolute;top: 0">
-            <div class="p-2 ml-3">
-                <img src="../../assets/uestc.png" class="logo">
-                <span class="align-middle text-light">
-          通用项目评审管理系统
-        </span>
-            </div>
+            <img src="../../assets/uestc.png" class="logo">
+            <span class="tohome align-middle">
+                <router-link to="">通用项目评审管理系统</router-link>
+            </span>
         </div>
         <div class="card rounded-0 border-0 mt-5 col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4"
              style="background-color: #87ccc8">
             <div class="card-header border-0 rounded-0" style="background-color: #b6e1df">
                 <h6 class="card-title mb-0">
-                    登陆
+
                 </h6>
+                <div class="d-flex flex-nowrap justify-content-between">
+                    <div :class="{link:$route.path!=='/login','text-light':$route.path==='/login'}"
+                         @click="$router.push('/login')">
+                        快捷登录
+                    </div>
+                    <div :class="{link:$route.path!=='/login/password','text-light':$route.path==='/login/password'}"
+                         @click="$router.push('/login/password')">
+                        密码登录
+                    </div>
+                    <div :class="{link:$route.path!=='/login/registe','text-light':$route.path==='/login/registe'}"
+                         @click="$router.push('/login/registe')">
+                        注册账号
+                    </div>
+                </div>
             </div>
             <div class="card-body" style="background-color: #b6e1df">
                 <form onsubmit="return false">
-                    <router-view/>
+                    <router-view :change-password="changePassword"/>
                     <div class="form-check d-flex justify-content-between">
                         <div>
                             <input class="form-check-input"
@@ -29,19 +41,16 @@
                                 记住登录
                             </label>
                         </div>
+                        <div v-if="$route.path==='/login'">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   v-model="changePassword"/>
+                            <label class="form-check-label link" @click="changePassword = !changePassword">
+                                修改密码
+                            </label>
+                        </div>
                     </div>
                 </form>
-                <div class="d-flex flex-nowrap justify-content-between">
-                    <div class="link" @click="$router.push('/login')">
-                        密码登录
-                    </div>
-                    <div class="link" @click="$router.push('/login/sms')">
-                        快捷登录
-                    </div>
-                    <div class="link" @click="$router.push('/login/registe')">
-                        注册账号
-                    </div>
-                </div>
             </div>
         </div>
         <div class="row d-flex justify-content-center w-100 pb-3" style="background-color: #87ccc8">
@@ -61,7 +70,8 @@
                 username: '',
                 password: '',
                 remembered: true,
-                sms: false
+                sms: false,
+                changePassword: false
             }
         },
         async created() {
@@ -164,36 +174,46 @@
         height: 40px;
     }
 
+    .tohome {
+        margin-left: 10px;
+    }
+
+    .tohome a {
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 1.4rem;
+    }
+
     img {
-      width: 90%;
-      height: 90%;
+        width: 90%;
+        height: 90%;
     }
 
     @media (min-width: 576px) {
-      img {
-        width: 90%;
-        height: 90%;
-      }
+        img {
+            width: 90%;
+            height: 90%;
+        }
     }
 
     @media (min-width: 768px) {
-      img {
-        width: 65%;
-        height: 65%;
-      }
+        img {
+            width: 65%;
+            height: 65%;
+        }
     }
 
     @media (min-width: 992px) {
-      img {
-        width: 50%;
-        height: 50%;
-      }
+        img {
+            width: 50%;
+            height: 50%;
+        }
     }
 
     @media (min-width: 1200px) {
-      img {
-        width: 30%;
-        height: 30%;
-      }
+        img {
+            width: 30%;
+            height: 30%;
+        }
     }
 </style>
