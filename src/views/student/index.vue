@@ -170,7 +170,8 @@
         }
 
         .side-left {
-            min-width: 25%
+            min-width: 25%;
+            justify-content: start;
         }
 
         .mid {
@@ -185,7 +186,8 @@
         }
 
         .side-left {
-            min-width: 25%
+            min-width: 25%;
+            justify-content: start;
         }
 
         .mid {

@@ -15,15 +15,15 @@
 
                 </h6>
                 <div class="d-flex flex-nowrap justify-content-between">
-                    <div :class="{link:$route.path!=='/login','text-light':$route.path==='/login'}"
+                    <div :class="{link:$route.path!=='/login','text-main':$route.path==='/login'}"
                          @click="$router.push('/login')">
                         快捷登录
                     </div>
-                    <div :class="{link:$route.path!=='/login/password','text-light':$route.path==='/login/password'}"
+                    <div :class="{link:$route.path!=='/login/password','text-main':$route.path==='/login/password'}"
                          @click="$router.push('/login/password')">
                         密码登录
                     </div>
-                    <div :class="{link:$route.path!=='/login/registe','text-light':$route.path==='/login/registe'}"
+                    <div :class="{link:$route.path!=='/login/registe','text-main':$route.path==='/login/registe'}"
                          @click="$router.push('/login/registe')">
                         注册账号
                     </div>
@@ -182,6 +182,10 @@
         color: #ffffff;
         text-decoration: none;
         font-size: 1.4rem;
+    }
+
+    .text-main {
+        color: #00838f;
     }
 
     img {
