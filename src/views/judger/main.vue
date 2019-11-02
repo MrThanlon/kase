@@ -49,26 +49,26 @@
                 /**
                  * input的placeholder
                  */
-                placeholders: ['', '', '', '', 'y/n'],
-                subjectList: [],
+                placeholders: ['', '', '', '', 'y/n']
             }
         },
         async created() {
             try {
-                this.subjectList = (await api.data.jug.list()).data
+                const d = (await api.data.jug.list())
+                this.$store.commit('change_state', {
+                    proName: d.project,
+                    list: d.data
+                })
             } catch (e) {
                 console.debug(e)
             }
         },
         computed: {
             /**
-             * 课题列表
+             * 课题列表过滤
              */
-            list() {
-                return this.subjectList
-            },
             listShow() {
-                return this.list.filter((item) => {
+                return this.$store.state.list.filter((item) => {
                     if (this.filterKey[0]) {
                         // 过滤课题名称
                         if (item.name.toString().indexOf(this.filterKey[1]) === -1)

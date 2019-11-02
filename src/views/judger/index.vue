@@ -1,13 +1,16 @@
 <template>
     <div class="container p-0 m-0 mw-100">
-        <div class="row justify-content-between mr-0 ml-0" style="background-color: #00838f">
-            <div class="p-2 ml-3">
+        <div class="row justify-content-between mr-0 ml-0 p-2" style="background-color: #00838f">
+            <div class="d-flex side-left">
                 <img src="../../assets/uestc.png" class="logo">
                 <span class="tohome align-middle">
                     <router-link to="/">通用项目评审管理系统</router-link>
                 </span>
             </div>
-            <div class="p-2 mr-3 text-right">
+            <div class="d-flex justify-content-center mid">
+                <h4 class="text-light align-self-center m-0 p-0">{{$store.state.proName}}</h4>
+            </div>
+            <div class="side-right">
                 <span class="text-light">欢迎您,{{username}}</span>
                 <br/>
                 <span class="text-light quit" @click="logout">
@@ -117,5 +120,71 @@
 
     .quit:hover {
         cursor: pointer;
+    }
+
+    .side-right {
+        min-width: 100%;
+        text-align: center;
+    }
+
+    .side-left {
+        min-width: 100%;
+        justify-content: center;
+    }
+
+    .mid {
+        min-width: 100%;
+        justify-content: center;
+    }
+
+    @media (min-width: 576px) {
+        .side-right {
+            min-width: 100%;
+            text-align: center;
+        }
+
+        .side-left {
+            min-width: 100%;
+            justify-content: center;
+        }
+
+        .mid {
+            min-width: 100%;
+            justify-content: center;
+        }
+    }
+
+    @media (min-width: 768px) {
+        .side-right {
+            min-width: 25%;
+            text-align: right;
+        }
+
+        .side-left {
+            min-width: 25%
+        }
+
+        .mid {
+            min-width: 35%;
+        }
+    }
+
+    @media (min-width: 992px) {
+        .side-right {
+            min-width: 25%;
+            text-align: right;
+        }
+
+        .side-left {
+            min-width: 25%
+        }
+
+        .mid {
+            min-width: 35%;
+        }
+    }
+
+    @media (min-width: 1200px) {
+
     }
 </style>

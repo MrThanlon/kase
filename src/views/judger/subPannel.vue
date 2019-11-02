@@ -85,7 +85,7 @@
         ],
         async created() {
             try {
-                this.subjectList = (await api.data.jug.list()).data.reduce((pre, cur) => {
+                this.subjectList = this.$store.state.list.reduce((pre, cur) => {
                     pre[cur.cid] = cur
                     return pre
                 }, [])
