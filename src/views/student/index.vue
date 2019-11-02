@@ -33,9 +33,6 @@
                         <h5 class="card-title mb-0">
                             {{$route.meta.title}}
                         </h5>
-                        <span class="text-secondary">
-                            如果想覆盖之前上传的材料，请点击材料进入详情页，重新上传。
-                        </span>
                     </div>
                     <div class="card-body p-0 p-md-3" style="overflow: scroll">
                         <!--主面板-->

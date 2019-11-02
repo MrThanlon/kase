@@ -38,6 +38,8 @@
         </div>
         <span class="text-secondary">
             提示：如果不要求提交附件可不进行提交附件操作。
+            <br />
+            如果想覆盖之前上传的材料，请点击材料进入详情页，重新上传。
         </span>
         <div class="row justify-content-center flex-wrap">
             <button type="submit" class="btn btn-outline-dark" @click="submit">
