@@ -4,9 +4,9 @@
     <footer>
       <div class="card border-0 rounded-0">
         <div class="card-body p-0">
-          &copy;<a target="_blank"
+          <a target="_blank"
              href="https://github.com/mrthanlon/kase-be">Kase</a>
-          {{year}}
+          强力驱动
         </div>
       </div>
     </footer>

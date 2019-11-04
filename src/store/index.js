@@ -35,6 +35,8 @@ export default new Vuex.Store({
     loginMsg: '',
     // 项目pid
     proid: 0,
+    // 项目名称
+    proName: '',
     // 项目列表
     pro: [],
     // 材料列表

@@ -24,7 +24,7 @@
                    placeholder="密码"
                    v-model="password"/>
         </div>
-        <p class="text-danger">{{$store.state.loginMsg}}</p>
+        <p class="text-danger" v-if="$store.state.loginMsg">{{$store.state.loginMsg}}</p>
         <div class="d-flex justify-content-center">
             <button class="btn btn-outline-dark mb-3 w-100"
                     type="submit"
@@ -63,7 +63,7 @@
                     if (id.type === 1) {
                         this.$router.push('/student/project')
                     } else {
-                        this.$router.push('/' + this.$store.state.typeText)
+                        this.$router.push('/' + this.$store.state.typeText + '/')
                     }
                 } catch (e) {
                     // TODO:提示错误

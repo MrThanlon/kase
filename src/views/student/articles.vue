@@ -2,7 +2,7 @@
     <div class="h-100">
             <iframe :src="src"
                     v-if="subject.pdf"
-                    style="width: 100%; height: 100%" name="ifd"
+                    style="width: 100%; height: 90vh" name="ifd"
                     onload="this.height=ifd.document.body.scrollHeight">
             </iframe>
         <span v-else>文章还未上传</span>

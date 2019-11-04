@@ -1,20 +1,29 @@
 <template>
-    <form onsubmit="return false" autocomplete="off" class="m-3">
+    <form onsubmit="return false" autocomplete="off" class="m-3 pl-md-5 pr-md-5">
         <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">原密码</span>
+            <div class="input-group-prepend w-25">
+                <span class="input-group-text w-100 justify-content-center">
+                    原密码&nbsp;
+                    <i class="fas fa-key"></i>
+                </span>
             </div>
             <input type="password" class="form-control" v-model="originPassword"/>
         </div>
         <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">新密码</span>
+            <div class="input-group-prepend w-25">
+                <span class="input-group-text w-100 justify-content-center">
+                    新密码&nbsp;
+                    <i class="fas fa-key"></i>
+                </span>
             </div>
             <input type="password" class="form-control" v-model="newPassword"/>
         </div>
         <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">再次输入</span>
+            <div class="input-group-prepend w-25">
+                <span class="input-group-text w-100 justify-content-center">
+                    再次输入&nbsp;
+                    <i class="fas fa-key"></i>
+                </span>
             </div>
             <input type="password" class="form-control" v-model="againPassword"/>
         </div>
