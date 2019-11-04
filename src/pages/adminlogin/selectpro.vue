@@ -115,14 +115,9 @@ export default {
     },
   },
   computed: {
-    groups: {
-      get () {
-        return this.$store.getters.getpro
-      },
-      set (val) {
-
-      }
-    }
+    groups () {
+      return this.$store.getters.getpro
+    },
   },
   created () {
     this.$store.dispatch('pros')
