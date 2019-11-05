@@ -80,12 +80,11 @@ export default {
         this.dialogVisible = false
         this.$store.dispatch('changepid', parseInt(this.value))
         this.$router.push({
-          path: 'adminindex',
+          path: '/adminindex',
         })
       }
     },
     createpro () {
-      console.log(this.newpro.starttime)
       this.$axios({
         method: 'post',
         url: 'data/adm/new_prj',
