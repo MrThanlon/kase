@@ -179,6 +179,9 @@ export default {
         data: {
           pid: this.pid
         }
+      }).then((res) => {
+        this.deadline = this.unixtotime(res.data.data.end)
+        this.starttime = this.unixtotime(res.data.data.start)
       })
     },
     getinfo () {
@@ -207,7 +210,6 @@ export default {
             type: 'success'
           })
           this.getdeadline()
-          this.getinfo()
         } else if (res.data.status === -10) {
           this.$message.error('登录已失效，请重新登录')
         }
