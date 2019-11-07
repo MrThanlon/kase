@@ -11,7 +11,6 @@
         <el-upload action="http://starstudio.uestc.edu.cn/kase/data/adm/upload_app"
                    :with-credentials="true"
                    :show-file-list="false"
-                   accept="application/zip,application/x-zip,application/x-zip-compressed"
                    :on-success="uploadSuccess"
                    :on-error="uploadError"
                    name="zip"
@@ -20,7 +19,7 @@
           <el-button size="medium">上传</el-button>
           <div slot="tip"
                class="el-upload__tip"
-               style="display: inline;"> (仅支持zip格式，请打包为zip文件上传，再次上传会覆盖已有文件)</div>
+               style="display: inline;"> (仅支持单文件上传，多文件请打包成zip，再次上传覆盖已有文件)</div>
         </el-upload>
       </el-col>
     </el-row>
@@ -34,7 +33,6 @@
         <el-upload action="http://starstudio.uestc.edu.cn/kase/data/adm/upload_jug"
                    :with-credentials="true"
                    :show-file-list="false"
-                   accept="application/zip,application/x-zip,application/x-zip-compressed"
                    :on-success="uploadSuccess"
                    :on-error="uploadError"
                    name="zip"
@@ -43,7 +41,7 @@
           <el-button size="medium">上传</el-button>
           <div slot="tip"
                class="el-upload__tip"
-               style="display: inline;"> (仅支持zip格式，请打包为zip文件上传，再次上传会覆盖已有文件)</div>
+               style="display: inline;"> (仅支持单文件上传，多文件请打包成zip，再次上传覆盖已有文件)</div>
         </el-upload>
       </el-col>
     </el-row>
@@ -57,7 +55,6 @@
         <el-upload action="http://starstudio.uestc.edu.cn/kase/data/adm/upload_table"
                    :with-credentials="true"
                    :show-file-list="false"
-                   accept="application/zip,application/x-zip,application/x-zip-compressed"
                    :on-success="uploadSuccess"
                    :on-error="uploadError"
                    name="file"
@@ -66,7 +63,7 @@
           <el-button size="medium">上传</el-button>
           <div slot="tip"
                class="el-upload__tip"
-               style="display: inline;"> (仅支持zip格式，请打包为zip文件上传，再次上传会覆盖已有文件)</div>
+               style="display: inline;"> (仅支持单文件上传，多文件请打包成zip，再次上传覆盖已有文件)</div>
         </el-upload>
       </el-col>
     </el-row>
