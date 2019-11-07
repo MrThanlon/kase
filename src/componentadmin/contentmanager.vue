@@ -217,7 +217,11 @@ export default {
     },
     timetounix (showtime) {
       let date = new Date(showtime)
-      return date.getTime()/1000
+      if (date.getTime().toString().length == 13) {
+        return date.getTime() / 1000
+      } else {
+        return date.getTime()
+      }
     },
     unixtotime (unixtime) {
       let date = new Date(unixtime);
