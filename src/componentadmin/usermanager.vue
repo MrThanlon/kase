@@ -3,26 +3,7 @@
     <el-tabs type="card">
       <el-tab-pane label="分组概览">
         <div class="addadmin">
-          <el-button type="text"
-                     @click="dialogVisible = true">添加评审人员</el-button>
         </div>
-        <el-dialog title="添加评审人员"
-                   :visible.sync="dialogVisible"
-                   width="35%">
-          <div style="width:80%;margin:0 auto">
-            <el-input v-model="acc"
-                      placeholder="用户名(非十一位数字,不超过20个字符)"
-                      style="margin-bottom:20px"></el-input>
-            <el-input v-model="passwo"
-                      placeholder="密码"></el-input>
-          </div>
-          <span slot="footer"
-                class="dialog-footer">
-            <el-button @click="dialogVisible = false">取 消</el-button>
-            <el-button type="primary"
-                       @click="createva">确 定</el-button>
-          </span>
-        </el-dialog>
         <div style="margin-bottom:40px"
              v-for="(item,index) in evalist"
              :key="index">
@@ -55,6 +36,23 @@
 
       </el-tab-pane>
       <el-tab-pane label="分组操作">
+        <el-dialog title="添加评审人员"
+                   :visible.sync="dialogVisible"
+                   width="35%">
+          <div style="width:80%;margin:0 auto">
+            <el-input v-model="acc"
+                      placeholder="用户名(非十一位数字,不超过20个字符)"
+                      style="margin-bottom:20px"></el-input>
+            <el-input v-model="passwo"
+                      placeholder="密码"></el-input>
+          </div>
+          <span slot="footer"
+                class="dialog-footer">
+            <el-button @click="dialogVisible = false">取 消</el-button>
+            <el-button type="primary"
+                       @click="createva">确 定</el-button>
+          </span>
+        </el-dialog>
         <span>评审人员</span>
         <div class="showcheck">
           <el-checkbox-group v-model="cheopt"
@@ -75,6 +73,9 @@
         </el-select>
         <el-button class="pad"
                    @click="addEvaTogro">添加到此分组</el-button>
+        <el-button class="pad"
+                   @click="dialogVisible = true"
+                   type="primary">添加评审人员</el-button>
       </el-tab-pane>
     </el-tabs>
 
