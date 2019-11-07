@@ -104,7 +104,7 @@
                 return `${conf.SERVER_PATH}/data/jug/download_table`
             },
             fileAvailable() {
-                return this.cid && this.subjectList[this.cid]
+                return this.cid && this.subjectList[this.cid].zip
             }
         },
         components: {
