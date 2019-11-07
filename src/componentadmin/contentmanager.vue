@@ -217,7 +217,7 @@ export default {
     },
     timetounix (showtime) {
       let date = new Date(showtime)
-      return date.getTime()
+      return date.getTime()/1000
     },
     unixtotime (unixtime) {
       let date = new Date(unixtime);
