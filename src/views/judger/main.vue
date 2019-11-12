@@ -8,7 +8,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="item in listShow" @click="$router.push('/judger/'+item.cid)">
+        <tr v-for="(item, idx) in listShow" @click="$router.push('/judger/'+item.cid)">
+            <td>{{idx+1}}</td>
             <td>{{item.name}}</td>
             <td>
                 <i class="fas" :class="[item.zip?'fa-check text-success':'fa-minus text-danger']"></i>
@@ -33,7 +34,7 @@
                 /**
                  * 标题列表
                  */
-                formHeaders: ['课题名称', '附件'],
+                formHeaders: ['序号', '课题名称', '附件'],
                 /**
                  * 过滤关键词，来自input
                  */
