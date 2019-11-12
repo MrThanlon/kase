@@ -10,4 +10,4 @@ RUN     set -xe;\
         npm install --registry=https://registry.npm.taobao.org;\
         npm run build;\
         apk del nodejs npm;\
-        cp dist/* /usr/share/nginx/html
+        cp -r dist/* /usr/share/nginx/html/

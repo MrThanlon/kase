@@ -1,12 +1,18 @@
 #!/usr/bin/env bash
-set -xe
-set -xe
+set -e
 sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
 apk add git
-ENV=$(git branch --show-current)
+ENV=$CI_COMMIT_REF_NAME
 if [ $ENV = "master" ]
 then
-    $ENV="production"
+    ENV="production"
+else
+    if [ "$ENV" = "staging" ]
+    then
+        ENV="staging"
+    else
+        exit 1
+    fi
 fi
 echo $ENV
 docker build -t $DOCKER_BUILD_TAG --build-arg "ENV=$ENV" .
