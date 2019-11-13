@@ -8,7 +8,7 @@ RUN     set -xe;\
         apk update;\
         apk add nodejs npm curl;\
         curl -H "AUTHORIZATION:Bearer $TOKEN" -o src/config.js http://config.stuhome.com/$ENV/kase/config.js;\
-        echo src/config.js;\
+        cat src/config.js;\
         npm install --registry=https://registry.npm.taobao.org;\
         npm run build;\
         apk del nodejs npm curl;\
