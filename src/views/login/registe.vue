@@ -56,7 +56,7 @@
         <div class="d-flex justify-content-center">
             <button class="btn btn-outline-dark mb-3 w-100"
                     type="submit"
-                    @click="registe">
+                    @click="login">
                 确定
                 <i class="fas fa-check"></i>
             </button>
