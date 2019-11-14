@@ -33,10 +33,14 @@
               <el-menu-item index="/adminindex/evaluate">待评审材料</el-menu-item>
               <el-menu-item index="/adminindex/scoretable">打分表审核</el-menu-item>
             </el-submenu>
-            <el-menu-item index="/adminindex/contentmanager">
-              <i class="el-icon-menu"></i>
-              <span>内容管理</span>
-            </el-menu-item>
+            <el-submenu index="2">
+              <template slot="title">
+                <i class="el-icon-menu"></i>
+                <span>内容管理</span>
+              </template>
+              <el-menu-item index="/adminindex/contentmanager">评审材料上传</el-menu-item>
+              <el-menu-item index="/adminindex/score">打分表设置</el-menu-item>
+            </el-submenu>
             <el-submenu index="3">
               <template slot="title">
                 <i class="el-icon-setting"></i>
@@ -160,7 +164,7 @@ export default {
   }
 }
 </script>
-å
+
 <style>
 .tohome a {
   color: #ffffff;

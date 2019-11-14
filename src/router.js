@@ -188,6 +188,10 @@ const router = new Router({
       component: () => import('./componentadmin/contentmanager.vue')
     },
     {
+      path: 'score',
+      component: () => import('./componentadmin/score.vue')
+    },
+    {
       path: 'usermanager',
       component: () => import('./componentadmin/usermanager.vue')
     },

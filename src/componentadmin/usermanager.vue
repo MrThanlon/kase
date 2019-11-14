@@ -1,6 +1,7 @@
 <template>
   <div style="width:90%;margin:0 auto">
     <el-tabs type="card">
+
       <el-tab-pane label="分组概览">
         <div class="addadmin">
         </div>
@@ -33,8 +34,8 @@
               </template></el-table-column>
           </el-table>
         </div>
-
       </el-tab-pane>
+
       <el-tab-pane label="分组操作">
         <el-dialog title="添加评审人员"
                    :visible.sync="dialogVisible"
