@@ -6,11 +6,11 @@ function resolve (dir) {
 
 module.exports = {
   publicPath: './',
+  devServer: {
+    proxy: 'http://starstudio.uestc.edu.cn'
+  },
   chainWebpack: (config) => {
     config.resolve.alias
       .set('@$', resolve('src'))
-  },
-  devServer: {
-    proxy: 'https://kase.stuhome.com'
   }
 }

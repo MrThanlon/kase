@@ -3,7 +3,7 @@ import axios from 'axios'
 import qs from 'qs'
 
 Vue.config.productionTip = false
-axios.defaults.baseURL = '/api'
+axios.defaults.baseURL = '/kase'
 
 axios.defaults.transformRequest = [function (data) {
   // 对 data 进行任意转换处理
