@@ -85,11 +85,8 @@ export default {
         console.log(res)
         console.log(res.headers)
         const content = res.data
-        const fileName = decodeURI(response.headers['content-disposition'].split(';')[1].split('=')[1]) || row.u
-        // var index1 = fileName.lastIndexOf(".");
-        // var index2 = fileName.length;
-        // var type = fileName.substring(index1, index2);
-        const blob = new Blob([content], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8' })
+        const fileName = decodeURI(res.headers['content-disposition'].split(';')[1].split('=')[1]) || row.u
+        const blob = new Blob([content], { type: 'application/octet-stream; charset=utf-8' })
         if ('download' in document.createElement('a')) {
           const link = document.createElement('a')
           link.download = fileName

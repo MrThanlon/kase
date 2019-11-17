@@ -179,10 +179,8 @@ export default {
       this.$message.error('上传失败，请重新上传');
     },
     handleEdit (index, row) {
-      console.log(index, row);
       this.dialogVisible = true
       this.cid = row.cid
-      console.log(this.cid)
     },
     handleCurrentChange (val) {
       this.currentPage = val;

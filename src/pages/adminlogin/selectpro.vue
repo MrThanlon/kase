@@ -74,7 +74,10 @@ export default {
   methods: {
     turnto () {
       if (this.value === '') {
-        alert("请选择项目")
+        this.$message({
+          message: '请选择项目',
+          type: 'error'
+        })
         return
       } else {
         this.dialogVisible = false

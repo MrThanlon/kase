@@ -87,8 +87,6 @@ export default {
           let templist = []
           templist = res.data.data
           this.$store.dispatch('changelist', templist)
-        } else if (res.data.status === -10) {
-          this.$message.error('登录已失效，请重新登录')
         }
       })
     },
@@ -101,8 +99,6 @@ export default {
           let templist = []
           templist = res.data.data
           this.$store.dispatch('changeevalist', templist)
-        } else if (res.data.status === -10) {
-          this.$message.error('登录已失效，请重新登录')
         }
       })
     },
