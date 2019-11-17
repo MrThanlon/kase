@@ -1,8 +1,5 @@
 <template>
   <div style="width:90%;margin:0 auto">
-    <div class="smallhead">
-      <span style="line-height:40px;font-size:1.3rem">评分表设置</span>
-    </div>
     <el-dialog title="新增评分项"
                :visible.sync="dialogVisible"
                width="30%">
@@ -29,14 +26,7 @@
       </span>
     </el-dialog>
     <div class="scoreway">
-      <div class="switch">
-        <span>是否允许只打总分: </span>
-        <el-switch v-model="iftotal"
-                   active-text="是"
-                   inactive-text="否"
-                   @change="changeiftotal">
-        </el-switch>
-      </div>
+      <span style="line-height:40px;font-size:1.3rem">评分表设置</span>
       <el-button @click="opendia">添加评分项</el-button>
     </div>
     <div class="addadmin">
@@ -79,7 +69,6 @@
 export default {
   data () {
     return {
-      iftotal: true,
       dialogVisible: false,
       name: '',
       max: '',
@@ -100,9 +89,6 @@ export default {
         }
       }
     },
-    changeiftotal () {
-
-    },
     opendia () {
       this.dialogVisible = true
       this.name = ''
@@ -119,7 +105,6 @@ export default {
         }
       }).then((res) => {
         if (res.data.status === 0) {
-          this.iftotal = res.data.total_only
           this.tabledata = res.data.data
         }
       })

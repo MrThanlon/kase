@@ -81,6 +81,14 @@
                   size="medium"
                   style="width:90%"></el-input>
       </el-col>
+      <el-col :span="4"><span style="line-height:36px">是否允许只打总分</span></el-col>
+      <el-col :span="
+            8">
+        <el-switch v-model="iftotal"
+                   active-text="是"
+                   inactive-text="否">
+        </el-switch>
+      </el-col>
     </el-row>
     <el-row style="margin:20px 0;width:800px">
       <el-col :span="3"><span style="line-height:36px">发布时间</span></el-col>
@@ -135,6 +143,7 @@ export default {
   },
   data () {
     return {
+      iftotal: false,
       theme: '',
       headline: '',
       starttime: '',
@@ -187,6 +196,7 @@ export default {
           this.theme = this.pros[i].name
           this.deadline = this.unixtotime(this.pros[i].end)
           this.starttime = this.unixtotime(this.pros[i].start)
+          this.iftotal = this.pros[i].total_only
         }
       }
     },
@@ -198,7 +208,8 @@ export default {
           pid: this.pid,
           name: this.theme,
           start: this.timetounix(this.starttime),
-          end: this.timetounix(this.deadline)
+          end: this.timetounix(this.deadline),
+          total_only: this.iftotal
         }
       }).then((res) => {
         if (res.data.status === 0) {
@@ -251,5 +262,8 @@ export default {
 .el-row h3 {
   font-weight: 400;
   font-size: 1.3rem;
+}
+div .el-switch {
+  height: 36px;
 }
 </style>

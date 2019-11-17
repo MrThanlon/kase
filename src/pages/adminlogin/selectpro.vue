@@ -47,6 +47,13 @@
                           placeholder="选择截止时间">
           </el-date-picker>
         </el-form-item>
+        <el-form-item label="是否允许只打总分: "
+                      class="iftotal">
+          <el-switch v-model="newpro.iftotal"
+                     active-text="是"
+                     inactive-text="否">
+          </el-switch>
+        </el-form-item>
       </el-form>
       <span slot="footer"
             class="dialog-footer">
@@ -67,7 +74,8 @@ export default {
       newpro: {
         name: '',
         starttime: '',
-        deadline: ''
+        deadline: '',
+        total_only: false
       }
     }
   },
@@ -88,27 +96,32 @@ export default {
       }
     },
     createpro () {
-      this.$axios({
-        method: 'post',
-        url: 'data/adm/new_prj',
-        data: {
-          name: this.newpro.name,
-          start: this.timetounix(this.newpro.starttime),
-          end: this.timetounix(this.newpro.deadline)
-        }
-      }).then((res) => {
-        if (res.data.status === 0) {
-          this.prodialog = false
-          this.$message({
-            message: '创建项目成功',
-            type: 'success'
-          })
-          this.$store.dispatch('pros')
-        }
-        else {
-          this.$message.error('创建失败')
-        }
-      })
+      if (this.newpro.name && this.newpro.starttime && this.newpro.deadline) {
+        this.$axios({
+          method: 'post',
+          url: 'data/adm/new_prj',
+          data: {
+            name: this.newpro.name,
+            start: this.timetounix(this.newpro.starttime),
+            end: this.timetounix(this.newpro.deadline),
+            total_only: this.newpro.total_only
+          }
+        }).then((res) => {
+          if (res.data.status === 0) {
+            this.prodialog = false
+            this.$message({
+              message: '创建项目成功',
+              type: 'success'
+            })
+            this.$store.dispatch('pros')
+          }
+          else {
+            this.$message.error('创建失败')
+          }
+        })
+      } else {
+        this.$message.error('请将信息填写完整')
+      }
     },
     timetounix (showtime) {
       let date = new Date(showtime)
@@ -133,6 +146,9 @@ export default {
 }
 .form label {
   line-height: 60px;
+}
+.iftotal label {
+  line-height: 42px;
 }
 .diabody {
   display: flex;
