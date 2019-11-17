@@ -82,10 +82,13 @@ export default {
         },
         responseType: 'blob'
       }).then((res) => {
-        console.log(res)
-        console.log(res.headers)
         const content = res.data
-        const fileName = decodeURI(res.headers['content-disposition'].split(';')[1].split('=')[1]) || row.u
+        let fileName = decodeURI(res.headers['content-disposition'].split(';')[1].split('\'')[2]) || row.u
+        let index1 = fileName.lastIndexOf(".");
+        let index2 = fileName.length;
+        let type = fileName.substring(index1, index2 - 1);
+        fileName = fileName.substring(1).split('.')[0] + type
+        // console.log(type)
         const blob = new Blob([content], { type: 'application/octet-stream; charset=utf-8' })
         if ('download' in document.createElement('a')) {
           const link = document.createElement('a')
@@ -117,9 +120,7 @@ export default {
       for (let a = 0; a < this.multipleSelection.length; a++) {
         users.push(this.multipleSelection[a].u)
       }
-
       // qs.stringify({ user: users }, { arrayFormat: 'repeat' })
-      console.log(users)
       this.$axios({
         method: 'get',
         url: 'data/adm/download_tables',
@@ -131,7 +132,7 @@ export default {
       }).then((res) => {
         const content = res.data
         const blobs = new Blob([content], { type: 'application.zip' })
-        const fileName = '多个打分表.zip'
+        const fileName = '打分表.zip'
         if ('download' in document.createElement('a')) {
           const link = document.createElement('a')
           link.download = fileName

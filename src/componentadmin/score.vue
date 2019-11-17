@@ -75,7 +75,8 @@ export default {
       comment: '',
       pid: 0,
       reviseflag: 0,
-      tabledata: []
+      tabledata: [],
+      qid: 0
     }
   },
   methods: {
@@ -110,7 +111,10 @@ export default {
       })
     },
     creatscore () {
-      if (this.name && this.comment && this.max) {
+      if (this.name && this.max) {
+        if (this.reviseflag == 1) {
+          this.deletesco(0, this.qid)
+        }
         this.$axios({
           method: 'post',
           url: 'data/adm/add_question',
@@ -128,6 +132,7 @@ export default {
             })
             this.getscos()
             this.dialogVisible = false
+            this.reviseflag = 0
           }
           else {
             this.$message.error(['添加失败', '修改失败'][this.reviseflag])
@@ -142,21 +147,19 @@ export default {
       }
     },
     revisesco (index, row) {
-      this.dialogVisible = true
       this.name = row.name
       this.max = row.max
       this.comment = row.comment
+      this.dialogVisible = true
+      this.qid = row.qid
       this.reviseflag = 1
-      this.deletesco(index, row)
-      this.creatscore()
-      this.reviseflag = 0
     },
     deletesco (index, row) {
       this.$axios({
         method: 'post',
         url: 'data/adm/del_question',
         data: {
-          qid: row.qid
+          qid: row.qid || this.qid
         }
       }).then((res) => {
         if (res.data.status === 0) {

@@ -145,8 +145,6 @@ export default new Vuex.Store({
       }).then((res) => {
         if (res.data.status === 0) {
           context.commit('change_pro', res.data.data)
-          console.log(res.data.data)
-          console.log(context.state.pro)
         }
       })
     },

@@ -38,4 +38,7 @@ footer {
   left: 0;
   bottom: 0;
 }
+textarea {
+  resize: none !important;
+}
 </style>

@@ -61,7 +61,7 @@
                    @click="uploadfile">材料导入</el-button> -->
 
         <el-upload class="upload-demo"
-                   action="http://starstudio.uestc.edu.cn/kase/data/adm/import"
+                   :action='baseURLlast+"/data/adm/import"'
                    :with-credentials="true"
                    :show-file-list="false"
                    accept="application/zip,application/x-zip,application/x-zip-compressed"
@@ -96,8 +96,8 @@
                        label="材料"
                        align="center">
         <template slot-scope="scope">
-          <a class="ahref"
-             :href="baseURL+'?file='+ encodeURIComponent(baseURLlast+scope.row.cid)"
+          <a :class="scope.row.pdf?'ahref':'disabled'"
+             :href="baseURL+ encodeURIComponent(baseURLlast+'/data/adm/download_pdf?cid='+scope.row.cid)"
              target="_blank">{{ scope.row.name }}</a>
         </template>
       </el-table-column>
@@ -135,6 +135,7 @@
 
 <script>
 import { type } from 'os';
+import conf from '../config.js'
 export default {
   data () {
     return {
@@ -145,8 +146,8 @@ export default {
       cid: 0,
       pid: 0,
       list: [],
-      baseURL: 'http://starstudio.uestc.edu.cn/kase/modules/pdf.js/web/viewer.html',
-      baseURLlast: 'http://starstudio.uestc.edu.cn/kase/data/adm/download_pdf?cid=',
+      baseURL: conf.PDFJS_PATH,
+      baseURLlast: conf.SERVER_PATH,
       filedata: {
         pid: 0
       },
@@ -294,6 +295,11 @@ export default {
 }
 </script>
 <style>
+.disabled {
+  color: #606266;
+  cursor: pointer;
+  pointer-events: none;
+}
 .ahref :hover {
   cursor: pointer;
 }

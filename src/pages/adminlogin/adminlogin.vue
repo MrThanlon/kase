@@ -132,7 +132,6 @@ export default {
           this.title = this.pros[i].name
         }
       }
-      console.log(this.pros)
     }
   },
   computed: {
