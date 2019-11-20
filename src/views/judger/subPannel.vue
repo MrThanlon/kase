@@ -19,6 +19,10 @@
             </li>
             <li class="list-group-item">
                 <h6 class="card-title text-left">上传</h6>
+                <p :class="{'text-success':uploadTableSuccess,'text-danger':!uploadTableSuccess}"
+                   v-if="uploadTableMessage" class="m-0">
+                    {{uploadTableMessage}}
+                </p>
                 <button class="btn btn-outline-dark m-2" onclick="document.getElementById('utable').click()">
                     上传评分表
                     <i class="fas fa-file-upload"></i>
@@ -53,7 +57,13 @@
         name: "subPannel",
         data: function () {
             return {
-                subjectList: []
+                subjectList: [],
+                /**
+                 * 0.未上传
+                 * 1.成功
+                 * 2.失败
+                 */
+                uploadTableState: 0
             }
         },
         methods: {
@@ -75,8 +85,10 @@
                 data.append('file', document.getElementById('utable').files[0])
                 try {
                     await api.data.app.upload_table(data)
+                    this.uploadTableState = 1
                 } catch (e) {
                     console.debug(e)
+                    this.uploadTableState = 2
                 }
             }
         },
@@ -105,7 +117,13 @@
             },
             fileAvailable() {
                 return this.cid && this.subjectList[this.cid].zip
-            }
+            },
+            uploadTableMessage() {
+                return ['', '上传成功', '上传失败，请重试或联系管理员'][this.uploadTableState]
+            },
+            uploadTableSuccess() {
+                return this.uploadTableState === 1
+            },
         },
         components: {
             judge
