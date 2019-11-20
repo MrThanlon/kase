@@ -19,10 +19,6 @@
             </li>
             <li class="list-group-item">
                 <h6 class="card-title text-left">上传</h6>
-                <p :class="{'text-success':uploadTableSuccess,'text-danger':!uploadTableSuccess}"
-                   v-if="uploadTableMessage" class="m-0">
-                    {{uploadTableMessage}}
-                </p>
                 <button class="btn btn-outline-dark m-2" onclick="document.getElementById('utable').click()">
                     上传评分表
                     <i class="fas fa-file-upload"></i>
@@ -117,13 +113,7 @@
             },
             fileAvailable() {
                 return this.cid && this.subjectList[this.cid].zip
-            },
-            uploadTableMessage() {
-                return ['', '上传成功', '上传失败，请重试或联系管理员'][this.uploadTableState]
-            },
-            uploadTableSuccess() {
-                return this.uploadTableState === 1
-            },
+            }
         },
         components: {
             judge

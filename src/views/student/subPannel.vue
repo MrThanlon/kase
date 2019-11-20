@@ -3,10 +3,6 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
                 <h6 class="card-title text-left">课题</h6>
-                <p :class="{'text-success':uploadTableSuccess,'text-danger':!uploadTableSuccess}"
-                   v-if="uploadTableMessage" class="m-0">
-                    {{uploadTableMessage}}
-                </p>
                 <button class="btn btn-outline-dark m-2" @click="$router.push('/student/')"
                         :disabled="$route.path==='/student/'">
                     项目列表
@@ -59,12 +55,6 @@
         data: function () {
             return {
                 subject: {},
-                /**
-                 * 0.未上传
-                 * 1.成功
-                 * 2.失败
-                 */
-                uploadTableState: 0
             }
         },
         async created() {
@@ -128,13 +118,7 @@
             },
             noticePath() {
                 return `${conf.SERVER_PATH}/data/app/notice?pid=${this.$store.state.proid}`
-            },
-            uploadTableMessage() {
-                return ['', '上传成功', '上传失败，请重试或联系管理员'][this.uploadTableState]
-            },
-            uploadTableSuccess() {
-                return this.uploadTableState === 1
-            },
+            }
         },
         watch: {
             cid: async function () {
