@@ -3,7 +3,7 @@
         <div class="input-group mb-3">
             <div class="input-group-prepend w-25">
                 <span class="input-group-text w-100 justify-content-center">
-                    课题名称&nbsp;
+                    项目名称&nbsp;
                     <i class="fas fa-heading"></i>
                 </span>
             </div>

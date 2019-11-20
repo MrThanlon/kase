@@ -6,7 +6,7 @@
                 <button class="btn btn-outline-dark m-2"
                         @click="$router.push('/judger/')"
                         :disabled="$route.path==='/judger/'">
-                    课题列表
+                    项目列表
                     <i class="fas fa-list"></i>
                 </button>
                 <!--FIXME: 判断是否上传附件 -->
@@ -85,10 +85,10 @@
                 data.append('file', document.getElementById('utable').files[0])
                 try {
                     await api.data.app.upload_table(data)
-                    this.uploadTableState = 1
+                    this.$message({message: "上传成功", type: 'success'})
                 } catch (e) {
                     console.debug(e)
-                    this.uploadTableState = 2
+                    this.$message({message: "上传失败，请重试或联系管理员", type: 'error'})
                 }
             }
         },
