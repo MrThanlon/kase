@@ -111,11 +111,11 @@
                     // TODO: 出错提示
                     console.debug(e)
                     if (step.created === false) {
-                        this.errorMsg = '无法新建课题。'
+                        this.$message({message: "无法新建项目，请重新登录或联系管理员", type: 'error'})
                     } else if (step.pdf === false) {
-                        this.errorMsg = '课题已新建，但是无法上传PDF，请到课题详情页再次上传。'
+                        this.$message({message: "项目已新建，但是无法上传PDF。请到项目详情页尝试重新上传", type: 'error'})
                     } else if (step.zip === false) {
-                        this.errorMsg = '课题已新建，但是无法上传附件，请到课题详情页再次上传。'
+                        this.$message({message: "项目已新建，但是无法上传附件。请到项目详情页尝试重新上传", type: 'error'})
                     }
                 }
             }
