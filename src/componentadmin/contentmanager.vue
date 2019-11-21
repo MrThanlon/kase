@@ -143,7 +143,6 @@ export default {
   },
   data () {
     return {
-      iftotal: false,
       theme: '',
       headline: '',
       starttime: '',
@@ -153,7 +152,8 @@ export default {
       pid: 0,
       filedata: {
         pid: 0
-      }
+      },
+      iftotal: false
     }
   },
   methods: {
@@ -186,6 +186,7 @@ export default {
           pid: this.pid
         }
       }).then((res) => {
+        this.name = res.data.data.name
         this.deadline = this.unixtotime(res.data.data.end)
         this.starttime = this.unixtotime(res.data.data.start)
       })
@@ -197,6 +198,10 @@ export default {
           this.deadline = this.unixtotime(this.pros[i].end)
           this.starttime = this.unixtotime(this.pros[i].start)
           this.iftotal = this.pros[i].total_only
+          console.log(this.iftotal)
+          console.log(this.pros[i].total_only)
+          console.log(this.unixtotime(this.pros[i].start))
+          console.log(this.pros[i])
         }
       }
     },
@@ -218,11 +223,25 @@ export default {
             type: 'success'
           })
           this.getdeadline()
+          this.query()
         } else if (res.data.status === -10) {
           this.$message.error('登录已失效，请重新登录')
         }
         else {
           this.$message.error('修改保存失败,请检查日期格式和网络')
+        }
+      })
+    },
+    query () {
+      this.$axios({
+        method: 'post',
+        url: 'data/adm/query_question',
+        data: {
+          pid: this.pid,
+        }
+      }).then((res) => {
+        if (res.data.status === 0) {
+          this.iftotal = res.data.total_only
         }
       })
     },
@@ -255,6 +274,7 @@ export default {
     this.getdeadline()
     this.getinfo()
     this.filedata.pid = this.pid
+    this.query()
   }
 }
 </script>
