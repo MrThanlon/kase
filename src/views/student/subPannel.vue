@@ -2,15 +2,15 @@
     <div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
-                <h6 class="card-title text-left">课题</h6>
+                <h6 class="card-title text-left">项目</h6>
                 <button class="btn btn-outline-dark m-2" @click="$router.push('/student/')"
                         :disabled="$route.path==='/student/'">
-                    课题列表
+                    项目列表
                     <i class="fas fa-list"></i>
                 </button>
                 <button class="btn btn-outline-dark m-2" @click="$router.push('/student/new')"
                         :disabled="$route.path==='/student/new'">
-                    新建课题
+                    新建项目
                     <i class="fas fa-plus"></i>
                 </button>
                 <button class="btn btn-outline-dark m-2" onclick="document.getElementById('pdf').click()"
@@ -54,7 +54,7 @@
         name: "subPannel",
         data: function () {
             return {
-                subject: {}
+                subject: {},
             }
         },
         async created() {
@@ -88,8 +88,11 @@
                 data.append('pdf', document.getElementById('pdf').files[0])
                 try {
                     await api.data.app.upload_pdf(data)
+                    this.$message({message: "上传成功", type: 'success'})
+                    window.location.reload()
                 } catch (e) {
                     console.debug(e)
+                    this.$message({message: "上传失败，请重试或联系管理员", type: 'error'})
                 }
             },
             async uploadZIP() {
@@ -98,8 +101,11 @@
                 data.append('zip', document.getElementById('zip').files[0])
                 try {
                     await api.data.app.upload_zip(data)
+                    this.$message({message: "上传成功", type: 'success'})
+                    window.location.reload()
                 } catch (e) {
                     console.debug(e)
+                    this.$message({message: "上传失败，请重试或联系管理员", type: 'error'})
                 }
             }
         },

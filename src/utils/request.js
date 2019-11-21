@@ -24,9 +24,9 @@ export function request (url, method, data = null, encoded = true, decode = true
         if (decode) {
           const res = JSON.parse(xhr.response)
           if (res.status !== 0) {
-            reject(xhr.responseText)
+            reject(res)
           } else {
-            resolve(JSON.parse(xhr.response))
+            resolve(res)
           }
         } else {
           resolve(xhr.response)

@@ -126,7 +126,11 @@
                         }, 30000)
                     } catch (e) {
                         console.debug(e)
-                        this.$store.commit('change_state', {loginMsg: "错误"})
+                        if (e.status === -30) {
+                            this.$store.commit('change_state', {loginMsg: "该手机号尚未注册，请先注册"})
+                        } else {
+                            this.$store.commit('change_state', {loginMsg: "错误"})
+                        }
                     }
                 } else {
                     this.$store.commit('change_state', {loginMsg: "请输入11位手机号"})

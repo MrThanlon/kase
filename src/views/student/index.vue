@@ -14,7 +14,7 @@
                 <span class="text-light">欢迎您,{{username}}</span>
                 <br/>
                 <span class="text-light quit" @click="changeProject">
-                    切换项目
+                    切换项目类别
                 </span>
                 |
                 <span class="text-light quit" @click="$router.push('/student/password')">

@@ -2,7 +2,7 @@
     <div class="row d-flex justify-content-center align-middle ml-0 mr-0" style="margin-top: 30vh">
         <div class="input-group p-5 col-12 col-md-6 col-xl-4">
             <div class="input-group-prepend">
-                <label class="input-group-text">选择项目</label>
+                <label class="input-group-text">选择项目类别</label>
             </div>
             <select class="custom-select" @change="change" v-model="pid">
                 <option v-for="item in projectList" :value="item.pid">{{item.name}}</option>

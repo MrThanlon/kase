@@ -2,11 +2,11 @@
     <div>
         <ul class="list-group list-group-flush" v-if="type==='nav'">
             <li class="list-group-item">
-                <h6 class="card-title text-left">课题</h6>
+                <h6 class="card-title text-left">项目</h6>
                 <button class="btn btn-outline-dark m-2"
                         @click="$router.push('/judger/')"
                         :disabled="$route.path==='/judger/'">
-                    课题列表
+                    项目列表
                     <i class="fas fa-list"></i>
                 </button>
                 <!--FIXME: 判断是否上传附件 -->
@@ -53,7 +53,13 @@
         name: "subPannel",
         data: function () {
             return {
-                subjectList: []
+                subjectList: [],
+                /**
+                 * 0.未上传
+                 * 1.成功
+                 * 2.失败
+                 */
+                uploadTableState: 0
             }
         },
         methods: {
@@ -75,8 +81,10 @@
                 data.append('file', document.getElementById('utable').files[0])
                 try {
                     await api.data.app.upload_table(data)
+                    this.$message({message: "上传成功", type: 'success'})
                 } catch (e) {
                     console.debug(e)
+                    this.$message({message: "上传失败，请重试或联系管理员", type: 'error'})
                 }
             }
         },
