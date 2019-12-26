@@ -11,7 +11,6 @@
         <el-upload action="http://starstudio.uestc.edu.cn/kase/data/adm/upload_app"
                    :with-credentials="true"
                    :show-file-list="false"
-                   accept="application/zip,application/x-zip,application/x-zip-compressed"
                    :on-success="uploadSuccess"
                    :on-error="uploadError"
                    name="zip"
@@ -20,7 +19,7 @@
           <el-button size="medium">上传</el-button>
           <div slot="tip"
                class="el-upload__tip"
-               style="display: inline;"> (仅支持zip格式，请打包为zip文件上传，再次上传会覆盖已有文件)</div>
+               style="display: inline;"> (仅支持单文件上传，多文件请打包成zip，再次上传覆盖已有文件)</div>
         </el-upload>
       </el-col>
     </el-row>
@@ -34,7 +33,6 @@
         <el-upload action="http://starstudio.uestc.edu.cn/kase/data/adm/upload_jug"
                    :with-credentials="true"
                    :show-file-list="false"
-                   accept="application/zip,application/x-zip,application/x-zip-compressed"
                    :on-success="uploadSuccess"
                    :on-error="uploadError"
                    name="zip"
@@ -43,7 +41,7 @@
           <el-button size="medium">上传</el-button>
           <div slot="tip"
                class="el-upload__tip"
-               style="display: inline;"> (仅支持zip格式，请打包为zip文件上传，再次上传会覆盖已有文件)</div>
+               style="display: inline;"> (仅支持单文件上传，多文件请打包成zip，再次上传覆盖已有文件)</div>
         </el-upload>
       </el-col>
     </el-row>
@@ -57,7 +55,6 @@
         <el-upload action="http://starstudio.uestc.edu.cn/kase/data/adm/upload_table"
                    :with-credentials="true"
                    :show-file-list="false"
-                   accept="application/zip,application/x-zip,application/x-zip-compressed"
                    :on-success="uploadSuccess"
                    :on-error="uploadError"
                    name="file"
@@ -66,7 +63,7 @@
           <el-button size="medium">上传</el-button>
           <div slot="tip"
                class="el-upload__tip"
-               style="display: inline;"> (仅支持zip格式，请打包为zip文件上传，再次上传会覆盖已有文件)</div>
+               style="display: inline;"> (仅支持单文件上传，多文件请打包成zip，再次上传覆盖已有文件)</div>
         </el-upload>
       </el-col>
     </el-row>
@@ -83,6 +80,14 @@
                   placeholder="请输入标题"
                   size="medium"
                   style="width:90%"></el-input>
+      </el-col>
+      <el-col :span="4"><span style="line-height:36px">是否允许只打总分</span></el-col>
+      <el-col :span="
+            8">
+        <el-switch v-model="iftotal"
+                   active-text="是"
+                   inactive-text="否">
+        </el-switch>
       </el-col>
     </el-row>
     <el-row style="margin:20px 0;width:800px">
@@ -147,7 +152,8 @@ export default {
       pid: 0,
       filedata: {
         pid: 0
-      }
+      },
+      iftotal: false
     }
   },
   methods: {
@@ -179,6 +185,10 @@ export default {
         data: {
           pid: this.pid
         }
+      }).then((res) => {
+        this.name = res.data.data.name
+        this.deadline = this.unixtotime(res.data.data.end)
+        this.starttime = this.unixtotime(res.data.data.start)
       })
     },
     getinfo () {
@@ -187,6 +197,11 @@ export default {
           this.theme = this.pros[i].name
           this.deadline = this.unixtotime(this.pros[i].end)
           this.starttime = this.unixtotime(this.pros[i].start)
+          this.iftotal = this.pros[i].total_only
+          console.log(this.iftotal)
+          console.log(this.pros[i].total_only)
+          console.log(this.unixtotime(this.pros[i].start))
+          console.log(this.pros[i])
         }
       }
     },
@@ -198,7 +213,8 @@ export default {
           pid: this.pid,
           name: this.theme,
           start: this.timetounix(this.starttime),
-          end: this.timetounix(this.deadline)
+          end: this.timetounix(this.deadline),
+          total_only: this.iftotal
         }
       }).then((res) => {
         if (res.data.status === 0) {
@@ -207,7 +223,7 @@ export default {
             type: 'success'
           })
           this.getdeadline()
-          this.getinfo()
+          this.query()
         } else if (res.data.status === -10) {
           this.$message.error('登录已失效，请重新登录')
         }
@@ -216,12 +232,29 @@ export default {
         }
       })
     },
+    query () {
+      this.$axios({
+        method: 'post',
+        url: 'data/adm/query_question',
+        data: {
+          pid: this.pid,
+        }
+      }).then((res) => {
+        if (res.data.status === 0) {
+          this.iftotal = res.data.total_only
+        }
+      })
+    },
     timetounix (showtime) {
       let date = new Date(showtime)
-      return date.getTime()
+      if (date.getTime().toString().length == 13) {
+        return date.getTime() / 1000
+      } else {
+        return date.getTime()
+      }
     },
     unixtotime (unixtime) {
-      let date = new Date(unixtime);
+      let date = new Date(unixtime * 1000);
       let Y = date.getFullYear() + '/';
       let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '/';
       let D = date.getDate() + ' ';
@@ -241,6 +274,7 @@ export default {
     this.getdeadline()
     this.getinfo()
     this.filedata.pid = this.pid
+    this.query()
   }
 }
 </script>
@@ -248,5 +282,8 @@ export default {
 .el-row h3 {
   font-weight: 400;
   font-size: 1.3rem;
+}
+div .el-switch {
+  height: 36px;
 }
 </style>

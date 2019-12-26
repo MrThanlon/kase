@@ -6,11 +6,19 @@ function resolve (dir) {
 
 module.exports = {
   publicPath: './',
+  // devServer: {
+  //   proxy: {
+  //     '/api': {
+  //       target: 'http://starstudio.uestc.edu.cn/kase',
+  //       changeOrigin: true,
+  //       pathRewrite: {
+  //         '^/api': '/'
+  //       }
+  //     }
+  //   }
+  // },
   chainWebpack: (config) => {
     config.resolve.alias
       .set('@$', resolve('src'))
   }
-  // devServer: {
-  //   proxy: 'http://kase.stuhome.com'
-  // }
 }

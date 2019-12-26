@@ -9,11 +9,11 @@ const router = new Router({
     component: () => import('./views/login/index'),
     children: [{
       path: '/',
-      component: () => import('./views/login/passwordLogin')
+      component: () => import('./views/login/sms')
     },
     {
-      path: 'sms',
-      component: () => import('./views/login/sms')
+      path: 'password',
+      component: () => import('./views/login/passwordLogin')
     },
     {
       path: 'registe',
@@ -24,7 +24,7 @@ const router = new Router({
   {
     path: '/student/project',
     meta: {
-      title: '选择项目',
+      title: '选择项目类别',
       subTitle: ''
     },
     components: {
@@ -42,7 +42,7 @@ const router = new Router({
         sub: () => import('@/views/student/subPannel')
       },
       meta: {
-        title: '课题列表',
+        title: '项目列表',
         subTitle: '导航'
       }
     },
@@ -50,7 +50,7 @@ const router = new Router({
       // 新建课题
       path: 'new',
       meta: {
-        title: '新建课题',
+        title: '新建项目',
         subTitle: '导航'
       },
       components: {
@@ -106,7 +106,7 @@ const router = new Router({
     children: [{
       path: '/',
       meta: {
-        title: '课题列表',
+        title: '项目列表',
         subTitle: '导航',
         judgeable: false
       },
@@ -186,6 +186,10 @@ const router = new Router({
     {
       path: 'contentmanager',
       component: () => import('./componentadmin/contentmanager.vue')
+    },
+    {
+      path: 'score',
+      component: () => import('./componentadmin/score.vue')
     },
     {
       path: 'usermanager',

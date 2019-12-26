@@ -35,6 +35,8 @@ export default new Vuex.Store({
     loginMsg: '',
     // 项目pid
     proid: 0,
+    // 项目名称
+    proName: '',
     // 项目列表
     pro: [],
     // 材料列表
@@ -64,7 +66,7 @@ export default new Vuex.Store({
       return state.pro
     },
     getevalist (state) {
-      const tempevalist = state.evalist.slice()
+      var tempevalist = state.evalist.filter(value => value.pid === state.proid)
       for (let i = 0; i < tempevalist.length; i++) {
         if (tempevalist[i].stat === true) {
           Vue.set(tempevalist[i], 'stat', '已提交')
@@ -142,7 +144,6 @@ export default new Vuex.Store({
         url: 'data/adm/list'
       }).then((res) => {
         if (res.data.status === 0) {
-          console.log(res.data.data)
           context.commit('change_pro', res.data.data)
         }
       })

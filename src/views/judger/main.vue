@@ -6,19 +6,11 @@
                 {{item}}
             </th>
         </tr>
-        <tr>
-            <th scope="col" v-for="(item,idx) in formHeaders">
-                <input class="form-control" :aria-label="item"
-                       v-model="filterKey[idx]" :placeholder="placeholders[idx]">
-            </th>
-        </tr>
         </thead>
         <tbody>
-        <tr v-for="item in listShow" @click="$router.push('/judger/'+item.cid)">
-            <td>{{item.cid}}</td>
+        <tr v-for="(item, idx) in listShow" @click="$router.push('/judger/'+item.cid)">
+            <td>{{idx+1}}</td>
             <td>{{item.name}}</td>
-            <td>{{item.applicant}}</td>
-            <td>{{item.time}}</td>
             <td>
                 <i class="fas" :class="[item.zip?'fa-check text-success':'fa-minus text-danger']"></i>
             </td>
@@ -42,7 +34,7 @@
                 /**
                  * 标题列表
                  */
-                formHeaders: ['ID', '课题名称', '申请人', '申请日期', '附件'],
+                formHeaders: ['序号', '项目名称', '附件'],
                 /**
                  * 过滤关键词，来自input
                  */
@@ -50,47 +42,42 @@
                 /**
                  * input的placeholder
                  */
-                placeholders: ['', '', '', '', 'y/n'],
-                subjectList: [],
+                placeholders: ['', '', '', '', 'y/n']
             }
         },
         async created() {
             try {
-                this.subjectList = (await api.data.jug.list()).data
+                const d = (await api.data.jug.list())
+                this.$store.commit('change_state', {
+                    proName: d.project,
+                    list: d.data
+                })
             } catch (e) {
                 console.debug(e)
             }
         },
         computed: {
             /**
-             * 课题列表
+             * 课题列表过滤
              */
-            list() {
-                return this.subjectList
-            },
             listShow() {
-                return this.list.filter((item) => {
+                return this.$store.state.list.filter((item) => {
                     if (this.filterKey[0]) {
-                        // 过滤ID
-                        if (item.cid.toString().indexOf(this.filterKey[0]) === -1)
-                            return false
-                    }
-                    if (this.filterKey[1]) {
                         // 过滤课题名称
                         if (item.name.toString().indexOf(this.filterKey[1]) === -1)
                             return false
                     }
-                    if (this.filterKey[2]) {
+                    if (this.filterKey[1]) {
                         // 过滤申请人
                         if (item.applicant.indexOf(this.filterKey[2]) === -1)
                             return false
                     }
-                    if (this.filterKey[3]) {
+                    if (this.filterKey[2]) {
                         // 过滤申请日期
                         if (item.time.indexOf(this.filterKey[3]) === -1)
                             return false
                     }
-                    if (this.filterKey[4]) {
+                    if (this.filterKey[3]) {
                         // 过滤附件
                         if (this.filterKey[4] !== 'y' && this.filterKey[4] !== 'n')
                             return false

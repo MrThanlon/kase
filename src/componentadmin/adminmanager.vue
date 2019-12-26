@@ -55,7 +55,7 @@ export default {
       dialogVisible: false,
       adminlist: [],
       currentPage: 1,
-      pagesize: 3,
+      pagesize: 10,
       acc: '',
       passwo: ''
     }

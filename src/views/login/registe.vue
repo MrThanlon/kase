@@ -52,11 +52,11 @@
                 <i class="fas fa-plane-departure" v-if="!sended"></i>
             </button>
         </div>
-        <p class="text-danger">{{$store.state.loginMsg}}</p>
+        <p class="text-danger" v-if="$store.state.loginMsg">{{$store.state.loginMsg}}</p>
         <div class="d-flex justify-content-center">
             <button class="btn btn-outline-dark mb-3 w-100"
                     type="submit"
-                    @click="registe">
+                    @click="login">
                 确定
                 <i class="fas fa-check"></i>
             </button>

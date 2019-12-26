@@ -6,16 +6,9 @@
                 {{item}}
             </th>
         </tr>
-        <tr>
-            <th scope="col" v-for="(item,idx) in formHeaders">
-                <input class="form-control" :aria-label="item"
-                       v-model="filterKey[idx]" :placeholder="placeholders[idx]">
-            </th>
-        </tr>
         </thead>
         <tbody>
         <tr v-for="item in listShow" @click="$router.push('/student/'+item.cid)">
-            <td>{{item.cid}}</td>
             <td>{{item.name}}</td>
             <td>{{item.applicant}}</td>
             <td>
@@ -51,7 +44,7 @@
                 /**
                  * 标题列表
                  */
-                formHeaders: ['ID', '课题名称', '申请人', '当前状态', '申请日期', '文档', '附件'],
+                formHeaders: ['项目名称', '申请人', '信息初核状态', '申请日期', '文档', '附件'],
                 /**
                  * 过滤关键词，来自input
                  */

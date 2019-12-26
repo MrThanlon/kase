@@ -1,12 +1,12 @@
 <template>
-  <div id="app" class="h-100">
+  <div id="app">
     <router-view />
     <footer>
       <div class="card border-0 rounded-0">
         <div class="card-body p-0">
-          &copy;<a target="_blank"
+          <a target="_blank"
              href="https://github.com/mrthanlon/kase-be">Kase</a>
-          {{year}}
+          强力驱动
         </div>
       </div>
     </footer>
@@ -37,5 +37,8 @@ footer {
   width: 100%;
   left: 0;
   bottom: 0;
+}
+textarea {
+  resize: none !important;
 }
 </style>

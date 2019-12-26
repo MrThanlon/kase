@@ -5,18 +5,21 @@
                width="40%"
                :show-close="false"
                :close-on-click-modal="false">
-      <el-select v-model="value"
-                 placeholder="请选择"
-                 style="marigin:0 auto">
-        <el-option v-for="(item,index) in groups"
-                   :value="item.pid"
-                   :label="item.name"
-                   :key="index"></el-option>
-      </el-select>
-      <span slot="footer"
-            class="dialog-footer">
+      <div class="diabody">
+        <el-select v-model="value"
+                   placeholder="请选择"
+                   style="marigin:0 auto">
+          <el-option v-for="(item,index) in groups"
+                     :value="item.pid"
+                     :label="item.name"
+                     :key="index"
+                     class="margin-left:40px;"></el-option>
+        </el-select>
         <el-button type="primary"
                    @click="prodialog=true">创建新项目</el-button>
+      </div>
+      <span slot="footer"
+            class="dialog-footer">
         <el-button type="primary"
                    @click="turnto">确 定</el-button>
       </span>
@@ -44,6 +47,13 @@
                           placeholder="选择截止时间">
           </el-date-picker>
         </el-form-item>
+        <el-form-item label="是否允许只打总分: "
+                      class="iftotal">
+          <el-switch v-model="newpro.iftotal"
+                     active-text="是"
+                     inactive-text="否">
+          </el-switch>
+        </el-form-item>
       </el-form>
       <span slot="footer"
             class="dialog-footer">
@@ -64,46 +74,54 @@ export default {
       newpro: {
         name: '',
         starttime: '',
-        deadline: ''
+        deadline: '',
+        total_only: false
       }
     }
   },
   methods: {
     turnto () {
       if (this.value === '') {
-        alert("请选择项目")
+        this.$message({
+          message: '请选择项目',
+          type: 'error'
+        })
         return
       } else {
         this.dialogVisible = false
         this.$store.dispatch('changepid', parseInt(this.value))
         this.$router.push({
-          path: 'adminindex',
+          path: '/adminindex',
         })
       }
     },
     createpro () {
-      console.log(this.newpro.starttime)
-      this.$axios({
-        method: 'post',
-        url: 'data/adm/new_prj',
-        data: {
-          name: this.newpro.name,
-          start: this.timetounix(this.newpro.starttime),
-          end: this.timetounix(this.newpro.deadline)
-        }
-      }).then((res) => {
-        if (res.data.status === 0) {
-          this.prodialog = false
-          this.$message({
-            message: '创建项目成功',
-            type: 'success'
-          })
-          this.$store.dispatch('pros')
-        }
-        else {
-          this.$message.error('创建失败')
-        }
-      })
+      if (this.newpro.name && this.newpro.starttime && this.newpro.deadline) {
+        this.$axios({
+          method: 'post',
+          url: 'data/adm/new_prj',
+          data: {
+            name: this.newpro.name,
+            start: this.timetounix(this.newpro.starttime),
+            end: this.timetounix(this.newpro.deadline),
+            total_only: this.newpro.total_only
+          }
+        }).then((res) => {
+          if (res.data.status === 0) {
+            this.prodialog = false
+            this.$message({
+              message: '创建项目成功',
+              type: 'success'
+            })
+            this.$store.dispatch('pros')
+          }
+          else {
+            this.$message.error('创建失败')
+          }
+        })
+      } else {
+        this.$message.error('请将信息填写完整')
+      }
     },
     timetounix (showtime) {
       let date = new Date(showtime)
@@ -112,14 +130,9 @@ export default {
     },
   },
   computed: {
-    groups: {
-      get () {
-        return this.$store.getters.getpro
-      },
-      set (val) {
-
-      }
-    }
+    groups () {
+      return this.$store.getters.getpro
+    },
   },
   created () {
     this.$store.dispatch('pros')
@@ -133,5 +146,13 @@ export default {
 }
 .form label {
   line-height: 60px;
+}
+.iftotal label {
+  line-height: 42px;
+}
+.diabody {
+  display: flex;
+  justify-content: space-between;
+  max-width: 330px;
 }
 </style>

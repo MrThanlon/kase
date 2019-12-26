@@ -1,4 +1,4 @@
-image: registry.stuhome.com/devops/dockerepo/docker:1.0.1
+image: registry.stuhome.com/devops/dockerepo/docker:1.0.2
 
 stages:
     - build
@@ -20,7 +20,6 @@ build-staging-image:
     - staging
 
     allow_failure: false
-    when: manual
 
 deploy-staging:
     stage: deploy

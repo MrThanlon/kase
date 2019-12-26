@@ -1,7 +1,6 @@
 <template>
     <iframe :src="src"
-            style="width: 100%; height: 100%" name="ifd"
-            onload="this.height=ifd.document.body.scrollHeight">
+            style="width: 100%; height: 90vh" name="ifd">
     </iframe>
 </template>
 

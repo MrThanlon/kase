@@ -11,28 +11,6 @@
                    placeholder="手机号"
                    v-model="username"/>
         </div>
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text">
-                <i class="fas fa-key"></i>
-              </span>
-            </div>
-            <input type="password"
-                   class="form-control"
-                   placeholder="新密码"
-                   v-model="password"/>
-        </div>
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text">
-                <i class="fas fa-key"></i>
-              </span>
-            </div>
-            <input type="password"
-                   class="form-control"
-                   placeholder="再次输入密码"
-                   v-model="passwordAgain"/>
-        </div>
         <div class="d-flex">
             <div class="input-group mb-3 w-50">
                 <div class="input-group-prepend">
@@ -51,7 +29,29 @@
                 <i class="fas fa-plane-departure" v-if="!sended"></i>
             </button>
         </div>
-        <p class="text-danger">{{$store.state.loginMsg}}</p>
+        <div class="input-group mb-3" v-if="changePassword">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="fas fa-key"></i>
+              </span>
+            </div>
+            <input type="password"
+                   class="form-control"
+                   placeholder="新密码"
+                   v-model="password"/>
+        </div>
+        <div class="input-group mb-3" v-if="changePassword">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="fas fa-key"></i>
+              </span>
+            </div>
+            <input type="password"
+                   class="form-control"
+                   placeholder="再次输入密码"
+                   v-model="passwordAgain"/>
+        </div>
+        <p class="text-danger" v-if="$store.state.loginMsg">{{$store.state.loginMsg}}</p>
         <div class="d-flex justify-content-center">
             <button class="btn btn-outline-dark mb-3 w-100"
                     type="submit"
@@ -79,18 +79,25 @@
                 count: 0
             }
         },
+        props: [
+            'change-password'
+        ],
         methods: {
             async login() {
-                if (this.password !== this.passwordAgain) {
+                if (this.changePassword && (this.password !== this.passwordAgain)) {
                     this.$store.commit('change_state', {loginMsg: "密码不一致"})
                     return
                 }
                 try {
-                    await api.user.one_time_login({
+                    let data = {
                         u: this.username,
-                        token: this.token,
-                        password: this.password
-                    })
+                        token: this.token
+                    }
+                    if (this.changePassword) {
+                        data['password'] = this.password
+                    }
+
+                    await api.user.one_time_login(data)
                     console.debug(`[Login] Success!`)
                     // 登录成功
                     const id = await api.user.id()
@@ -119,7 +126,11 @@
                         }, 30000)
                     } catch (e) {
                         console.debug(e)
-                        this.$store.commit('change_state', {loginMsg: "错误"})
+                        if (e.status === -30) {
+                            this.$store.commit('change_state', {loginMsg: "该手机号尚未注册，请先注册"})
+                        } else {
+                            this.$store.commit('change_state', {loginMsg: "错误"})
+                        }
                     }
                 } else {
                     this.$store.commit('change_state', {loginMsg: "请输入11位手机号"})

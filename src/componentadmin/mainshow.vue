@@ -61,7 +61,7 @@
                    @click="uploadfile">材料导入</el-button> -->
 
         <el-upload class="upload-demo"
-                   action="http://starstudio.uestc.edu.cn/kase/data/adm/import"
+                   :action='baseURLlast+"/data/adm/import"'
                    :with-credentials="true"
                    :show-file-list="false"
                    accept="application/zip,application/x-zip,application/x-zip-compressed"
@@ -75,11 +75,11 @@
       </div>
       <div class="smallhead"
            v-if="$route.path=='/adminindex/examined'">
-        <span style="line-height:40px;font-size:1.3rem">待审核材料</span>
+        <span style="line-height:40px;font-size:1.3rem">已审核材料</span>
       </div>
       <div class="smallhead"
            v-if="$route.path=='/adminindex/examining'">
-        <span style="line-height:40px;font-size:1.3rem">已审核材料</span>
+        <span style="line-height:40px;font-size:1.3rem">待审核材料</span>
       </div>
     </div>
     <el-table :data="tabledata.slice((currentPage-1)*pagesize,currentPage*pagesize)"
@@ -96,14 +96,15 @@
                        label="材料"
                        align="center">
         <template slot-scope="scope">
-          <a class="ahref"
-             :href="baseURL+'?file='+ encodeURIComponent(baseURLlast+scope.row.cid)"
+          <a :class="scope.row.pdf?'ahref':'disabled'"
+             :href="baseURL+ encodeURIComponent(baseURLlast+'/data/adm/download_pdf?cid='+scope.row.cid)"
              target="_blank">{{ scope.row.name }}</a>
         </template>
       </el-table-column>
       <el-table-column prop='applicant'
                        label="申请人"
-                       align="center"></el-table-column>
+                       align="center"
+                       width="140"></el-table-column>
       <el-table-column prop='time'
                        label="提交时间"
                        align="center"
@@ -111,7 +112,7 @@
       <el-table-column prop='status'
                        label="状态"
                        align="center"
-                       width="180"></el-table-column>
+                       width="100"></el-table-column>
       <el-table-column label="操作"
                        align="center"
                        width="180">
@@ -134,18 +135,19 @@
 
 <script>
 import { type } from 'os';
+import conf from '../config.js'
 export default {
   data () {
     return {
       optcon: 3,
       dialogVisible: false,
       currentPage: 1,
-      pagesize: 3,
+      pagesize: 10,
       cid: 0,
       pid: 0,
       list: [],
-      baseURL: 'http://starstudio.uestc.edu.cn/kase/modules/pdf.js/web/viewer.html',
-      baseURLlast: 'http://starstudio.uestc.edu.cn/kase/data/adm/download_pdf?cid=',
+      baseURL: conf.PDFJS_PATH,
+      baseURLlast: conf.SERVER_PATH,
       filedata: {
         pid: 0
       },
@@ -178,10 +180,8 @@ export default {
       this.$message.error('上传失败，请重新上传');
     },
     handleEdit (index, row) {
-      console.log(index, row);
       this.dialogVisible = true
       this.cid = row.cid
-      console.log(this.cid)
     },
     handleCurrentChange (val) {
       this.currentPage = val;
@@ -295,6 +295,11 @@ export default {
 }
 </script>
 <style>
+.disabled {
+  color: #606266;
+  cursor: pointer;
+  pointer-events: none;
+}
 .ahref :hover {
   cursor: pointer;
 }
